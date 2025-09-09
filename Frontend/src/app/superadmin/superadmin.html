@@ -2,149 +2,180 @@
   <h1>Super Admin Dashboard</h1>
 
   <!-- Stats -->
-  <div class="stats d-flex gap-3 mt-3">
-    <div class="stat-card flex-fill p-3 shadow-sm rounded">
-      <div class="d-flex justify-content-between align-items-center">
-        <h6>Total Institutions</h6>
-        <i class="bi bi-mortarboard"></i>
+  <div class="row">
+    <div class="stats d-flex gap-3 mt-3">
+      <div class="col-md-3">
+        <div class="stat-card  flex-fill p-4 pb-5 me-4 shadow-sm rounded">
+          <div class="d-flex justify-content-between align-items-center">
+            <h6>Total Institutions</h6>
+            <i class="bi bi-mortarboard"></i>
+          </div>
+          <h5 class="mt-2">5</h5>
+        </div>
       </div>
-      <h5 class="mt-2">5</h5>
-    </div>
 
-    <div class="stat-card flex-fill p-3 shadow-sm rounded">
-      <div class="d-flex justify-content-between align-items-center">
-        <h6>Total Users</h6>
-        <i class="bi bi-people"></i>
+      <div class="col-md-3">
+        <div class="stat-card flex-fill p-4 pb-5 me-4 shadow-sm rounded">
+          <div class="d-flex justify-content-between align-items-center">
+            <h6>Total Users</h6>
+            <i class="bi bi-people"></i>
+          </div>
+          <h5 class="mt-2">3</h5>
+        </div>
       </div>
-      <h5 class="mt-2">3</h5>
     </div>
   </div>
 
-  <!-- Institutions -->
-  <div class="add-institute stat-card mt-4 p-3 shadow-sm rounded">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-start mb-3">
-      <div>
-        <h5 class="institute-title m-0">Institutions Management</h5>
-        <small class="text-muted">
-          Manage educational institutions and their administrators
-        </small>
-      </div>
-      <button class="btn btn-outline-secondary btn-sm" (click)="openAddInstitutionModal()">
-        + Add Institution
-      </button>
-    </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Institutions -->
+      <div class="add-institute stat-card mt-4 p-4 pb-5  shadow-sm rounded">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <h5 class="institute-title m-0">Institutions Management</h5>
+            <small class="text-muted">
+              Manage educational institutions and their administrators
+            </small>
+          </div>
+          <button class="btn btn-outline-secondary btn-sm" (click)="openAddInstitutionModal()">
+            + Add Institution
+          </button>
+        </div>
 
-    <!-- Search -->
-    <div class="input-group mb-3">
-      <input type="search" class="form-control" placeholder="Search institution..." />
-      <button class="btn btn-light" type="button">
-        <i class="bi bi-search"></i>
-      </button>
-      <button class="btn btn-light shadow-sm ms-2" type="button">
-        <i class="bi bi-funnel"></i>
-      </button>
-    </div>
+        <!-- Search -->
+        <div class="input-group mb-3">
+          <input type="search" class="form-control" placeholder="Search institution..." />
+          <button class="btn btn-light" type="button">
+            <i class="bi bi-search"></i>
+          </button>
+          <button class="btn btn-light shadow-sm ms-2" type="button">
+            <i class="bi bi-funnel"></i>
+          </button>
+        </div>
 
-    <!-- Institution Card -->
-    <div class="institution-box mb-3" *ngFor="let inst of institutions; let i = index">
-      <div class="stat-card institution-card p-3 shadow-sm rounded">
-        <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
-          [attr.data-bs-target]="'#' + getCollapseId(i)" aria-expanded="false" [attr.aria-controls]="getCollapseId(i)">
-          <div class="d-flex align-items-center">
-            <i class="bi bi-building-fill fs-4 text-primary me-2"></i>
-            <div>
-              <h6 class="mb-0">{{ inst.name }}</h6>
-              <small class="text-muted">{{ inst.code }}</small>
+        <!-- Institution Card -->
+        <div class="institution-box mb-3 " *ngFor="let inst of institutions; let i = index">
+          <div class="stat-card institution-card p-3 shadow-sm rounded">
+            <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#' + getCollapseId(i)" aria-expanded="false"
+              [attr.aria-controls]="getCollapseId(i)">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-building-fill fs-4 text-primary me-2"></i>
+                <div>
+                  <h6 class="mb-0">{{ inst.name }}</h6>
+                  <small class="text-muted">{{ inst.code }}</small>
+                </div>
+              </div>
+              <i class="bi bi-chevron-right"></i>
+            </div>
+
+            <!-- Dropdown -->
+            <div class="collapse mt-3" [id]="getCollapseId(i)">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let branch of inst.branches">
+                  {{ branch }}
+                </li>
+              </ul>
             </div>
           </div>
-          <i class="bi bi-chevron-right"></i>
-        </div>
-
-        <!-- Dropdown -->
-        <div class="collapse mt-3" [id]="getCollapseId(i)">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let branch of inst.branches">
-              {{ branch }}
-            </li>
-          </ul>
         </div>
       </div>
     </div>
-
-    <!-- Modal (Angular-controlled) -->
-    <div class="modal fade show d-block" *ngIf="showAddInstitutionModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content shadow-lg">
-          <div class="modal-header">
-            <h5 class="modal-title">Create New Institution</h5>
-            <button type="button" class="btn-close" (click)="closeAddInstitutionModal()"></button>
-          </div>
-          <div class="modal-body">
-            <form (ngSubmit)="addInstitution()">
-              <div class="row g-3">
-                <!-- Institution Name -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Institution Name</label>
-                    <input [(ngModel)]="newInstitution.name" name="name" class="form-control" required />
-                  </div>
-                </div>
-
-                <!-- Institution Code -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Institution Code</label>
-                    <input [(ngModel)]="newInstitution.code" name="code" class="form-control" required />
-                  </div>
-                </div>
-
-                <!-- Address (textarea col-5) -->
-                <div class="col-md-5">
-                  <div class="mb-3">
-                    <label class="form-label">Address</label>
-                    <textarea [(ngModel)]="newInstitution.address" name="address" class="form-control" rows="3"
-                      required></textarea>
-                  </div>
-                </div>
-
-                <!-- Admin First Name -->
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label class="form-label">Admin First Name</label>
-                    <input type="text" class="form-control" placeholder="First name" />
-                  </div>
-                </div>
-
-                <!-- Admin Last Name -->
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label class="form-label">Admin Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last name" />
-                  </div>
-                </div>
-
-                <!-- Admin Email -->
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label class="form-label">Admin Email</label>
-                    <input type="email" class="form-control" placeholder="abc@gmail.com" />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="text-end">
-                <button type="button" class="btn btn-secondary me-2" (click)="closeAddInstitutionModal()">
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-primary">Save</button>
-              </div>
-            </form>
+    <div class="col-md-6">
+      <div class="card shadow-sm  mt-4   border rounded-lg">
+        <div class="card-body py-5">
+          <h3 class="card-title h4 mb-1">System Management</h3>
+          <p class="card-subtitle text-muted small">Administrative controls</p>
+        </div>
+        <div class="card-body  py-4 mb-5">
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-secondary w-100">
+              Manage Institutions
+            </button>
+            <button class="btn btn-outline-secondary w-100">
+              Manage Users
+            </button>
+            <button class="btn btn-outline-secondary w-100">
+              System Settings
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  </div>  
-  
+
+  <!-- Modal (Angular-controlled) -->
+  <div class="modal fade show d-block" *ngIf="showAddInstitutionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Create New Institution</h5>
+          <button type="button" class="btn-close" (click)="closeAddInstitutionModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addInstitution()">
+            <div class="row g-3">
+              <!-- Institution Name -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">Institution Name</label>
+                  <input [(ngModel)]="newInstitution.name" name="name" class="form-control" required />
+                </div>
+              </div>
+
+              <!-- Institution Code -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">Institution Code</label>
+                  <input [(ngModel)]="newInstitution.code" name="code" class="form-control" required />
+                </div>
+              </div>
+
+              <!-- Address (textarea col-5) -->
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <textarea [(ngModel)]="newInstitution.address" name="address" class="form-control" rows="3"
+                    required></textarea>
+                </div>
+              </div>
+
+              <!-- Admin First Name -->
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">Admin First Name</label>
+                  <input type="text" class="form-control" placeholder="First name" />
+                </div>
+              </div>
+
+              <!-- Admin Last Name -->
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">Admin Last Name</label>
+                  <input type="text" class="form-control" placeholder="Last name" />
+                </div>
+              </div>
+
+              <!-- Admin Email -->
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">Admin Email</label>
+                  <input type="email" class="form-control" placeholder="abc@gmail.com" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary me-2" (click)="closeAddInstitutionModal()">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
