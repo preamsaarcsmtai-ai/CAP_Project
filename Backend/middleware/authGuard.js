@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-exports.authGuard =(roles = [])=>{
-    return ( req,res, next)=>{
+export const authGuard =(roles = [])=>{
+    return ( request, h)=>{
         try {
             
-            const token = req.headers["authorization"]?.split(" ")[1];
+            const token = request.headers["authorization"]?.split(" ")[1];
             if (!token) {
-               return res.status(401).json({ message: "Access Denied. "});
+               return h.response({ message:"Access Denied"}).code(401).takeover();
             }
 
             //Verify the token
@@ -15,13 +15,17 @@ exports.authGuard =(roles = [])=>{
 
             //Roles based authentication
             if (roles.length && !roles.includes(req.user.role)) {
-                res.status(403).json({ message: "Forbidden: You don't have an access."});
+                return h.response({ message: "Forbidden: You don't have access." }).code(403).takeover();
             }
 
-            next();
+            h.continue();
 
         } catch (error) {
-            res.status(401).json({ message: "Expired or Invalid Token"});
+            console.log("Invalid token or Expired:", error.message);
+      return h
+        .response({ message: "Invalid or expired token" })
+        .code(401)
+        .takeover();
         }
     };
 }

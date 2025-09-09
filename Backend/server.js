@@ -1,7 +1,7 @@
 import Hapi from "@hapi/hapi";
 import dotenv from "dotenv";
 import { superAdminRoutes } from "./routes/superAdmin.routes.js";
-
+import { collegeAdminRoutes } from "./routes/collegeAdmin.routes.js";
 dotenv.config();
 
 const init = async () => {
@@ -28,6 +28,7 @@ const init = async () => {
 
 
   server.route(superAdminRoutes);
+  server.route(collegeAdminRoutes);
 
   await server.start();
   console.log("Server running on %s", server.info.uri);
