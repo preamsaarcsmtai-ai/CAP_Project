@@ -1,0 +1,51 @@
+.superadmin-dashboard {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.superadmin-dashboard h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* Stats grid */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Cards */
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card h5,
+.stat-card h6 {
+  margin: 0;
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+.collapse.show + .toggle-icon,
+[data-bs-toggle="collapse"][aria-expanded="true"] .toggle-icon {
+  transform: rotate(90deg);
+}
+
+/* Institution card */
+.institution-card {
+  padding: 15px;
+  cursor: pointer;
+}
