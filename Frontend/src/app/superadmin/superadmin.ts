@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 interface Institution {
   name: string;
@@ -12,7 +13,7 @@ interface Institution {
 @Component({
   selector: 'app-superadmin',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,RouterLink],
   templateUrl: './superadmin.html',
   styleUrls: ['./superadmin.css'],
 })

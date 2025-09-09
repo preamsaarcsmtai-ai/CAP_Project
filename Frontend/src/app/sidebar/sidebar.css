@@ -21,12 +21,17 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-.logo-img{
-  width: 120px;
+.logo-img {
+  width: 180px;
   height: 50px;
   object-fit: cover;
-  border-radius: 6px; /* optional */
+  transition: transform 0.2s ease-in-out; 
 }
+
+.logo-img:hover {
+  transform: scale(1.1); 
+}
+
 
 
 /* Menu */
