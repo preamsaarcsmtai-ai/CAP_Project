@@ -3,8 +3,10 @@
 
   <!-- Header -->
   <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
-    <div class="d-flex align-items-center" *ngIf="!isCollapsed()">
-<!-- <img src="assets/logo.png" alt="logo" class="logo-img"> -->
+    <div class="d-flex" *ngIf="!isCollapsed()">
+      <a [routerLink]="'/dashboard'" routerLinkActive="active">
+        <img src="assets/logo.png" alt="logo" class="logo-img" >
+      </a>
     </div>
     <div class="mt-2"><button class="btn btn-outline-secondary btn-sm" (click)="toggleCollapse()">
       <i class="bi" [ngClass]="isCollapsed() ? 'bi bi-list' : 'bi bi-x-lg'"></i>
@@ -17,6 +19,8 @@
       class="btn btn-light d-flex align-items-center mb-2 w-100 text-start"
       *ngFor="let item of filteredMenuItems()"
       (click)="changePage(item.id)"
+      [routerLink]="item.path"
+      routerLinkActive="active"
       [ngClass]="{ 'active btn-primary text-white': currentPage === item.id }"
     >
       <i class="bi me-2" [ngClass]="item.icon"></i>
