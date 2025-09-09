@@ -25,3 +25,22 @@ export const admins = pgTable("admins", {
     createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Staff
+export const staff = pgTable("staff",{
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 255}).notNull(),
+    email: varchar("email", { length: 255}).notNull().unique(),
+    designation: varchar("designation", { length: 255}).notNull(),
+    collegeId: integer("collegeId").references(()=> colleges.id).notNull()
+});
+
+// Students
+export const students = pgTable("students",{
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 255}).notNull(),
+    email: varchar("email", { length: 255}).notNull().unique(),
+    department: varchar("department", { length: 255}).notNull(),
+    year: integer("year"),
+    collegeId: integer("collegeId").references(()=> colleges.id).notNull()
+});
+
