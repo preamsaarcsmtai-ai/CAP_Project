@@ -15,15 +15,15 @@
         <div class="card-body text-center">
           <h4>{{ getTestDetail()?.name }}</h4>
           <div class="display-4 fw-bold text-primary">
-            {{ getScore() }}%
+            {{ score }}%
           </div>
           <div class="progress my-3">
             <div class="progress-bar bg-success" role="progressbar" 
-              [style.width.%]="getScore()"></div>
+              [style.width.%]="score"></div>
           </div>
           <p>
-            <span [ngClass]="getScore() >= getTestDetail()?.passingScore ? 'text-success' : 'text-danger'">
-              {{ getScore() >= getTestDetail()?.passingScore ? 'Passed' : 'Failed' }}
+            <span [ngClass]="score >= getTestDetail()?.passingScore ? 'text-success' : 'text-danger'">
+              {{ score >= getTestDetail()?.passingScore ? 'Passed' : 'Failed' }}
             </span>
             (Required: {{ getTestDetail()?.passingScore }}%)
           </p>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,42 +18,36 @@ interface TestResult {
   templateUrl: './results.html',
   styleUrls: ['./results.css']
 })
-export class Results {
+export class Results implements OnInit {
   @Input() results!: TestResult;
+
+  score!: number;
+  percentile!: number;
+
+  testDetails: Record<string, any> = {
+    psychometric: { name: 'Psychometric Assessment', color: 'primary', maxScore: 100, passingScore: 70 },
+    aptitude: { name: 'Aptitude Test', color: 'success', maxScore: 100, passingScore: 75 },
+    technical: { name: 'Technical MCQ', color: 'warning', maxScore: 100, passingScore: 80 }
+  };
 
   constructor(private router: Router) {}
 
-  testDetails: any = {
-    psychometric: {
-      name: 'Psychometric Assessment',
-      color: 'primary',
-      maxScore: 100,
-      passingScore: 70
-    },
-    aptitude: {
-      name: 'Aptitude Test',
-      color: 'success',
-      maxScore: 100,
-      passingScore: 75
-    },
-    technical: {
-      name: 'Technical MCQ',
-      color: 'warning',
-      maxScore: 100,
-      passingScore: 80
-    }
-  };
+  ngOnInit() {
+    // Compute these once on init to avoid ExpressionChangedAfterItHasBeenCheckedError
+    this.score = this.computeScore();
+    this.percentile = this.computePercentile();
+  }
 
   /** Safely return test detail */
   getTestDetail() {
     return this.results ? this.testDetails[this.results.testId] : null;
   }
 
-  getScore(): number {
+  private computeScore(): number {
     return Math.floor(Math.random() * 30) + 70; // mock 70-100
   }
 
-  getPercentile(): number {
+  private computePercentile(): number {
     return Math.floor(Math.random() * 40) + 60; // mock 60-100
   }
 
@@ -64,6 +58,16 @@ export class Results {
   }
 
   goToDashboard() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/students']);
+  }
+
+  // Utility for template to safely access Date
+  now(): number {
+    return Date.now();
+  }
+
+  // Utility for template to safely access String
+  charFromCode(code: number): string {
+    return String.fromCharCode(code);
   }
 }

@@ -1,27 +1,42 @@
 <div class="min-vh-100 bg-light">
-  <!-- Header -->
-  <div class="bg-white border-bottom shadow-sm py-3">
+  <!-- Enhanced Header with Security Status -->
+  <div class="bg-dark text-white border-bottom shadow-sm py-2">
     <div class="container d-flex justify-content-between align-items-center">
       <div>
-        <button class="btn btn-outline-secondary btn-sm me-2" (click)="onBack.emit()">
+        <button class="btn btn-outline-light btn-sm me-2" (click)="onBack.emit()">
           ← Back to Dashboard
         </button>
-        <span class="badge bg-secondary">{{ test.name }}</span>
+        <span class="badge bg-primary">{{ test.name }}</span>
+        <span class="badge bg-warning ms-2" *ngIf="getViolationSeverity() === 'medium'">
+          {{ violations.length }} Warnings
+        </span>
+        <span class="badge bg-danger ms-2" *ngIf="getViolationSeverity() === 'high'">
+          {{ violations.length }} Violations - Risk
+        </span>
       </div>
-
+      
       <div class="d-flex align-items-center gap-3">
-        <div>
-          <span class="me-2">
-            <i class="bi bi-camera-video" [ngClass]="{'text-success': cameraActive, 'text-danger': !cameraActive}"></i>
-            {{ cameraActive ? 'Recording' : 'Offline' }}
-          </span>
-          <span class="me-2">
-            <i class="bi bi-mic-fill text-success"></i> Audio
-          </span>
-          <span><i class="bi bi-shield-lock text-primary"></i> Secure</span>
+        <!-- Camera Status -->
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-camera-video" [ngClass]="{'text-success': cameraActive, 'text-danger': !cameraActive}"></i>
+          <span class="small">{{ cameraActive ? 'Monitoring' : 'Camera Off' }}</span>
         </div>
-        <div class="bg-light px-3 py-1 rounded">
-          <i class="bi bi-clock text-warning me-1"></i>
+        
+        <!-- Fullscreen Status -->
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-arrows-fullscreen" [ngClass]="{'text-success': isFullScreen, 'text-warning': !isFullScreen}"></i>
+          <span class="small">{{ isFullScreen ? 'Secured' : 'Exit FS' }}</span>
+        </div>
+        
+        <!-- Tab Switch Counter -->
+        <div class="d-flex align-items-center gap-2" *ngIf="tabSwitchCount > 0">
+          <i class="bi bi-exclamation-triangle text-warning"></i>
+          <span class="small">Switches: {{ tabSwitchCount }}</span>
+        </div>
+        
+        <!-- Timer -->
+        <div class="bg-light text-dark px-3 py-1 rounded d-flex align-items-center gap-1">
+          <i class="bi bi-clock text-warning"></i>
           <strong>{{ formatTime(timeRemaining) }}</strong>
         </div>
       </div>
@@ -29,64 +44,412 @@
   </div>
 
   <div class="container my-4">
-    <!-- Warnings -->
-    <div *ngIf="warnings.length > 0" class="alert alert-warning">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <span *ngFor="let warning of warnings">{{ warning }}</span>
+    <!-- Real-time Proctoring Display -->
+    <div class="row mb-4">
+      <!-- Camera Feed -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">
+              <i class="bi bi-camera-video me-2"></i>Live Monitoring
+            </h6>
+            <span class="badge bg-light text-dark" *ngIf="cameraActive">
+              <i class="bi bi-circle-fill text-success"></i> Active
+            </span>
+          </div>
+          <div class="card-body text-center p-2">
+           <video #proctorVideo *ngIf="cameraActive" id="proctorVideo" width="100%" height="200" 
+       autoplay muted playsinline class="border rounded"></video>
+            <div *ngIf="!cameraActive" class="text-muted p-5">
+              <i class="bi bi-camera-video-off display-4"></i>
+              <p class="mt-2">Camera Not Active</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Security Status Panel -->
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">
+            <h6 class="mb-0">
+              <i class="bi bi-shield-check me-2"></i>Security Status
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small">Tab Switches:</span>
+                  <span class="badge" [ngClass]="tabSwitchCount > 2 ? 'bg-danger' : tabSwitchCount > 0 ? 'bg-warning' : 'bg-success'">
+                    {{ tabSwitchCount }}
+                  </span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small">Window Blurs:</span>
+                  <span class="badge" [ngClass]="windowBlurCount > 2 ? 'bg-danger' : windowBlurCount > 0 ? 'bg-warning' : 'bg-success'">
+                    {{ windowBlurCount }}
+                  </span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small">Total Violations:</span>
+                  <span class="badge" [ngClass]="violations.length > 5 ? 'bg-danger' : violations.length > 2 ? 'bg-warning' : 'bg-success'">
+                    {{ violations.length }}
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small">Fullscreen:</span>
+                  <span class="badge" [ngClass]="isFullScreen ? 'bg-success' : 'bg-warning'">
+                    {{ isFullScreen ? 'Active' : 'Inactive' }}
+                  </span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small">Face Detection:</span>
+                  <span class="badge bg-info">
+                    {{ (Date.now() - lastFaceDetectionTime) < 5000 ? 'Active' : 'Lost' }}
+                  </span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="small">Risk Level:</span>
+                  <span class="badge" [ngClass]="
+                    getViolationSeverity() === 'high' ? 'bg-danger' : 
+                    getViolationSeverity() === 'medium' ? 'bg-warning' : 'bg-success'
+                  ">
+                    {{ getViolationSeverity().toUpperCase() }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Progress -->
+    <!-- Active Warnings Panel -->
+    <div *ngIf="warnings.length > 0" class="alert alert-warning border-warning mb-4">
+      <div class="d-flex align-items-start">
+        <i class="bi bi-exclamation-triangle-fill me-3 mt-1"></i>
+        <div class="flex-grow-1">
+          <h6 class="alert-heading mb-2">Active Warnings</h6>
+          <ul class="mb-0 ps-3">
+            <li *ngFor="let warning of warnings" class="mb-1">{{ warning }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Critical Violations Alert -->
+    <div *ngIf="getViolationSeverity() === 'high'" class="alert alert-danger border-danger mb-4">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-exclamation-octagon-fill me-3"></i>
+        <div>
+          <h6 class="alert-heading mb-1">High Risk Activity Detected</h6>
+          <p class="mb-0">Multiple violations detected. Continue carefully or test may be auto-submitted.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Progress -->
     <div class="mb-3">
-      <h6>Question {{ currentQuestion + 1 }} of {{ test.questions.length }}</h6>
-      <div class="progress">
-        <div class="progress-bar" role="progressbar"
-          [style.width.%]="((currentQuestion+1)/test.questions.length)*100">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="mb-0">Question {{ currentQuestion + 1 }} of {{ test.questions.length }}</h6>
+        <small class="text-muted">{{ ((currentQuestion + 1) / test.questions.length * 100).toFixed(0) }}% Complete</small>
+      </div>
+      <div class="progress" style="height: 6px;">
+        <div class="progress-bar bg-primary" role="progressbar"
+             [style.width.%]="((currentQuestion + 1) / test.questions.length) * 100"
+             [attr.aria-valuenow]="currentQuestion + 1"
+             [attr.aria-valuemax]="test.questions.length">
         </div>
       </div>
     </div>
 
     <!-- Question Card -->
-    <div class="card shadow-sm mb-4">
-      <div class="card-header">
-        <h5>{{ test.questions[currentQuestion].question }}</h5>
+    <div class="card shadow-sm mb-4 border-primary">
+      <div class="card-header bg-light border-primary">
+        <h5 class="mb-0 text-primary">
+          <i class="bi bi-question-circle me-2"></i>
+          {{ test.questions[currentQuestion].question }}
+        </h5>
       </div>
       <div class="card-body">
-        <div *ngFor="let option of test.questions[currentQuestion].options" class="form-check mb-2">
-          <input class="form-check-input"
-                 type="radio"
-                 [name]="'q' + test.questions[currentQuestion].id"
-                 [value]="option"
-                 [checked]="answers[test.questions[currentQuestion].id] === option"
-                 (change)="selectAnswer(option, test.questions[currentQuestion].id)">
-          <label class="form-check-label">{{ option }}</label>
+        <div class="row">
+          <div class="col-12">
+            <div *ngFor="let option of test.questions[currentQuestion].options; let i = index" 
+                 class="form-check mb-3 p-3 border rounded hover-highlight" 
+                 style="cursor: pointer; transition: all 0.2s ease;"
+                 [ngClass]="{'border-primary bg-light': answers[test.questions[currentQuestion].id] === option}">
+              <input class="form-check-input"
+                     type="radio"
+                     [id]="'option' + i"
+                     [name]="'q' + test.questions[currentQuestion].id"
+                     [value]="option"
+                     [checked]="answers[test.questions[currentQuestion].id] === option"
+                     (change)="selectAnswer(option, test.questions[currentQuestion].id)">
+              <label class="form-check-label w-100" [for]="'option' + i" style="cursor: pointer;">
+                <span class="fw-semibold me-2">{{ String.fromCharCode(65 + i) }}.</span>
+                {{ option }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="d-flex justify-content-between">
-      <button class="btn btn-outline-secondary"
+    <!-- Navigation Controls -->
+    <div class="d-flex justify-content-between align-items-center">
+      <button class="btn btn-outline-secondary btn-lg"
               (click)="prevQuestion()"
               [disabled]="currentQuestion === 0">
-        ← Previous
+        <i class="bi bi-arrow-left me-2"></i>Previous
       </button>
-
+      
+      <div class="text-center">
+        <div class="btn-group" role="group">
+          <button *ngFor="let q of test.questions; let i = index"
+                  type="button"
+                  class="btn btn-sm"
+                  [ngClass]="{
+                    'btn-primary': i === currentQuestion,
+                    'btn-success': answers[q.id] && i !== currentQuestion,
+                    'btn-outline-secondary': !answers[q.id] && i !== currentQuestion
+                  }"
+                  (click)="currentQuestion = i">
+            {{ i + 1 }}
+          </button>
+        </div>
+      </div>
+      
       <div>
-        <button class="btn btn-outline-warning me-2">
-          🚩 Flag for Review
-        </button>
-
         <button *ngIf="currentQuestion === test.questions.length - 1"
-                class="btn btn-success"
+                class="btn btn-success btn-lg"
                 (click)="handleSubmit()">
-          Submit Test
+          <i class="bi bi-check-circle me-2"></i>Submit Test
         </button>
         <button *ngIf="currentQuestion < test.questions.length - 1"
-                class="btn btn-primary"
+                class="btn btn-primary btn-lg"
                 (click)="nextQuestion()">
-          Next →
+          Next<i class="bi bi-arrow-right ms-2"></i>
         </button>
+      </div>
+    </div>
+    
+    <!-- Recent Violations Log -->
+    <div *ngIf="violations.length > 0" class="mt-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+          <h6 class="mb-0">
+            <i class="bi bi-list-ul me-2"></i>Security Log (Recent)
+          </h6>
+          <span class="badge bg-dark">{{ violations.length }} Total</span>
+        </div>
+        <div class="card-body p-2">
+          <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+            <table class="table table-sm table-hover mb-0">
+              <thead class="table-light sticky-top">
+                <tr>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let violation of violations.slice(-10).reverse()" 
+                    [ngClass]="{
+                      'table-danger': violation.type === 'suspicious_activity',
+                      'table-warning': violation.type === 'tab_switch' || violation.type === 'window_blur',
+                      'table-info': violation.type === 'multiple_faces' || violation.type === 'no_face'
+                    }">
+                  <td class="small">{{ violation.timestamp | date:'HH:mm:ss' }}</td>
+                  <td class="small">
+                    <span class="badge bg-secondary">{{ violation.type.replace('_', ' ') | titlecase }}</span>
+                  </td>
+                  <td class="small">{{ violation.details }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Emergency Auto-Submit Modal (Hidden by default, shown via JS) -->
+  <div class="modal fade" id="emergencyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-danger">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">
+            <i class="bi bi-exclamation-octagon me-2"></i>Security Alert
+          </h5>
+        </div>
+        <div class="modal-body text-center">
+          <i class="bi bi-shield-x display-1 text-danger mb-3"></i>
+          <h5>Excessive Violations Detected</h5>
+          <p class="mb-3">Multiple security violations have been recorded. Your test will be automatically submitted for review.</p>
+          <div class="alert alert-warning">
+            <small>This action cannot be undone. Your current progress will be saved.</small>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-danger" (click)="handleSubmit()">
+            Submit Test Now
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+/* Enhanced Proctoring Styles */
+.hover-highlight:hover {
+  background-color: #f8f9fa !important;
+  border-color: #0d6efd !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.form-check-input:checked + .form-check-label {
+  font-weight: 600;
+}
+
+.security-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.security-indicator.active {
+  background-color: #28a745;
+  animation: pulse 2s infinite;
+}
+
+.security-indicator.warning {
+  background-color: #ffc107;
+  animation: blink 1s infinite;
+}
+
+.security-indicator.danger {
+  background-color: #dc3545;
+  animation: blink 0.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.violation-log {
+  font-size: 0.875rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* Disable text selection during test */
+.test-content {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Camera feed styling */
+#proctorVideo {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Progress bar animations */
+.progress-bar {
+  transition: width 0.3s ease;
+}
+
+/* Question navigation buttons */
+.btn-group .btn {
+  min-width: 40px;
+  font-weight: 600;
+}
+
+/* Alert animations */
+.alert {
+  animation: slideInTop 0.3s ease;
+}
+
+@keyframes slideInTop {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Sticky header during fullscreen */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+/* Security status indicators */
+.security-status {
+  font-size: 0.875rem;
+}
+
+.security-status .badge {
+  font-size: 0.75rem;
+}
+
+/* Make the interface more touch-friendly */
+@media (max-width: 768px) {
+  .btn-lg {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .form-check {
+    padding: 1rem !important;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* High contrast mode for accessibility */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px;
+  }
+  
+  .btn {
+    border-width: 2px;
+  }
+  
+  .alert {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
