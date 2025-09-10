@@ -1,0 +1,71 @@
+<div class="container py-5">
+  <div class="text-center mb-4">
+    <h1 class="fw-bold">
+      <i class="bi bi-trophy text-warning"></i> Test Results
+    </h1>
+    <p class="text-muted">
+      Your performance analysis for {{ getTestDetail()?.name }}
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Score Card -->
+    <div class="col-lg-8">
+      <div class="card shadow">
+        <div class="card-body text-center">
+          <h4>{{ getTestDetail()?.name }}</h4>
+          <div class="display-4 fw-bold text-primary">
+            {{ getScore() }}%
+          </div>
+          <div class="progress my-3">
+            <div class="progress-bar bg-success" role="progressbar" 
+              [style.width.%]="getScore()"></div>
+          </div>
+          <p>
+            <span [ngClass]="getScore() >= getTestDetail()?.passingScore ? 'text-success' : 'text-danger'">
+              {{ getScore() >= getTestDetail()?.passingScore ? 'Passed' : 'Failed' }}
+            </span>
+            (Required: {{ getTestDetail()?.passingScore }}%)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Analysis -->
+    <div class="col-lg-4">
+      <div class="card mb-3 shadow">
+        <div class="card-header text-success">
+          <i class="bi bi-check-circle"></i> Strengths
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>Logical reasoning</li>
+            <li>Problem-solving</li>
+            <li>Time management</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card shadow">
+        <div class="card-header text-warning">
+          <i class="bi bi-graph-up"></i> Areas to Improve
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>Pattern recognition</li>
+            <li>Speed of calculation</li>
+            <li>Attention to detail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="d-flex justify-content-center mt-4 gap-3">
+    <button class="btn btn-primary" (click)="goToDashboard()">Return to Dashboard</button>
+    <button class="btn btn-outline-success"><i class="bi bi-download"></i> Download Certificate</button>
+    <button class="btn btn-outline-info"><i class="bi bi-share"></i> Share Results</button>
+    <button class="btn btn-outline-warning"><i class="bi bi-arrow-repeat"></i> Retake Test</button>
+  </div>
+</div>

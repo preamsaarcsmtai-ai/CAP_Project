@@ -4,6 +4,8 @@ import { Superadmin } from './superadmin/superadmin';
 import { Students } from './pages/students/students';
 import { Institution } from './pages/institution/institution';
 import { Users } from './pages/users/users';
+import { TestInterface } from './components/test-interface/test-interface';
+import { Results } from './components/results/results'
 
 
 
@@ -13,11 +15,24 @@ export const routes: Routes = [
     component: Layout,
     children: [
       { path: 'superadmin', component: Superadmin },
-      {path:'dashboard', component:Superadmin},
-      {path:'institution', component:Institution},
-      {path:'users', component:Users},
+      { path: 'dashboard', component: Superadmin },
+      { path: 'institution', component: Institution },
+      { path: 'users', component: Users },
       { path: '', redirectTo: 'superadmin', pathMatch: 'full' }
     ]
   },
-  {path:'students',component:Students}
+  {
+    path: 'students',
+    component: Students,
+  },
+  {
+    path: 'students/test/:id',
+    component: TestInterface
+  },
+
+  {
+    path: 'students/results/:id',
+    component: Results   // <-- now not nested
+  }
+
 ];
