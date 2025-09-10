@@ -1,4 +1,4 @@
-<div class="superadmin-dashboard container-fluid">
+<div class="superadmin-dashboard container-fluid vh-min-100">
   <h1>Super Admin Dashboard</h1>
 
   <!-- Stats -->
@@ -72,7 +72,7 @@
     </div>
 
     <!-- System Management -->
-    <div class="col-lg-6">
+    <div class="col-lg-5">
       <div class="stat-card p-4">
         <h3 class="h5 mb-1">System Management</h3>
         <p class="text-muted small mb-4">Administrative controls</p>
@@ -94,31 +94,53 @@
           <button type="button" class="btn-close" (click)="closeAddInstitutionModal()"></button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="addInstitution()">
+         <form [formGroup]="addInstitutionForm" (ngSubmit)="addInstitution()">
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label">Institution Name</label>
-                <input [(ngModel)]="newInstitution.name" name="name" class="form-control" required />
+                <label class="form-label">Institution Name <span class="text-danger">*</span></label>
+                <input  formControlName="name" class="form-control" required />
+                      <div *ngIf="addInstitutionForm.get('name')?.invalid && addInstitutionForm.get('name')?.touched" class="text-danger">
+            <div *ngIf="addInstitutionForm.get('name')?.errors?.['required']">Institution name is required.</div>
+    <div *ngIf="addInstitutionForm.get('name')?.errors?.['minlength']">Must be at least 3 characters.</div>
+    <div *ngIf="addInstitutionForm.get('name')?.errors?.['pattern']">Institution name must start with a capital letter and contain only letters.</div>
+      </div>
               </div>
               <div class="col-md-6">
-                <label class="form-label">Institution Code</label>
-                <input [(ngModel)]="newInstitution.code" name="code" class="form-control" required />
+                <label class="form-label">Institution Code <span class="text-danger">*</span></label>
+                <input  formControlName="code" class="form-control" required />
+                <div *ngIf="addInstitutionForm.get('code')?.invalid && addInstitutionForm.get('code')?.touched" class="text-danger" > Institution code is required</div>
               </div>
               <div class="col-12">
                 <label class="form-label">Address</label>
-                <textarea [(ngModel)]="newInstitution.address" name="address" class="form-control" rows="3" required></textarea>
+                <textarea formControlName="address" class="form-control" rows="3" required></textarea>
+                <div *ngIf="addInstitutionForm.get('address')?.invalid && addInstitutionForm.get('address')?.touched" class="text-danger">
+                  <div *ngIf="addInstitutionForm.get('address')?.errors?.['required']">Address is required</div>
+                  <div *ngIf="addInstitutionForm.get('address')?.errors?.['minlength']">Must be at least 10 characters.</div>
+                </div>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Admin First Name</label>
-                <input type="text" class="form-control" placeholder="First name" />
+                <label class="form-label">Admin First Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="firstname" placeholder="First name" />
+                <div *ngIf="addInstitutionForm.get('firstname')?.invalid && addInstitutionForm.get('firstname')?.touched" class="text-danger">
+                  <div *ngIf="addInstitutionForm.get('firstname')?.errors?.['required']">Admin firstname is required</div>
+                  <div *ngIf="addInstitutionForm.get('firstname')?.errors?.['pattern']">First name must start with a capital letter and contain only letters.</div>
+                </div>
               </div>
               <div class="col-md-4">
                 <label class="form-label">Admin Last Name</label>
-                <input type="text" class="form-control" placeholder="Last name" />
+                <input type="text" class="form-control" formControlName="lastname" placeholder="Last name" />
+                <div *ngIf="addInstitutionForm.get('lastname')?.invalid && addInstitutionForm.get('lastname')?.touched" class="text-danger">
+                  <div *ngIf="addInstitutionForm.get('lastname')?.errors?.['required']">Admin lastname is required</div>
+                  <div *ngIf="addInstitutionForm.get('lastname')?.errors?.['pattern']">Last name must start with a capital letter and contain only letters.</div>
+                </div>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Admin Email</label>
-                <input type="email" class="form-control" placeholder="abc@gmail.com" />
+                <label class="form-label">Admin Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="email" placeholder="abc@gmail.com" />
+                <div *ngIf="addInstitutionForm.get('email')?.invalid && addInstitutionForm.get('email')?.touched" class="text-danger">
+                  <div *ngIf="addInstitutionForm.get('email')?.errors?.['required']">Admin email required</div>
+    <div *ngIf="addInstitutionForm.get('email')?.errors?.['pattern']"> Please enter a valid email address.</div>
+                </div>
               </div>
             </div>
             <div class="text-end mt-3">

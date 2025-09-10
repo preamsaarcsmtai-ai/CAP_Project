@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 interface Institution {
@@ -19,13 +19,26 @@ interface Institution {
 })
 export class Superadmin {
   showAddInstitutionModal = false; // initially hidden
+ addInstitutionForm: FormGroup; 
+  
 
+  constructor(private fb: FormBuilder){
+    this.addInstitutionForm=this.fb.group({
+    name: ['',[Validators.required,Validators.minLength(3),Validators.pattern('^[A-Z][a-zA-Z ]*$') ]],
+    code: ['',[Validators.required]],
+    address: ['',[Validators.required,Validators.minLength(10)]],
+    firstname: ['',[Validators.required,Validators.minLength(3),Validators.pattern('^[A-Z][a-zA-Z ]*$') ]],
+    lastname: ['',[Validators.required,Validators.pattern('^[A-Z][a-zA-Z ]*$')]],
+    email: ['',[Validators.required,Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+
+    })
+  }
   // initial institutions
   institutions: Institution[] = [
     {
       name: 'MIT College of Engineering',
       code: 'MIT',
-      branches: ['Engineering', 'Arts', 'Medical'],
+      branches: ['MIT College of Engineering', 'MIT College of Arts', 'MIT College of Medical'],
     },
     {
       name: 'State University System',
@@ -53,15 +66,23 @@ export class Superadmin {
 
   // add new institution
   addInstitution() {
-    if (this.newInstitution.name.trim() && this.newInstitution.code.trim()) {
-      this.institutions.push({ ...this.newInstitution, branches: [] });
-      this.newInstitution = { name: '', code: '', branches: [] }; // reset form
-      this.closeAddInstitutionModal(); // close modal
+    if (this.addInstitutionForm?.valid) {
+      console.log(this.addInstitutionForm.value);
+      const formData = {...this.addInstitutionForm.value}
+      this.addInstitutionForm.reset();
+     alert(
+      `✅ Institution Created Successfully!\n\n` +
+      `Name: ${formData.name}\n` +
+      `Code: ${formData.code}\n` +
+      `Address: ${formData.address}\n` +
+      `Admin: ${formData.firstname} ${formData.lastname}\n` +
+      `Email: ${formData.email}`
+    );
+    }
+    else{
+      console.log("invalid form" );
+this.addInstitutionForm.markAllAsTouched();
     }
   }
-
-  // page navigation (demo)
-  goTo(page: string) {
-    console.log('Navigating to', page);
-  }
+  
 }
