@@ -1,1 +1,102 @@
-<p>students works!</p>
+<div class="container py-4">
+  <!-- Header -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">Student Assessment Portal</h1>
+    <p class="text-muted">
+      Complete your three-phase assessment to unlock your potential.
+      Each phase evaluates different aspects of your capabilities.
+    </p>
+  </div>
+
+  <!-- Overview Stats -->
+  <div class="row text-center mb-5">
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm p-3">
+        <i class="bi bi-bullseye fs-2 text-primary"></i>
+        <h4 class="fw-bold">3</h4>
+        <p class="text-muted">Total Phases</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm p-3">
+        <i class="bi bi-book fs-2 text-success"></i>
+        <h4 class="fw-bold">120</h4>
+        <p class="text-muted">Total Questions</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm p-3">
+        <i class="bi bi-clock fs-2 text-warning"></i>
+        <h4 class="fw-bold">135</h4>
+        <p class="text-muted">Minutes Total</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm p-3">
+        <i class="bi bi-graph-up fs-2 text-danger"></i>
+        <h4 class="fw-bold">85%</h4>
+        <p class="text-muted">Avg Score</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Test Phases -->
+  <h3 class="mb-3">Assessment Phases</h3>
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let phase of testPhases">
+      <div class="card shadow-sm h-100 phase-card" [class.border-primary]="selectedPhase === phase.id"
+        (click)="selectedPhase = selectedPhase === phase.id ? null : phase.id">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <i [class]="phase.icon + ' fs-3 text-' + phase.color"></i>
+            <span [class]="getDifficultyBadge(phase.difficulty)">
+              {{ phase.difficulty }}
+            </span>
+          </div>
+          <h5 class="card-title">{{ phase.name }}</h5>
+          <p class="card-text text-muted">{{ phase.description }}</p>
+
+          <div class="d-flex justify-content-between text-muted small mb-3">
+            <span><i class="bi bi-clock"></i> {{ phase.duration }}</span>
+            <span><i class="bi bi-book"></i> {{ phase.questions }} Qs</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-capitalize">
+              <i [class]="getStatusIcon(phase.status)"></i>
+              {{ phase.status.replace('_', ' ') }}
+            </span>
+            <button class="btn btn-sm btn-primary" (click)="onStartTest(phase.id); $event.stopPropagation()">
+              <i class="bi bi-play-fill"></i> Start Test
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Results -->
+  <div class="card shadow-sm mt-5">
+    <div class="card-body">
+      <h5 class="card-title">
+        <i class="bi bi-trophy text-success"></i> Recent Test Results
+      </h5>
+      <p class="text-muted">Your performance in recent practice tests</p>
+
+      <div *ngFor="let result of recentResults"
+        class="p-3 mb-2 rounded bg-light d-flex justify-content-between align-items-center">
+        <div>
+          <i class="bi bi-check-circle text-success"></i>
+          <span class="fw-semibold ms-2">{{ result.test }}</span>
+          <div class="text-muted small">{{ result.date }}</div>
+        </div>
+        <div class="text-end">
+          <span class="fw-bold text-success">{{ result.score }}%</span>
+          <div class="progress mt-1" style="height: 6px; width: 100px;">
+            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="result.score"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
