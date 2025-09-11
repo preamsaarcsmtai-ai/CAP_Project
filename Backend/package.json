@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon server.js",
     "migration:generate": "drizzle-kit generate:pg",
-    "migration:push": "node -r esbuild-register db/migrate.js"
+    "migration:push": "node -r esbuild-register config/migrate.js"
   },
   "keywords": [],
   "author": "",

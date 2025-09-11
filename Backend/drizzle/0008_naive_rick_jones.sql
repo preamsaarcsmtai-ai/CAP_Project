@@ -1,0 +1,1 @@
+ALTER TABLE "institutions" ADD COLUMN "location" varchar(255) NOT NULL;

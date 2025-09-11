@@ -1,0 +1,1 @@
+ALTER TABLE "admins" ALTER COLUMN "college_id" DROP NOT NULL;

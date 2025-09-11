@@ -4,13 +4,13 @@ import bcrypt from "bcrypt";
 
 export class SuperAdminService {
     //Add Institution
-    static async addInstitution(name) {
-        return db.insert(institutions).values({ name }).returning();
+    static async addInstitution(name, code, location) {
+        return db.insert(institutions).values({ name, code, location }).returning();
     }
 
     //Add College under Institution
-    static async addCollege(institutionId, name) {
-        return db.insert(colleges).values({ institutionId, name }).returning();
+    static async addCollege(institutionId, name, code) {
+        return db.insert(colleges).values({ institutionId, name, code }).returning();
     }
 
     //Add Admin for College
