@@ -1,1 +1,66 @@
-<p>institution works!</p>
+<div class="institution-dashboard container-fluid vh-min-100">
+  <h1 class="m-0">Institution Management</h1>
+  <small class="text-muted">Manage educational institutions and their administrators</small>
+</div>
+<div class="stat-card p-4">
+  <div class="input-group mb-2">
+    <input type="search" class="form-control" placeholder="Search institution..." />
+    <button class="btn btn-light" type="button"><i class="bi bi-search"></i></button>
+    <button class="btn btn-light ms-2" type="button"><i class="bi bi-funnel"></i></button>
+  </div>
+</div>
+<div class="stat-card p-4 mt-3" *ngFor="let inst of institution">
+  <div class="institution-heading">
+    <h6 class="fw-bold">
+      {{ inst.name }}
+      <span class="badge rounded-pill"
+            [ngClass]="{
+              'text-bg-success': inst.status === 'active',
+              'text-bg-warning': inst.status === 'pending',
+              'text-bg-danger': inst.status === 'suspended'
+            }">
+        <i class="bi me-1"
+           [ngClass]="{
+             'bi-check2-circle': inst.status === 'active',
+             'bi-stopwatch': inst.status === 'pending',
+             'bi-x-octagon': inst.status === 'suspended'
+           }"></i>
+        {{ inst.status | titlecase }}
+      </span>
+    </h6>
+  </div>
+
+  <div class="text-muted d-flex flex-wrap mt-2">
+    <span class="me-4"><i class="bi bi-building me-2"></i>{{ inst.college }}</span>
+    <span class="me-4"><i class="bi bi-geo-alt me-2"></i>{{ inst.location }}</span>
+    <span><i class="bi bi-people me-2"></i>{{ inst.users }}</span>
+  </div>
+
+  <div class="text-muted d-flex flex-wrap mt-2">
+    <span class="me-4"><i class="bi bi-envelope me-2"></i>{{ inst.mail }}</span>
+    <span class="me-4"><i class="bi bi-phone me-2"></i>{{ inst.phone }}</span>
+    <span><i class="bi bi-globe me-2"></i>{{ inst.website }}</span>
+  </div>
+
+  <div class="admin-details mt-2">
+    <h6>Administrator: <span class="text-muted">{{ inst.admin }}</span></h6>
+  </div>
+</div>
+
+<div class="text-center mt-5">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

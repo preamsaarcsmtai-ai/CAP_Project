@@ -1,1 +1,65 @@
-<p>users works!</p>
+<div class="user-dashboard container-fluid vh-min-100">
+    <div class="d-flex justify-content-between ">
+        <div class="user-heading">
+            <h1 class="m-0">User Management</h1>
+            <small class="text-muted">Manage users, roles and permissions across all institutions</small>
+        </div>
+        <div class="export-user">
+            <button class="btn btn-light"><i class="bi bi-download me-2"></i>Export users</button>
+        </div>
+    </div>
+</div>
+<div class="stat-card p-4">
+    <div class="input-group mb-2">
+        <input type="search" class="form-control" placeholder="Search users by name or role..." />
+        <button class="btn btn-light" type="button"><i class="bi bi-search"></i></button>
+        <button class="btn btn-light ms-2" type="button"><i class="bi bi-funnel"></i></button>
+  </div>
+ </div>
+
+<div class="mt-4">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Institution</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.institution }}</td>
+       <td>
+  <span class="badge rounded-pill d-inline-flex "
+        [ngClass]="{
+          'bg-success': user.status === 'active',
+          'bg-warning': user.status === 'pending',
+          'bg-danger': user.status === 'suspended'
+        }">
+    <i class="bi me-1"
+       [ngClass]="{
+         'bi-check2-circle': user.status === 'active',
+         'bi-stopwatch': user.status === 'pending',
+         'bi-x-octagon': user.status === 'suspended'
+       }"></i>
+    {{ user.status | titlecase }}
+  </span>
+</td>
+<td>
+          <!-- Actions here -->
+          <button class="btn btn-sm btn-outline-primary" (click)="onView()"> <i class="bi bi-eye"></i></button>
+          <button class="btn btn-sm btn-outline-warning mx-2"> <i class="bi bi-pencil"></i></button>
+          <button class="btn btn-sm btn-outline-danger"> <i class="bi bi-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
