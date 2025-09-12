@@ -33,39 +33,50 @@ export class Students {
 
   constructor(private router: Router) { }
 
+  stats = {
+    phases: 3,
+    questions: 120,
+    minutes: 135,
+    average: 85
+  };
+
+  getPageTitle(): string {
+    return 'Career Assistance Program';
+  }
+
   testPhases: TestPhase[] = [
     {
       id: "psychometric",
       name: "Psychometric Assessment",
       description: "Personality and behavioral analysis",
-      duration: "30 minutes",
-      questions: 50,
-      icon: "bi bi-brain",
+      duration: "10 minutes",
+      questions: 10,
+      icon: "bi-book",
       color: "primary",
       status: "not_started",
-      difficulty: "Medium"
+      difficulty: "Easy"
     },
     {
       id: "aptitude",
       name: "Aptitude Test",
       description: "Logical reasoning and problem solving",
       duration: "45 minutes",
-      questions: 40,
+      questions: 10,
       icon: "bi bi-calculator",
       color: "warning",
       status: "not_started",
-      difficulty: "Hard"
+      difficulty: "Medium"
     },
     {
       id: "technical",
       name: "Technical MCQ",
       description: "Domain-specific technical knowledge",
       duration: "60 minutes",
-      questions: 30,
+      questions: 10,
       icon: "bi bi-code-slash",
       color: "danger",
-      status: "not_started",
-      difficulty: "Expert"
+      status: "in_progress",
+      difficulty: "Hard"
     }
   ];
 
@@ -77,22 +88,29 @@ export class Students {
 
   getStatusIcon(status: string) {
     switch (status) {
-      case "completed":
-        return "bi bi-check-circle text-success";
-      case "in_progress":
-        return "bi bi-exclamation-circle text-warning";
-      default:
-        return "bi bi-clock text-muted";
+      case "completed": return "bi-check-circle-fill text-green-600";
+      case "in_progress": return "bi-hourglass-split text-yellow-500";
+      default: return "bi-circle text-gray-400";
     }
   }
 
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case "completed": return "Completed";
+      case "in_progress": return "In Progress";
+      case "not_started": return "Not Started";
+      default: return status;
+    }
+  }
+
+  
   getDifficultyBadge(difficulty: string) {
     switch (difficulty) {
-      case "Easy": return "badge bg-success";
-      case "Medium": return "badge bg-warning text-dark";
-      case "Hard": return "badge bg-primary";
-      case "Expert": return "badge bg-danger";
-      default: return "badge bg-secondary";
+      case "Easy": return "bg-blue-100 text-blue-700";
+      case "Medium": return "bg-yellow-100 text-yellow-700";
+      case "Hard": return "bg-red-100 text-red-700";
+      case "Expert": return "bg-purple-100 text-purple-700";
+      default: return "bg-gray-100 text-gray-700";
     }
   }
 

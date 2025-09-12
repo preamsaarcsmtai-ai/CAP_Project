@@ -1,100 +1,143 @@
-<div class="container py-4">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 font-sans">
   <!-- Header -->
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">Student Assessment Portal</h1>
-    <p class="text-muted">
-      Complete your three-phase assessment to unlock your potential.
-      Each phase evaluates different aspects of your capabilities.
+  <div class="text-center mb-12">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold flex items-center justify-center gap-3 text-gray-900">
+      <i class="bi bi-stars text-indigo-600"></i>
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-pink-500 to-orange-500 animate-gradient">
+        Career Assistance Program
+      </span>
+      <i class="bi bi-award-fill text-pink-500"></i>
+    </h1>
+    <p class="text-gray-600 mt-3 text-base sm:text-lg max-w-2xl mx-auto">
+      Track your growth, challenge yourself, and celebrate wins
     </p>
   </div>
 
   <!-- Overview Stats -->
-  <div class="row text-center mb-5">
-    <div class="col-md-3 mb-3">
-      <div class="card shadow-sm p-3">
-        <i class="bi bi-bullseye fs-2 text-primary"></i>
-        <h4 class="fw-bold">3</h4>
-        <p class="text-muted">Total Phases</p>
-      </div>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-12">
+    <!-- Changed Icon -->
+    <div class="bg-blue-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-layers text-2xl sm:text-4xl"></i> <!-- Changed from bullseye -->
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">3</h4>
+      <p class="opacity-90 text-sm sm:text-base">Total Phases</p>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card shadow-sm p-3">
-        <i class="bi bi-book fs-2 text-success"></i>
-        <h4 class="fw-bold">120</h4>
-        <p class="text-muted">Total Questions</p>
-      </div>
+    <div class="bg-emerald-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-book text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">120</h4>
+      <p class="opacity-90 text-sm sm:text-base">Total Questions</p>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card shadow-sm p-3">
-        <i class="bi bi-clock fs-2 text-warning"></i>
-        <h4 class="fw-bold">135</h4>
-        <p class="text-muted">Minutes Total</p>
-      </div>
+    <div class="bg-orange-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-clock text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">135</h4>
+      <p class="opacity-90 text-sm sm:text-base">Minutes Total</p>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card shadow-sm p-3">
-        <i class="bi bi-graph-up fs-2 text-danger"></i>
-        <h4 class="fw-bold">85%</h4>
-        <p class="text-muted">Avg Score</p>
-      </div>
+    <div class="bg-pink-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-graph-up-arrow text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">85%</h4>
+      <p class="opacity-90 text-sm sm:text-base">Avg Score</p>
     </div>
   </div>
 
+  <!-- Title for Test Phases -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+      <i class="bi bi-diagram-3-fill text-indigo-600"></i>
+      Asessments
+    </h2>
+    <p class="text-gray-600 text-sm mt-1">Choose a phase to get started</p>
+  </div>
+
   <!-- Test Phases -->
-  <h3 class="mb-3">Assessment Phases</h3>
-  <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let phase of testPhases">
-      <div class="card shadow-sm h-100 phase-card" [class.border-primary]="selectedPhase === phase.id"
-        (click)="selectedPhase = selectedPhase === phase.id ? null : phase.id">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <i [class]="phase.icon + ' fs-3 text-' + phase.color"></i>
-            <span [class]="getDifficultyBadge(phase.difficulty)">
-              {{ phase.difficulty }}
-            </span>
-          </div>
-          <h5 class="card-title">{{ phase.name }}</h5>
-          <p class="card-text text-muted">{{ phase.description }}</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let phase of testPhases"
+         class="bg-white rounded-2xl shadow-md p-6 border border-gray-100 hover:shadow-xl hover:border-indigo-400 transition-all duration-300 cursor-pointer"
+         [class.ring-2]="selectedPhase === phase.id"
+         [class.ring-indigo-500]="selectedPhase === phase.id"
+         (click)="selectedPhase = selectedPhase === phase.id ? null : phase.id">
 
-          <div class="d-flex justify-content-between text-muted small mb-3">
-            <span><i class="bi bi-clock"></i> {{ phase.duration }}</span>
-            <span><i class="bi bi-book"></i> {{ phase.questions }} Qs</span>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center">
-            <span class="text-capitalize">
-              <i [class]="getStatusIcon(phase.status)"></i>
-              {{ phase.status.replace('_', ' ') }}
-            </span>
-            <button class="btn btn-sm btn-primary" (click)="onStartTest(phase.id); $event.stopPropagation()">
-              <i class="bi bi-play-fill"></i> Start Test
-            </button>
-          </div>
+      <!-- Top Row -->
+      <div class="flex items-start justify-between mb-5">
+        <div class="flex-shrink-0">
+          <span class="w-12 h-12 rounded-xl flex items-center justify-center bg-indigo-50">
+            <i *ngIf="phase.icon; else fallbackIcon"
+               class="bi text-2xl text-indigo-600"
+               [ngClass]="phase.icon"></i>
+            <ng-template #fallbackIcon>
+              <i class="bi bi-list-check text-2xl text-indigo-600"></i>
+            </ng-template>
+          </span>
         </div>
+        <!-- Difficulty Badge -->
+        <span class="px-3 py-1 text-xs rounded-full font-semibold"
+              [ngClass]="{
+                'bg-blue-100 text-blue-700': phase.difficulty === 'Easy',
+                'bg-yellow-100 text-yellow-700': phase.difficulty === 'Medium',
+                'bg-red-100 text-red-700': phase.difficulty === 'Hard',
+        
+                'bg-gray-100 text-gray-700': !phase.difficulty
+              }">
+          {{ phase.difficulty }}
+        </span>
       </div>
+
+      <!-- Title & Description -->
+      <h5 class="text-lg font-bold text-gray-900">{{ phase.name }}</h5>
+      <p class="text-gray-600 mt-2 text-sm leading-relaxed min-h-[3rem]">
+        {{ phase.description }}
+      </p>
+
+      <!-- Meta Info -->
+      <div class="flex justify-between text-gray-500 text-sm mt-4">
+        <span class="flex items-center gap-2">
+          <i class="bi bi-clock"></i> {{ phase.duration }}
+        </span>
+        <span class="flex items-center gap-2">
+          <i class="bi bi-question-circle"></i> {{ phase.questions }} Qs
+        </span>
+      </div>
+
+      <!-- Footer -->
+     <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+  <!-- Status -->
+  <div class="flex items-center gap-2 text-gray-700 font-medium">
+    <i class="bi" [ngClass]="getStatusIcon(phase.status)"></i>
+    {{ phase.status.replace('_', ' ') }}
+  </div>
+
+  <!-- Start Button -->
+  <button (click)="onStartTest(phase.id); $event.stopPropagation()"
+          type="button"
+          class="flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium 
+                 text-white bg-gradient-to-r from-cyan-500 to-blue-500 
+                 hover:bg-gradient-to-bl focus:outline-none focus:ring-4 
+                 focus:ring-cyan-300 dark:focus:ring-cyan-800 rounded-full transition">
+    <i class="bi bi-play-fill"></i>
+    Start
+  </button>
+</div>
+
     </div>
   </div>
 
   <!-- Recent Results -->
-  <div class="card shadow-sm mt-5">
-    <div class="card-body">
-      <h5 class="card-title">
-        <i class="bi bi-trophy text-success"></i> Recent Test Results
-      </h5>
-      <p class="text-muted">Your performance in recent practice tests</p>
+  <div class="bg-gradient-to-br from-white via-green-50 to-emerald-100 shadow-md rounded-2xl mt-12 p-6 sm:p-8">
+    <h5 class="text-lg sm:text-xl font-bold flex items-center gap-2 text-gray-800 mb-2">
+      <i class="bi bi-trophy-fill text-yellow-500"></i> Recent Test Results
+    </h5>
+    <p class="text-gray-600 text-sm mb-6">Your achievements at a glance 🏆</p>
 
-      <div *ngFor="let result of recentResults"
-        class="p-3 mb-2 rounded bg-light d-flex justify-content-between align-items-center">
-        <div>
-          <i class="bi bi-check-circle text-success"></i>
-          <span class="fw-semibold ms-2">{{ result.test }}</span>
-          <div class="text-muted small">{{ result.date }}</div>
-        </div>
-        <div class="text-end">
-          <span class="fw-bold text-success">{{ result.score }}%</span>
-          <div class="progress mt-1" style="height: 6px; width: 100px;">
-            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="result.score"></div>
-          </div>
+    <div *ngFor="let result of recentResults"
+         class="bg-white hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-100 transition rounded-xl p-4 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between shadow-sm">
+      <div class="mb-2 sm:mb-0">
+        <i class="bi bi-check-circle-fill text-green-600"></i>
+        <span class="font-semibold ml-2 text-gray-800">{{ result.test }}</span>
+        <div class="text-gray-500 text-xs">{{ result.date }}</div>
+      </div>
+      <div class="text-right w-full sm:w-auto">
+        <span class="font-extrabold text-green-600 text-lg">{{ result.score }}%</span>
+        <div class="w-full sm:w-28 h-2 bg-gray-200 rounded-full mt-2 overflow-hidden">
+          <div class="h-2 bg-emerald-500 rounded-full transition-all"
+               [style.width.%]="result.score"></div>
         </div>
       </div>
     </div>
