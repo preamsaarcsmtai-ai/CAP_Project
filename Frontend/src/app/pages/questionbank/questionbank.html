@@ -1,0 +1,56 @@
+<div class="qbank-dashboard container-fluid vh-min-100">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center ">
+        <div>
+            <h1 class="m-0">Question Bank</h1>
+            <small class="text-muted">Manage your institutional question repository</small>
+        </div>
+        <button class="btn btn-dark">+ Add Question</button>
+    </div>
+    <div class="stat-card p-4 my-3">
+        <h1> <i class="bi bi-funnel fs-5 "></i> Filter & Search </h1>
+        <div class="input-group mb-2">
+            <input type="search" class="form-control" placeholder="Search question..." />
+            <button class="btn btn-light" type="button"><i class="bi bi-search "></i></button>
+            <select class="form-select ms-2" style="max-width: 180px;">
+                <option value="">All Difficulties</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+    </div>
+     <div class="stat-card p-4">
+          <h1> Questines </h1>
+        <table class="table ">
+            <thead>
+              <tr>
+                  <th>Questine</th>
+                <th>Subject</th>
+                <th>Difficulty</th>
+                <th>Created By</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{user.question}}</td>
+                    <td>{{user.subject | titlecase}}</td>
+                    <td> <span class="badge rounded-pill" [ngClass]="{'text-bg-success': user.difficulty === 'easy',
+                    'text-bg-warning': user.difficulty === 'medium',
+                'text-bg-danger': user.difficulty === 'hard'}">{{user.difficulty }}</span></td>
+                    <td>{{user.createdby | titlecase }}</td>
+                    <td> <span class="badge rounded-pill" [ngClass]="{
+                        'text-bg-success': user.status === 'active',
+                        'text-bg-secondary':user.status === 'draft'
+                    }">{{user.status}}</span> </td>
+                    <td>
+                        <button class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-outline-danger btn-sm ms-1"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>  
+     </div>
+</div>

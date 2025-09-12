@@ -6,6 +6,10 @@ import { Institution } from './pages/institution/institution';
 import { Users } from './pages/users/users';
 import { TestInterface } from './components/test-interface/test-interface';
 import { Results } from './components/results/results'
+import { Admin } from './pages/admin/admin';
+import { AdminLayout } from './admin-layout/admin-layout';
+import { Questionbank } from './pages/questionbank/questionbank';
+import { Adminusers } from './pages/adminusers/adminusers';
 
 
 
@@ -19,6 +23,17 @@ export const routes: Routes = [
       { path: 'institution', component: Institution },
       { path: 'users', component: Users },
       { path: '', redirectTo: 'superadmin', pathMatch: 'full' }
+    ]
+  },
+    {
+    path: 'admin',
+    component: AdminLayout,
+    children: [
+      { path: 'admin', component: Admin },
+      { path: 'dashboard', component: Admin },
+      { path: 'questionbank', component: Questionbank },
+      { path: 'users', component: Adminusers },
+      { path: '', redirectTo: 'admin', pathMatch: 'full' }
     ]
   },
   {
