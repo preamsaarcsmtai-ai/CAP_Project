@@ -5,34 +5,34 @@ import { Students } from './pages/students/students';
 import { Institution } from './pages/institution/institution';
 import { Users } from './pages/users/users';
 import { TestInterface } from './components/test-interface/test-interface';
-import { Results } from './components/results/results'
-
-
+import { Results } from './components/results/results';
+import { Dashboard } from './pages/studentslayout/dashboard/dashboard';
 
 export const routes: Routes = [
+  // Superadmin & other main routes
   {
     path: '',
     component: Layout,
     children: [
       { path: 'superadmin', component: Superadmin },
-      { path: 'dashboard', component: Superadmin },
+      { path: 'dashboard', component: Superadmin }, // maybe redirect?
       { path: 'institution', component: Institution },
       { path: 'users', component: Users },
       { path: '', redirectTo: 'superadmin', pathMatch: 'full' }
     ]
   },
+
+  // Student dashboard layout
   {
     path: 'students',
-    component: Students,
-  },
-  {
-    path: 'students/test/:id',
-    component: TestInterface
+    component: Dashboard,  // This is the student dashboard layout
+    children: [
+      { path: '', component: Students },  // default view inside dashboard
+      { path: 'test/:id', component: TestInterface },  // nested test route
+      { path: 'results/:id', component: Results }     // nested results route
+    ]
   },
 
-  {
-    path: 'students/results/:id',
-    component: Results   // <-- now not nested
-  }
-
+  // fallback redirect
+  { path: '**', redirectTo: 'superadmin' }
 ];
