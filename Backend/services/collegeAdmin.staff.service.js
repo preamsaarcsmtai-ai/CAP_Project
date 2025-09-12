@@ -2,9 +2,9 @@ import { staff } from "../config/schema.js";
 
 export class StaffService{
 
-static async addStaff({name, email, designation, collegeId}){
+static async addStaff({name, email, designation, collegeId, password}){
     
-    const [newStaff] = await db.insert(staff).values({ name, email, designation, collegeId}).returning();
+    const [newStaff] = await db.insert(staff).values({ name, email, designation, collegeId, password }).returning();
     return newStaff;
 
    };

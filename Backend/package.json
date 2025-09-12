@@ -14,10 +14,13 @@
   "type": "module",
   "dependencies": {
     "@hapi/hapi": "^21.4.3",
+    "@hapi/jwt": "^3.2.1",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
+    "hapi-auth-jwt2": "^11.0.0",
+    "joi": "^18.0.1",
     "jsonwebtoken": "^9.0.2",
     "nodeman": "^1.1.2",
     "pg": "^8.16.3"

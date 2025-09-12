@@ -24,18 +24,10 @@ export class AuthController {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return h.response({ message: "Invalid credentials" }).code(401);
 
-      
-      const accessToken = jwt.sign(
-        { id: user.id, role: user.role, collegeId: user.collegeId },
-        process.env.JWT_SECRET,
-        { expiresIn: "15m" } 
-      );
+      const payload = { id: user.id, role: user.role, collegeId: user.code };
 
-      const refreshToken = jwt.sign(
-        { id: user.id, role: user.role, collegeId: user.collegeId },
-        process.env.JWT_REFRESH_SECRET, 
-        { expiresIn: "7d" }
-      );
+      const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "15m" });
+      const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 
       return h.response({
         success: true,
@@ -45,7 +37,7 @@ export class AuthController {
           id: user.id,
           email: user.email,
           role: user.role,
-          collegeId: user.collegeId,
+          collegeId: user.code, 
         },
       }).code(200);
     } catch (err) {
@@ -54,6 +46,7 @@ export class AuthController {
     }
   }
 
+  // REFRESH TOKEN
   static async refresh(request, h) {
     try {
       const { refreshToken } = request.payload;
@@ -61,10 +54,8 @@ export class AuthController {
         return h.response({ message: "Refresh token required" }).code(400);
       }
 
-     
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 
-      
       const newAccessToken = jwt.sign(
         { id: decoded.id, role: decoded.role, collegeId: decoded.collegeId },
         process.env.JWT_SECRET,

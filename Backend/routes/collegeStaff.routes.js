@@ -1,4 +1,4 @@
-import { StaffController } from "../controllers/staff.controller.js"
+import { StaffController } from "../controllers/collegeStaff.controller.js";
 
 export const staffRoutes = [
 {

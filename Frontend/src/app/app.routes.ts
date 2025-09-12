@@ -5,8 +5,14 @@ import { Students } from './pages/students/students';
 import { Institution } from './pages/institution/institution';
 import { Users } from './pages/users/users';
 import { TestInterface } from './components/test-interface/test-interface';
-import { Results } from './components/results/results';
-import { Dashboard } from './pages/studentslayout/dashboard/dashboard';
+
+import { Results } from './components/results/results'
+import { Admin } from './pages/admin/admin';
+import { AdminLayout } from './admin-layout/admin-layout';
+import { Questionbank } from './pages/questionbank/questionbank';
+import { Adminusers } from './pages/adminusers/adminusers';
+
+
 
 export const routes: Routes = [
   // Superadmin & other main routes
@@ -22,7 +28,19 @@ export const routes: Routes = [
     ]
   },
 
-  // Student dashboard layout
+
+
+    {
+    path: 'admin',
+    component: AdminLayout,
+    children: [
+      { path: 'admin', component: Admin },
+      { path: 'dashboard', component: Admin },
+      { path: 'questionbank', component: Questionbank },
+      { path: 'users', component: Adminusers },
+      { path: '', redirectTo: 'admin', pathMatch: 'full' }
+    ]
+  }
   {
     path: 'students',
     component: Dashboard,  // This is the student dashboard layout
