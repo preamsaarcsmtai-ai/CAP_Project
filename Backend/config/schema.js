@@ -1,5 +1,16 @@
 import { pgTable, serial, varchar, integer, timestamp } from "drizzle-orm/pg-core" ;
 
+//Superadmin Table
+export const superAdmins = pgTable("super_admins", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  role: varchar("role", { length: 50 }).default("super_admin"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+
 // Institution Table
 export const institutions = pgTable("institutions",{
     id: serial("id").primaryKey(),
@@ -21,13 +32,12 @@ export const colleges = pgTable("colleges", {
 // college Admins (who manage students & staff)
 export const admins = pgTable("admins", {
     id: serial("id").primaryKey(),
-    collegeId: integer("college_id").references(()=> colleges.id),
     institutionId: integer("institution_id").references(()=> institutions.id),
     name: varchar("name", { length: 255}).notNull(),
     email: varchar("email", { length: 100 }).notNull().unique(),
     password: varchar("password", { length: 255 }).notNull(),
     code: varchar("code", { length: 55}).unique(),
-    role: varchar("role", { length: 50 }).default("college_admin"),
+    role: varchar("role", { length: 50 }).notNull().default("college_admin"),
     createdAt: timestamp("created_at").defaultNow(),
 });
 

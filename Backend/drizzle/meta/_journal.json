@@ -190,6 +190,41 @@
       "when": 1757607015921,
       "tag": "0026_free_ulik",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1757611844161,
+      "tag": "0027_ambitious_loa",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1757612625407,
+      "tag": "0028_narrow_paibok",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1757612937279,
+      "tag": "0029_lucky_blizzard",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1757658864040,
+      "tag": "0030_bouncy_killmonger",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1757679212237,
+      "tag": "0031_warm_ma_gnuci",
+      "breakpoints": true
     }
   ]
 }

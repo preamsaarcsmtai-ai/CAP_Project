@@ -1,11 +1,49 @@
+import { eq } from "drizzle-orm";
 import  db  from "../config/drizzle.js";
-import { institutions, colleges, admins } from "../config/schema.js";
+import { institutions, colleges, admins, superAdmins } from "../config/schema.js";
 import bcrypt from "bcrypt";
 
 export class SuperAdminService {
+
+    //Registration for SuperAdmin
+    static async superAdminReg( name, email, password ){
+        if (!password) {
+            throw new Error("Password is required");
+            
+        }
+        const existingAdmin = await db.select().from(superAdmins).where(eq(superAdmins.email, email));
+        if (existingAdmin.length > 0) {
+            throw new Error("Super admin can already registered wit this email.");
+            
+        }
+
+        const hashpassword = await bcrypt.hash(password, 10);
+
+        const [newAdmin] = await db.insert(superAdmins).values({ name, email, password: hashpassword }).returning();
+        return newAdmin;
+
+    }
+
+    //Login for SuperAdmin
+    static async findByEmail(email){
+        const [existsemail] = await db.select().from(superAdmins).where(eq(superAdmins.email, email));
+        return existsemail;
+    }
+
     //Add Institution
     static async addInstitution(name, code, location) {
-        return db.insert(institutions).values({ name, code, location }).returning();
+
+        // const exists = await db.query.institutions.findFirst({
+        //     where:(eq(institutions.code, code))
+        // });
+
+        // if (!exists) {
+        //     throw new Error("Institution code has not unique.");
+        // }
+
+      const [newInstitution] = await db.insert(institutions).values({ name, code, location }).returning();
+
+      return newInstitution;
     }
 
     //Add College under Institution
@@ -14,12 +52,13 @@ export class SuperAdminService {
     }
 
     //Add Admin for College
-    static async addAdmin(collegeId, email, password) {
+    static async addAdmin(institutionId, name, email, password, code) {
         const hashedPassword = await bcrypt.hash(password, 10);
-        return db
+        const [newAdmin] = await db
         .insert(admins)
-        .values({ collegeId, email, password: hashedPassword })
+        .values({ institutionId, name, email, password: hashedPassword, code })
         .returning();
+        return newAdmin;
     }
 
     // Get All Colleges + Admins by Institution
@@ -35,3 +74,4 @@ export class SuperAdminService {
         });
     }
 }
+
