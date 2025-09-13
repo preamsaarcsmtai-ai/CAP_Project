@@ -11,6 +11,7 @@ import { Admin } from './pages/admin/admin';
 import { AdminLayout } from './admin-layout/admin-layout';
 import { Questionbank } from './pages/questionbank/questionbank';
 import { Adminusers } from './pages/adminusers/adminusers';
+import { Dashboard } from './pages/studentslayout/dashboard/dashboard';
 
 
 
@@ -40,7 +41,7 @@ export const routes: Routes = [
       { path: 'users', component: Adminusers },
       { path: '', redirectTo: 'admin', pathMatch: 'full' }
     ]
-  }
+  },
   {
     path: 'students',
     component: Dashboard,  // This is the student dashboard layout
