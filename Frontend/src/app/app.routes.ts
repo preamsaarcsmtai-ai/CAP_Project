@@ -11,7 +11,6 @@ import { Admin } from './pages/admin/admin';
 import { AdminLayout } from './admin-layout/admin-layout';
 import { Questionbank } from './pages/questionbank/questionbank';
 import { Adminusers } from './pages/adminusers/adminusers';
-=======
 import { StudentDashboard } from './pages/studentslayout/dashboard/Studentdashboard';
 import { StudentLogin } from './pages/studentslayout/student-login/student-login';
 import { FacultyDashboardComponent } from './pages/facultydashboard/facultydashboard';
