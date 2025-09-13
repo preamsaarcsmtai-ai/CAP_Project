@@ -1,49 +1,64 @@
-<div class="flex flex-col h-screen bg-white text-gray-800 shadow-lg transition-all duration-300
-            [class.w-64]='!collapsed && !mobileMenuOpen'
-            [class.w-20]='collapsed && !mobileMenuOpen'
-            [class.fixed]='isMobile'
-            [class.inset-0]='isMobile && mobileMenuOpen'
-            [class.z-50]='isMobile && mobileMenuOpen'
-            [class.opacity-0]='isMobile && !mobileMenuOpen'
-            [class.opacity-100]='isMobile && mobileMenuOpen'">
-
+<div
+  class="flex flex-col h-screen bg-white text-gray-900 shadow-lg transition-all duration-300"
+  [class.w-64]="!collapsed && !mobileMenuOpen"
+  [class.w-20]="collapsed && !mobileMenuOpen"
+  [class.fixed]="isMobile"
+  [class.inset-0]="isMobile && mobileMenuOpen"
+  [class.z-50]="isMobile && mobileMenuOpen"
+  [class.opacity-0]="isMobile && !mobileMenuOpen"
+  [class.opacity-100]="isMobile && mobileMenuOpen"
+>
   <!-- Logo / Header -->
-  <div class="flex items-center justify-center h-16 border-b border-gray-200">
-    <button (click)="toggleSidebar()" 
-            class="hover:bg-gray-100 rounded-md transition duration-300 text-gray-700">
+  <div
+    class="flex items-center justify-center h-16 border-b border-gray-300 bg-gray-100"
+  >
+    <button
+      (click)="toggleSidebar()"
+      class="hover:bg-gray-200 rounded-md transition duration-300 text-gray-700"
+    >
       <i class="bi text-2xl" [ngClass]="collapsed ? 'bi-list' : 'bi-x-lg'"></i>
     </button>
   </div>
 
   <!-- Navigation -->
-<nav class="flex-1 mt-4 overflow-y-auto">
-  <ul class="bg-black w-full flex px-2  flex-col items-center">
-    <li *ngFor="let item of mainNavItems" class="w-full">
-      <a 
-         routerLinkActive="bg-gray-800"
-         class="flex items-center gap-4 rounded-lg py-3  transition-colors duration-200  w-full"
-         [ngClass]="{'justify-center px-0': collapsed, 'px-2': !collapsed}">
-        <i class="bi text-xl w-6 text-center" [ngClass]="item.icon"></i>
-        <span *ngIf="!collapsed || isMobile" class="text-sm font-medium">{{ item.title }}</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-
+  <nav class="flex-1 mt-4 overflow-y-auto">
+    <ul class="w-full flex px-2 flex-col items-center">
+      <li *ngFor="let item of mainNavItems" class="w-full">
+        <a
+          routerLink="{{ item.url }}"
+          routerLinkActive="bg-gray-200"
+          class="flex items-center gap-4 rounded-lg py-3 transition-colors duration-200 w-full text-gray-700"
+          [ngClass]="{ 'justify-center px-0': collapsed, 'px-2': !collapsed }"
+          > 
+          <i class="bi text-xl w-6 text-center" [ngClass]="item.icon"></i>
+          <span *ngIf="!collapsed || isMobile" class="text-sm font-medium"
+            >{{ item.title }}</span
+          >
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <!-- Profile / Bottom -->
-  <div *ngIf="!collapsed || isMobile" class="p-4 mt-auto flex items-center gap-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200">
-    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
-      JS
+  <div
+    *ngIf="currentUser && (!collapsed || isMobile)"
+    class="p-4 mt-auto flex items-center gap-3 hover:bg-gray-100 rounded-lg cursor-pointer transition-all duration-200"
+  >
+    <div
+      class="w-10 h-10 bg-gradient-to-br from-indigo-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold"
+    >
+      {{ getInitials(currentUser.name) }}
     </div>
     <div class="flex flex-col truncate">
-      <p class="text-sm font-medium truncate">John Student</p>
-      <p class="text-xs text-gray-500 truncate">john.student@email.com</p>
+      <p class="text-sm font-medium truncate text-gray-900">{{ currentUser.name }}</p>
+      <p class="text-xs text-gray-600 truncate">{{ currentUser.email }}</p>
     </div>
   </div>
 </div>
 
 <!-- Mobile overlay -->
-<div *ngIf="isMobile && mobileMenuOpen" 
-     class="fixed inset-0 bg-black/10 z-40 transition-opacity"
-     (click)="mobileMenuOpen = false"></div>
+<div
+  *ngIf="isMobile && mobileMenuOpen"
+  class="fixed inset-0 bg-white/80 z-40 transition-opacity"
+  (click)="mobileMenuOpen = false"
+></div>
