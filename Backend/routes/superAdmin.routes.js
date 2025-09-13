@@ -129,28 +129,30 @@ export const superAdminRoutes = [
 
   // Adding Admin
   {
-    method: "POST",
-    path:"/superadmin/admin",
-    options:{
-      auth: false,
-      validate:{
-        payload: Joi.object({
-        institutionId: Joi.number().integer().required(),
+  method: "POST",
+  path: "/superadmin/admin",
+  options: {
+    auth: false,
+    validate: {
+      payload: Joi.object({
         name: Joi.string().min(3).required(),
         code: Joi.string().min(3).max(50).required(),
         email: Joi.string().email().required(),
-        password: Joi.string().min(3).max(20).required()
-        }),
-        failAction:( request, h, err) =>{
-          return h
+        password: Joi.string().min(6).max(20).required(),
+        //collegeId: Joi.number().integer().required(),
+        //institutionId: Joi.number().integer().required()
+      }),
+      failAction: (request, h, err) => {
+        return h
           .response({ success: false, message: err.details[0].message })
           .takeover()
-          .code(400)
-        }
+          .code(400);
       },
-      handler: SuperAdminController.createAdmin
-    }
+    },
+    handler: SuperAdminController.createAdmin,
   },
+},
+
   // List Institutions
   {
     method: "GET",

@@ -1,0 +1,1 @@
+ALTER TABLE "admins" ADD COLUMN "college_id" integer NOT NULL;

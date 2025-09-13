@@ -1,0 +1,2 @@
+ALTER TABLE "admins" ADD COLUMN "college_id" integer NOT NULL;--> statement-breakpoint
+ALTER TABLE "admins" ADD CONSTRAINT "admins_college_id_colleges_code_fk" FOREIGN KEY ("college_id") REFERENCES "public"."colleges"("code") ON DELETE no action ON UPDATE no action;

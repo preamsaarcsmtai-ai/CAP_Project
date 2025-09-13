@@ -32,11 +32,11 @@ export const colleges = pgTable("colleges", {
 // college Admins (who manage students & staff)
 export const admins = pgTable("admins", {
     id: serial("id").primaryKey(),
-    institutionId: integer("institution_id").references(()=> institutions.id),
+    //institutionId: integer("institution_id").notNull().references(()=> institutions.id),
     name: varchar("name", { length: 255}).notNull(),
     email: varchar("email", { length: 100 }).notNull().unique(),
     password: varchar("password", { length: 255 }).notNull(),
-    code: varchar("code", { length: 55}).unique(),
+    code: varchar("code", { length: 55}).notNull(),
     role: varchar("role", { length: 50 }).notNull().default("college_admin"),
     createdAt: timestamp("created_at").defaultNow(),
 });

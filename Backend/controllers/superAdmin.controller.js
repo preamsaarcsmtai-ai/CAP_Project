@@ -111,10 +111,12 @@ static async sadminrefresh(request, h){
 
     static async createAdmin(request, h) {
       try {
-        const { institutionId, name, email, password, code } = request.payload;
-        const result = await SuperAdminService.addAdmin(institutionId, name, email, password, code);
+        const {  name, email, password, code } = request.payload;
+        console.log("Receive payload",request.payload);
+        const result = await SuperAdminService.addAdmin(name, email, password, code );
+        // console.log("Receive payload",request.payload);
         console.log(result);
-        return h.response({ success: true, data: result }).code(201);
+        return h.response(result).code(201);
       } catch (error) {
         return h.response({ success: false, message:error.message}).code(500);
       }

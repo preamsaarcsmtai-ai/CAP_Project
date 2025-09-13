@@ -225,6 +225,97 @@
       "when": 1757679212237,
       "tag": "0031_warm_ma_gnuci",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1757748888954,
+      "tag": "0032_bored_tyrannus",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1757760012978,
+      "tag": "0033_clammy_lady_mastermind",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1757761180039,
+      "tag": "0034_silky_weapon_omega",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1757762634002,
+      "tag": "0035_futuristic_khan",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1757762927507,
+      "tag": "0036_silly_secret_warriors",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1757763104266,
+      "tag": "0037_tired_mongu",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1757763694914,
+      "tag": "0038_cuddly_pride",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1757764273822,
+      "tag": "0039_rainy_psynapse",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1757764419431,
+      "tag": "0040_opposite_loners",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1757765263605,
+      "tag": "0041_eager_rockslide",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1757765384427,
+      "tag": "0042_needy_luke_cage",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1757765875652,
+      "tag": "0043_lush_star_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1757766389968,
+      "tag": "0044_colorful_stick",
+      "breakpoints": true
     }
   ]
 }
