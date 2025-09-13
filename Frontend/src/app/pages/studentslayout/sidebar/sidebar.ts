@@ -1,7 +1,16 @@
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Inject,
+  PLATFORM_ID,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService, User } from '../../../services/auth';
 
 interface NavItem {
   title: string;
@@ -14,18 +23,15 @@ interface NavItem {
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.html',
-  styleUrls: ['./sidebar.css']
+  styleUrls: ['./sidebar.css'],
 })
-export class Sidebar {
+export class Sidebar implements OnInit, OnDestroy {
   collapsed = false;
   mobileMenuOpen = false;
   isMobile = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.checkScreen();
-    }
-  }
+  currentUser: User | null = null;
+  private userSub?: Subscription;
 
   mainNavItems: NavItem[] = [
     { title: 'Dashboard', url: '/', icon: 'bi-house' },
@@ -35,7 +41,28 @@ export class Sidebar {
     { title: 'Schedule', url: '/schedule', icon: 'bi-calendar' },
   ];
 
-  toggleSidebar() {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private authService: AuthService
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreen();
+    }
+  }
+
+  ngOnInit(): void {
+    // Don't call loadUserFromLocalStorage here (already called in service constructor)
+    this.userSub = this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+      console.log('Sidebar currentUser:', user);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
+  }
+
+  toggleSidebar(): void {
     if (this.isMobile) {
       this.mobileMenuOpen = !this.mobileMenuOpen;
     } else {
@@ -44,16 +71,23 @@ export class Sidebar {
   }
 
   @HostListener('window:resize')
-  onResize() {
+  onResize(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreen();
     }
   }
 
-  private checkScreen() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.isMobile = window.innerWidth < 768;
-      if (!this.isMobile) this.mobileMenuOpen = false;
-    }
+  private checkScreen(): void {
+    this.isMobile = window.innerWidth < 768;
+    if (!this.isMobile) this.mobileMenuOpen = false;
+  }
+
+  getInitials(name: string): string {
+    return name
+      .split(' ')
+      .map((part) => part.charAt(0))
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
   }
 }
