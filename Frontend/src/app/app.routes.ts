@@ -13,7 +13,7 @@ import { Questionbank } from './pages/questionbank/questionbank';
 import { Adminusers } from './pages/adminusers/adminusers';
 import { StudentDashboard } from './pages/studentslayout/dashboard/Studentdashboard';
 import { StudentLogin } from './pages/studentslayout/student-login/student-login';
-import { Facultydashboard } from './pages/facultydashboard/facultydashboard';
+import { FacultyDashboardComponent } from './pages/facultydashboard/facultydashboard';
 
 
 
@@ -60,7 +60,7 @@ export const routes: Routes = [
     ]
   },
   
-  {path:"faculty",component:Facultydashboard},
+  {path:"faculty",component:FacultyDashboardComponent},
   // fallback redirect
   { path: '**', redirectTo: 'superadmin' }
 ];
