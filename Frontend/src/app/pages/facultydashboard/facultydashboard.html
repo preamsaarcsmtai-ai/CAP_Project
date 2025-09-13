@@ -1,0 +1,812 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-900">
+  <!-- ========== ENHANCED HEADER ========== -->
+  <header class="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 shadow-xl overflow-hidden">
+    <!-- Animated background elements -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute -top-4 -left-4 w-24 h-24 bg-white rounded-full animate-pulse"></div>
+      <div class="absolute top-20 right-20 w-16 h-16 bg-yellow-300 rounded-full animate-bounce" style="animation-delay: 0.5s"></div>
+      <div class="absolute bottom-10 left-1/3 w-12 h-12 bg-pink-300 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center py-8 gap-6">
+        
+        <!-- Left: Enhanced Title + Subtitle -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/30">
+              <i class="fas fa-graduation-cap text-2xl text-yellow-300 drop-shadow-lg"></i>
+            </div>
+            <div>
+              <h1 class="text-4xl lg:text-5xl font-black text-white tracking-tight">
+                {{ title }}
+              </h1>
+              <div class="flex items-center gap-2 mt-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+                <p class="text-blue-100 text-lg font-medium">
+                  Live Dashboard • {{ getCurrentTime() }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="text-indigo-100 text-lg max-w-2xl leading-relaxed">
+            Advanced faculty toolkit for cohort tracking, intelligent proctoring, and comprehensive analytics
+          </p>
+        </div>
+
+        <!-- Right: Enhanced Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          
+          <!-- Quick Stats Mini Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 sm:mb-0">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
+              <div class="text-2xl font-bold text-white">{{ stats.total }}</div>
+              <div class="text-xs text-blue-100">Total</div>
+            </div>
+            <div class="bg-red-500/20 backdrop-blur-sm rounded-xl p-3 border border-red-400/30 text-center">
+              <div class="text-2xl font-bold text-white">{{ stats.flagged }}</div>
+              <div class="text-xs text-red-100">Flagged</div>
+            </div>
+            <div class="bg-green-500/20 backdrop-blur-sm rounded-xl p-3 border border-green-400/30 text-center">
+              <div class="text-2xl font-bold text-white">{{ stats.active }}</div>
+              <div class="text-xs text-green-100">Active</div>
+            </div>
+            <div class="bg-emerald-500/20 backdrop-blur-sm rounded-xl p-3 border border-emerald-400/30 text-center">
+              <div class="text-2xl font-bold text-white">{{ stats.completed }}</div>
+              <div class="text-xs text-emerald-100">Done</div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-3">
+            <button
+              type="button"
+              (click)="exportReport()"
+              class="group relative flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold"
+            >
+              <i class="fas fa-download group-hover:animate-bounce"></i>
+              <span>Export</span>
+              <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-300"></div>
+            </button>
+
+            <button
+              type="button"
+              (click)="handleRefresh()"
+              [disabled]="isRefreshing"
+              class="group relative flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-gray-900 font-semibold rounded-2xl hover:from-amber-500 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              <i
+                class="fas fa-sync-alt transition-transform duration-500"
+                [class.animate-spin]="isRefreshing"
+              ></i>
+              <span>{{ isRefreshing ? 'Syncing...' : 'Refresh' }}</span>
+              <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-300"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== ENHANCED NAVIGATION ========== -->
+  <nav class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex overflow-x-auto py-4">
+        <div class="flex space-x-2 min-w-max">
+          <button
+            *ngFor="let tab of [
+              { id: 'overview', label: 'Overview', icon: 'fas fa-tachometer-alt', color: 'blue' },
+              { id: 'cohorts', label: 'Cohorts', icon: 'fas fa-users', color: 'purple' },
+              { id: 'proctoring', label: 'Proctoring', icon: 'fas fa-video', color: 'red' },
+              { id: 'reports', label: 'Reports', icon: 'fas fa-chart-bar', color: 'green' }
+            ]"
+            type="button"
+            (click)="setActiveTab(tab.id)"
+            [class]="getTabClasses(tab.id, tab.color)"
+            class="group relative flex items-center gap-3 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-4 focus:ring-offset-2"
+          >
+            <i [class]="tab.icon + ' transition-transform duration-300 group-hover:scale-110'"></i>
+            <span>{{ tab.label }}</span>
+            
+            <!-- Active indicator -->
+            <div
+              *ngIf="activeTab === tab.id"
+              class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-transparent via-current to-transparent rounded-full"
+            ></div>
+            
+            <!-- Notification badge for flagged items -->
+            <div
+              *ngIf="tab.id === 'proctoring' && stats.flagged > 0"
+              class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold animate-pulse"
+            >
+              {{ stats.flagged }}
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== ENHANCED MAIN CONTENT ========== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- ========== OVERVIEW TAB ========== -->
+    <section *ngIf="activeTab === 'overview'" class="space-y-8 animate-fade-in">
+      
+      <!-- Enhanced Stats Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div
+          *ngFor="let stat of [
+            { label: 'Total Sessions', value: stats.total, icon: 'fas fa-clipboard-list', color: 'blue', trend: '+12%' },
+            { label: 'Flagged Sessions', value: stats.flagged, icon: 'fas fa-exclamation-triangle', color: 'red', trend: '-5%' },
+            { label: 'Active Sessions', value: stats.active, icon: 'fas fa-play-circle', color: 'green', trend: '+8%' },
+            { label: 'Completed', value: stats.completed, icon: 'fas fa-check-circle', color: 'emerald', trend: '+15%' }
+          ]"
+          class="group relative bg-white dark:bg-gray-800 rounded-3xl shadow-sm hover:shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-500 overflow-hidden transform hover:-translate-y-2"
+        >
+          <!-- Background gradient -->
+          <div class="absolute inset-0 bg-gradient-to-br opacity-5 group-hover:opacity-10 transition-opacity duration-500"
+               [ngClass]="{
+                 'from-blue-400 to-blue-600': stat.color === 'blue',
+                 'from-red-400 to-red-600': stat.color === 'red',
+                 'from-green-400 to-green-600': stat.color === 'green',
+                 'from-emerald-400 to-emerald-600': stat.color === 'emerald'
+               }"></div>
+          
+          <div class="relative p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-2xl bg-gray-50 dark:bg-gray-700 group-hover:bg-opacity-80 transition-all duration-300"
+                   [ngClass]="{
+                     'text-blue-600': stat.color === 'blue',
+                     'text-red-600': stat.color === 'red',
+                     'text-green-600': stat.color === 'green',
+                     'text-emerald-600': stat.color === 'emerald'
+                   }">
+                <i [class]="stat.icon + ' text-xl'"></i>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                  {{ stat.trend }}
+                </div>
+              </div>
+            </div>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ stat.label }}</p>
+              <p class="text-3xl font-black text-gray-900 dark:text-white">
+                {{ stat.value }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Recent Flagged Sessions -->
+      <section class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div class="bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 px-6 py-5 border-b border-red-100 dark:border-red-800">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-red-500 rounded-xl">
+                <i class="fas fa-flag text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Recent Flagged Sessions</h3>
+                <p class="text-sm text-red-600 dark:text-red-400">Requires immediate attention</p>
+              </div>
+            </div>
+            <button class="text-red-600 hover:text-red-700 font-medium text-sm bg-white rounded-lg px-4 py-2 shadow-sm hover:shadow transition-all">
+              View All
+            </button>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <div class="space-y-4">
+            <div
+              *ngFor="let session of proctoredSessions | slice:0:5; trackBy: trackBySessionId"
+              class="group relative flex items-center justify-between p-5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 hover:shadow-md"
+            >
+              <!-- Left side -->
+              <div class="flex items-center space-x-4">
+                <div class="relative">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center text-white font-bold text-lg">
+                    {{ session.studentName.charAt(0) }}
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white animate-pulse"></div>
+                </div>
+                
+                <div class="space-y-1">
+                  <div class="flex items-center gap-3">
+                    <span
+                      class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border-2"
+                      [ngClass]="getSeverityColor(session.severity)"
+                    >
+                      {{ session.severity }}
+                    </span>
+                    <span class="w-1 h-1 bg-gray-400 rounded-full"></span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ session.timestamp | date:'short' }}</span>
+                  </div>
+                  <h4 class="font-bold text-gray-900 dark:text-white text-lg">{{ session.studentName }}</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <i class="fas fa-book-open text-blue-500"></i>
+                    {{ session.exam }}
+                    <span class="w-1 h-1 bg-gray-400 rounded-full mx-1"></span>
+                    <i class="fas fa-users text-purple-500"></i>
+                    {{ session.cohort }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right side -->
+              <div class="flex items-center space-x-4">
+                <div class="text-right space-y-2">
+                  <span
+                    class="block px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-wide"
+                    [ngClass]="getStatusColor(session.status)"
+                  >
+                    {{ session.status }}
+                  </span>
+                  <div class="flex items-center gap-2 text-xs text-gray-500">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ session.duration }}</span>
+                  </div>
+                </div>
+                
+                <div class="flex gap-2">
+                  <button
+                    type="button"
+                    (click)="viewSessionDetails(session.id)"
+                    class="group/btn flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl font-medium transition-all duration-200 hover:shadow-md transform hover:scale-105"
+                  >
+                    <i class="fas fa-eye group-hover/btn:animate-pulse"></i>
+                    <span>View</span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="reviewFlags(session.id)"
+                    class="group/btn flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-xl font-medium transition-all duration-200 hover:shadow-md transform hover:scale-105"
+                  >
+                    <i class="fas fa-flag group-hover/btn:animate-bounce"></i>
+                    <span>Review</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ========== COHORTS TAB ========== -->
+    <section *ngIf="activeTab === 'cohorts'" class="space-y-8 animate-fade-in">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+          *ngFor="let cohort of cohorts; trackBy: trackByCohortName"
+          class="group relative bg-white dark:bg-gray-800 shadow-sm hover:shadow-2xl rounded-3xl border border-gray-100 dark:border-gray-700 transition-all duration-500 overflow-hidden transform hover:-translate-y-3 hover:rotate-1"
+        >
+          <!-- Gradient background -->
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-400/10 via-blue-500/10 to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div class="relative p-6 space-y-4">
+            <!-- Header -->
+            <div class="flex items-center justify-between">
+              <div class="p-3 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl text-white shadow-lg">
+                <i class="fas fa-users text-xl"></i>
+              </div>
+              <div class="text-right">
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+
+            <!-- Cohort Name -->
+            <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-purple-600 transition-colors duration-300">
+              {{ cohort.name }}
+            </h4>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                <div class="text-2xl font-black text-blue-600">{{ cohort.students }}</div>
+                <div class="text-xs text-blue-500 font-medium">Students</div>
+              </div>
+              <div class="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                <div class="text-2xl font-black text-green-600">{{ cohort.active }}</div>
+                <div class="text-xs text-green-500 font-medium">Active</div>
+              </div>
+              <div class="text-center p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
+                <div class="text-2xl font-black text-emerald-600">{{ cohort.completed }}</div>
+                <div class="text-xs text-emerald-500 font-medium">Done</div>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs text-gray-600 dark:text-gray-400">
+                <span>Progress</span>
+                <span>{{ Math.round((cohort.completed / cohort.students) * 100) }}%</span>
+              </div>
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                <div 
+                  class="h-full bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full transition-all duration-1000 ease-out"
+                  [style.width.%]="(cohort.completed / cohort.students) * 100"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <button class="w-full mt-4 px-4 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <i class="fas fa-arrow-right mr-2"></i>
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PROCTORING TAB ========== -->
+    <section *ngIf="activeTab === 'proctoring'" class="space-y-8 animate-fade-in">
+      
+      <!-- Enhanced Filters Section -->
+      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 px-6 py-4 border-b border-blue-100 dark:border-blue-800">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-blue-500 rounded-xl">
+              <i class="fas fa-filter text-white"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Smart Filters</h3>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <!-- Search Input -->
+            <div class="relative lg:col-span-2">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="searchTerm"
+                placeholder="Search students, exams, or sessions..."
+                class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-gray-700 dark:text-white placeholder-gray-400"
+              />
+              <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                <kbd class="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-600 rounded text-gray-600 dark:text-gray-300">⌘K</kbd>
+              </div>
+            </div>
+
+            <!-- Cohort Filter -->
+            <div class="relative">
+              <select
+                [(ngModel)]="selectedCohort"
+                class="w-full appearance-none px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200 bg-gray-50 dark:bg-gray-700 dark:text-white font-medium"
+              >
+                <option value="all">All Cohorts</option>
+                <option *ngFor="let c of cohorts" [value]="c.name">
+                  {{ c.name }} ({{ c.students }})
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <i class="fas fa-chevron-down text-purple-500"></i>
+              </div>
+            </div>
+
+            <!-- Flag Filter -->
+            <div class="relative">
+              <select
+                [(ngModel)]="flagFilter"
+                class="w-full appearance-none px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-200 bg-gray-50 dark:bg-gray-700 dark:text-white font-medium"
+              >
+                <option value="all">All Sessions</option>
+                <option value="flagged">🚩 Flagged Only</option>
+                <option value="clean">✅ Clean Only</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <i class="fas fa-chevron-down text-red-500"></i>
+              </div>
+            </div>
+
+            <!-- Export Button -->
+            <button
+              type="button"
+              (click)="exportReport()"
+              class="group flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              <i class="fas fa-download group-hover:animate-bounce"></i>
+              <span class="hidden sm:inline">Export</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Table -->
+      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20">
+              <tr>
+                <th
+                  *ngFor="let header of [
+                    { key: 'student', label: 'Student', icon: 'fas fa-user' },
+                    { key: 'exam', label: 'Exam', icon: 'fas fa-book' },
+                    { key: 'status', label: 'Status', icon: 'fas fa-circle' },
+                    { key: 'flags', label: 'Flags', icon: 'fas fa-flag' },
+                    { key: 'duration', label: 'Duration', icon: 'fas fa-clock' },
+                    { key: 'actions', label: 'Actions', icon: 'fas fa-cog' }
+                  ]"
+                  class="px-6 py-4 text-left text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                  (click)="sortBy(header.key)"
+                >
+                  <div class="flex items-center gap-2">
+                    <i [class]="header.icon"></i>
+                    <span>{{ header.label }}</span>
+                    <i class="fas fa-sort text-gray-400"></i>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              <tr
+                *ngFor="let s of filteredSessions; trackBy: trackBySessionId; let i = index"
+                class="group hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/10 dark:hover:to-indigo-900/10 transition-all duration-200"
+                [class.animate-slide-in-up]="true"
+                [style.animation-delay]="i * 100 + 'ms'"
+              >
+                <!-- Student Column -->
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-4">
+                    <div class="relative">
+                      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold">
+                        {{ s.studentName.charAt(0) }}
+                      </div>
+                      <div 
+                        *ngIf="s.isOnline"
+                        class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="font-bold text-gray-900 dark:text-white">{{ s.studentName }}</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">{{ s.studentId }}</div>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Exam Column -->
+                <td class="px-6 py-4">
+                  <div class="space-y-1">
+                    <div class="font-semibold text-gray-900 dark:text-white">{{ s.exam }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                      <i class="fas fa-users text-purple-500"></i>
+                      {{ s.cohort }}
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Status Column -->
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-sm"
+                    [ngClass]="getStatusColor(s.status)"
+                  >
+                    <div class="w-2 h-2 rounded-full bg-current animate-pulse"></div>
+                    {{ s.status }}
+                  </span>
+                </td>
+
+                <!-- Flags Column -->
+                <td class="px-6 py-4">
+                  <div class="space-y-1">
+                    <ng-container *ngIf="s.flags.length > 0; else clean">
+                      <div class="flex flex-wrap gap-2">
+                        <span
+                          *ngFor="let flag of s.flags | slice:0:2"
+                          class="inline-flex items-center gap-1 px-3 py-1 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-full text-xs font-semibold border border-red-200 dark:border-red-800"
+                        >
+                          <i class="fas fa-exclamation-triangle"></i>
+                          {{ flag }}
+                        </span>
+                        <span
+                          *ngIf="s.flags.length > 2"
+                          class="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-xs font-medium"
+                        >
+                          +{{ s.flags.length - 2 }} more
+                        </span>
+                      </div>
+                    </ng-container>
+                    <ng-template #clean>
+                      <span class="inline-flex items-center gap-2 px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full text-xs font-semibold">
+                        <i class="fas fa-check-circle"></i>
+                        Clean Session
+                      </span>
+                    </ng-template>
+                  </div>
+                </td>
+
+                <!-- Duration Column -->
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <i class="fas fa-stopwatch text-blue-500"></i>
+                    <span class="font-mono text-sm">{{ s.duration }}</span>
+                  </div>
+                </td>
+
+                <!-- Actions Column -->
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2">
+                    <button
+                      (click)="viewSessionDetails(s.id)"
+                      class="group/btn relative flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-800/40 text-blue-700 dark:text-blue-400 rounded-xl font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                    >
+                      <i class="fas fa-eye group-hover/btn:animate-pulse"></i>
+                      <span class="hidden sm:inline">View</span>
+                    </button>
+                    <button
+                      *ngIf="s.flags.length > 0"
+                      (click)="reviewFlags(s.id)"
+                      class="group/btn relative flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-800/40 text-red-700 dark:text-red-400 rounded-xl font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500/50"
+                    >
+                      <i class="fas fa-flag group-hover/btn:animate-bounce"></i>
+                      <span class="hidden sm:inline">Review</span>
+                    </button>
+                    <button
+                      class="group/btn relative p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500/50"
+                    >
+                      <i class="fas fa-ellipsis-v group-hover/btn:animate-pulse"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Enhanced Pagination -->
+        <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-t border-gray-200 dark:border-gray-600">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              Showing <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of 
+              <span class="font-semibold text-gray-900 dark:text-white">{{ filteredSessions.length }}</span> sessions
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="px-4 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                <i class="fas fa-chevron-left mr-2"></i>Previous
+              </button>
+              <div class="flex gap-1">
+                <button *ngFor="let page of [1, 2, 3]" 
+                        class="px-4 py-2 text-sm font-medium rounded-xl transition-all"
+                        [class]="page === 1 ? 'bg-blue-600 text-white' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700'">
+                  {{ page }}
+                </button>
+              </div>
+              <button class="px-4 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                Next<i class="fas fa-chevron-right ml-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== REPORTS TAB ========== -->
+    <section *ngIf="activeTab === 'reports'" class="space-y-8 animate-fade-in">
+      
+      <!-- Quick Analytics Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        
+        <!-- Analytics Summary -->
+        <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+          <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 px-6 py-4 border-b border-green-100 dark:border-green-800">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-green-500 rounded-xl">
+                <i class="fas fa-chart-line text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Analytics Overview</h3>
+                <p class="text-sm text-green-600 dark:text-green-400">Last 30 days performance</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
+                <div class="text-2xl font-black text-blue-600 mb-1">98.5%</div>
+                <div class="text-sm text-blue-500 font-medium">Success Rate</div>
+              </div>
+              <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-2xl">
+                <div class="text-2xl font-black text-green-600 mb-1">1,247</div>
+                <div class="text-sm text-green-500 font-medium">Total Exams</div>
+              </div>
+              <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-2xl">
+                <div class="text-2xl font-black text-purple-600 mb-1">45min</div>
+                <div class="text-sm text-purple-500 font-medium">Avg Duration</div>
+              </div>
+              <div class="text-center p-4 bg-amber-50 dark:bg-amber-900/20 rounded-2xl">
+                <div class="text-2xl font-black text-amber-600 mb-1">2.3%</div>
+                <div class="text-sm text-amber-500 font-medium">Flag Rate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 px-6 py-4 border-b border-purple-100 dark:border-purple-800">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-purple-500 rounded-xl">
+                <i class="fas fa-bolt text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Quick Actions</h3>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <button class="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
+              <i class="fas fa-download"></i>
+              <span>Export All Data</span>
+            </button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
+              <i class="fas fa-email"></i>
+              <span>Email Reports</span>
+            </button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
+              <i class="fas fa-calendar"></i>
+              <span>Schedule Report</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reports Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          *ngFor="let report of [
+            { 
+              title: 'Attendance Analytics', 
+              description: 'Comprehensive attendance tracking with trends and insights', 
+              icon: 'fas fa-user-check',
+              color: 'blue',
+              stats: '1,247 records',
+              lastUpdated: '2 hours ago'
+            },
+            { 
+              title: 'Security Incidents', 
+              description: 'Detailed analysis of flagged sessions and security events', 
+              icon: 'fas fa-shield-alt',
+              color: 'red',
+              stats: '28 incidents',
+              lastUpdated: '15 minutes ago'
+            },
+            { 
+              title: 'Performance Overview', 
+              description: 'Student performance metrics and grade distribution analysis', 
+              icon: 'fas fa-chart-bar',
+              color: 'green',
+              stats: '94.2% avg score',
+              lastUpdated: '1 hour ago'
+            },
+            { 
+              title: 'Cohort Comparison', 
+              description: 'Cross-cohort performance analysis and benchmarking', 
+              icon: 'fas fa-balance-scale',
+              color: 'purple',
+              stats: '12 cohorts',
+              lastUpdated: '30 minutes ago'
+            },
+            { 
+              title: 'Time Analytics', 
+              description: 'Exam duration patterns and time-based insights', 
+              icon: 'fas fa-clock',
+              color: 'amber',
+              stats: '45min avg',
+              lastUpdated: '45 minutes ago'
+            },
+            { 
+              title: 'Custom Reports', 
+              description: 'Build and export custom reports with advanced filtering', 
+              icon: 'fas fa-cogs',
+              color: 'indigo',
+              stats: 'Unlimited',
+              lastUpdated: 'On demand'
+            }
+          ]"
+          class="group relative bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2 hover:rotate-1"
+        >
+          <!-- Background Pattern -->
+          <div class="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500"
+               [ngClass]="{
+                 'bg-gradient-to-br from-blue-400 to-blue-600': report.color === 'blue',
+                 'bg-gradient-to-br from-red-400 to-red-600': report.color === 'red',
+                 'bg-gradient-to-br from-green-400 to-green-600': report.color === 'green',
+                 'bg-gradient-to-br from-purple-400 to-purple-600': report.color === 'purple',
+                 'bg-gradient-to-br from-amber-400 to-amber-600': report.color === 'amber',
+                 'bg-gradient-to-br from-indigo-400 to-indigo-600': report.color === 'indigo'
+               }"></div>
+
+          <div class="relative p-6 space-y-6">
+            <!-- Header -->
+            <div class="flex items-start justify-between">
+              <div class="p-4 rounded-2xl bg-gray-50 dark:bg-gray-700 group-hover:bg-opacity-80 transition-all duration-300"
+                   [ngClass]="{
+                     'text-blue-600': report.color === 'blue',
+                     'text-red-600': report.color === 'red',
+                     'text-green-600': report.color === 'green',
+                     'text-purple-600': report.color === 'purple',
+                     'text-amber-600': report.color === 'amber',
+                     'text-indigo-600': report.color === 'indigo'
+                   }">
+                <i [class]="report.icon + ' text-2xl'"></i>
+              </div>
+              <div class="text-right">
+                <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">Last updated</div>
+                <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ report.lastUpdated }}</div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-3">
+              <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-opacity-80 transition-all duration-300">
+                {{ report.title }}
+              </h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                {{ report.description }}
+              </p>
+              <div class="flex items-center gap-2 text-sm font-semibold"
+                   [ngClass]="{
+                     'text-blue-600': report.color === 'blue',
+                     'text-red-600': report.color === 'red',
+                     'text-green-600': report.color === 'green',
+                     'text-purple-600': report.color === 'purple',
+                     'text-amber-600': report.color === 'amber',
+                     'text-indigo-600': report.color === 'indigo'
+                   }">
+                <i class="fas fa-chart-line"></i>
+                <span>{{ report.stats }}</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <button
+              class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r font-bold text-white rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-offset-2"
+              [ngClass]="{
+                'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:ring-blue-500/50': report.color === 'blue',
+                'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:ring-red-500/50': report.color === 'red',
+                'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:ring-green-500/50': report.color === 'green',
+                'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 focus:ring-purple-500/50': report.color === 'purple',
+                'from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 focus:ring-amber-500/50': report.color === 'amber',
+                'from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 focus:ring-indigo-500/50': report.color === 'indigo'
+              }"
+            >
+              <i class="fas fa-play"></i>
+              <span>Generate Report</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== ENHANCED FOOTER ========== -->
+  <footer class="mt-20 bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="p-2 bg-blue-600 rounded-xl">
+              <i class="fas fa-graduation-cap text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold">Faculty Dashboard</h3>
+          </div>
+         
+          
+        </div>
+        
+       
+        
+        
+      </div>
+      
+     
+    </div>
+  </footer>
+</div>
+

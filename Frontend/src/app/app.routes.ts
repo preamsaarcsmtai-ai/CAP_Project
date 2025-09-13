@@ -11,7 +11,11 @@ import { Admin } from './pages/admin/admin';
 import { AdminLayout } from './admin-layout/admin-layout';
 import { Questionbank } from './pages/questionbank/questionbank';
 import { Adminusers } from './pages/adminusers/adminusers';
-import { Dashboard } from './pages/studentslayout/dashboard/dashboard';
+=======
+import { StudentDashboard } from './pages/studentslayout/dashboard/Studentdashboard';
+import { StudentLogin } from './pages/studentslayout/student-login/student-login';
+import { FacultyDashboardComponent } from './pages/facultydashboard/facultydashboard';
+
 
 
 
@@ -42,16 +46,23 @@ export const routes: Routes = [
       { path: '', redirectTo: 'admin', pathMatch: 'full' }
     ]
   },
+
+  // Student login route
+  {
+    path: 'student-login',
+    component: StudentLogin
+  },
   {
     path: 'students',
-    component: Dashboard,  // This is the student dashboard layout
+    component: StudentDashboard,  // This is the student dashboard layout
     children: [
       { path: '', component: Students },  // default view inside dashboard
       { path: 'test/:id', component: TestInterface },  // nested test route
       { path: 'results/:id', component: Results }     // nested results route
     ]
   },
-
+  
+  {path:"faculty",component:FacultyDashboardComponent},
   // fallback redirect
   { path: '**', redirectTo: 'superadmin' }
 ];
