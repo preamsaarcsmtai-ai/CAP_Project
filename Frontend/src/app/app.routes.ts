@@ -1,19 +1,20 @@
 import { Routes } from '@angular/router';
-import { Layout } from './layout/layout';
-import { Superadmin } from './pages/superadmin/superadmin';
-import { Students } from './pages/students/students';
-import { Institution } from './pages/institution/institution';
-import { Users } from './pages/users/users';
-import { TestInterface } from './components/test-interface/test-interface';
+import { Layout } from './pages/superadmin-page/layout/layout'; 
+import { Superadmin } from './pages/superadmin-page/superadmin/superadmin';
+import { Students } from './pages/studentslayout/home/students-home';
+import { Institution } from './pages/superadmin-page/institution/institution';
+import { Users } from './pages/superadmin-page/users/users';
+import { TestInterface } from './components/students/test-interface/test-interface';
 
-import { Results } from './components/results/results'
-import { Admin } from './pages/admin/admin';
-import { AdminLayout } from './admin-layout/admin-layout';
-import { Questionbank } from './pages/questionbank/questionbank';
-import { Adminusers } from './pages/adminusers/adminusers';
+import { Results } from './components/students/results/results'
+import { Admin } from './pages/admin-page/admin/admin';
+import { AdminLayout } from './pages/admin-page/admin-layout/admin-layout'; 
+import { Questionbank } from './pages/admin-page/questionbank/questionbank';
+import { Adminusers } from './pages/admin-page/adminusers/adminusers';
 import { StudentDashboard } from './pages/studentslayout/dashboard/Studentdashboard';
 import { StudentLogin } from './pages/studentslayout/student-login/student-login';
-import { FacultyDashboardComponent } from './pages/facultydashboard/facultydashboard';
+import { FacultyDashboardComponent } from './pages/faculty/facultydashboard';
+import { Assesments } from './pages/studentslayout/assesments/assesments';
 
 
 
@@ -55,11 +56,13 @@ export const routes: Routes = [
     path: 'students',
     component: StudentDashboard,  // This is the student dashboard layout
     children: [
-      { path: '', component: Students },  // default view inside dashboard
-      { path: 'test/:id', component: TestInterface },  // nested test route
-      { path: 'results/:id', component: Results }     // nested results route
+      { path: '', component: Students },
+      {path:'assessments',component:Assesments},  // default view inside dashboard
+      { path: 'results', component: Results },
+     { path: '*', redirectTo: 'students' }     // nested results route
     ]
   },
+  { path: 'test/:id', component: TestInterface },  // nested test route
   
   {path:"faculty",component:FacultyDashboardComponent},
   // fallback redirect

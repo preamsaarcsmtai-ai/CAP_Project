@@ -8,7 +8,7 @@ interface Institution {
   code: string;
   address?: string;
   branches: string[];
-  showBranches?: boolean; // ✅ Add this property
+  showBranches?: boolean; 
 }
 
 @Component({
@@ -39,13 +39,13 @@ export class Superadmin {
       name: 'MIT College of Engineering',
       code: 'MIT',
       branches: ['MIT College of Engineering', 'MIT College of Arts', 'MIT College of Medical'],
-      showBranches: false, // ✅ Initialize
+      showBranches: false, 
     },
     {
       name: 'State University System',
       code: 'STATE',
       branches: ['Engineering', 'Arts', 'Medical'],
-      showBranches: false, // ✅ Initialize
+      showBranches: false, 
     },
   ];
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AdminSidebar } from '../components/admin/admin-sidebar/admin-sidebar';
+import { AdminSidebar } from '../../../components/admin/admin-sidebar/admin-sidebar'; 
 
 @Component({
   selector: 'app-admin-layout',
@@ -9,5 +9,8 @@ import { AdminSidebar } from '../components/admin/admin-sidebar/admin-sidebar';
   styleUrl: './admin-layout.css'
 })
 export class AdminLayout {
+isCollapsed = false;
 
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;}
 }

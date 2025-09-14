@@ -1,0 +1,93 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 font-sans">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold flex items-center justify-center gap-3 text-gray-900">
+      <i class="bi bi-stars text-indigo-600"></i>
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-pink-500 to-orange-500 animate-gradient">
+        Career Assistance Program
+      </span>
+      <i class="bi bi-award-fill text-pink-500"></i>
+    </h1>
+    <p class="text-gray-600 mt-3 text-base sm:text-lg max-w-2xl mx-auto">
+      Track your growth, challenge yourself, and celebrate wins
+    </p>
+  </div>
+
+  <!-- Overview Stats -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-12">
+    <div class="bg-blue-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-layers text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">{{ stats.phases }}</h4>
+      <p class="opacity-90 text-sm sm:text-base">Total Phases</p>
+    </div>
+    <div class="bg-emerald-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-book text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">{{ stats.questions }}</h4>
+      <p class="opacity-90 text-sm sm:text-base">Total Questions</p>
+    </div>
+    <div class="bg-orange-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-clock text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">{{ stats.minutes }}</h4>
+      <p class="opacity-90 text-sm sm:text-base">Minutes Total</p>
+    </div>
+    <div class="bg-pink-500 shadow-md sm:shadow-lg rounded-2xl p-4 sm:p-6 text-white text-center hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+      <i class="bi bi-graph-up-arrow text-2xl sm:text-4xl"></i>
+      <h4 class="text-2xl sm:text-3xl font-extrabold mt-1 sm:mt-2">{{ stats.average }}%</h4>
+      <p class="opacity-90 text-sm sm:text-base">Avg Score</p>
+    </div>
+  </div>
+
+  <!-- Recent Activities -->
+  <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition-all duration-300 mt-6">
+    <h2 class="text-lg font-bold mb-4 text-gray-700 flex items-center gap-2">
+      <i class="bi bi-clock-history text-pink-500"></i>
+      Recent Activities
+    </h2>
+    <ul class="space-y-4 text-sm text-gray-600">
+      <li *ngFor="let result of recentResults" class="flex items-center gap-2">
+        <i class="bi" [ngClass]="getStatusIcon(result.status)"></i>
+        {{ result.test }} - Score: {{ result.score }} ({{ result.date }})
+      </li>
+    </ul>
+  </div>
+
+  <!-- Milestones & Upcoming -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <!-- Milestones -->
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition-all duration-300">
+      <h2 class="text-lg font-bold mb-4 text-gray-700 flex items-center gap-2">
+        <i class="bi bi-flag text-orange-500"></i>
+        Milestones
+      </h2>
+      <div class="space-y-4">
+        <div *ngFor="let phase of ['Phase 1: Psychometric','Phase 2: Aptitude','Phase 3: Technical']; let i = index">
+          <p class="text-sm font-medium text-gray-700">{{ phase }}</p>
+          <div class="w-full bg-gray-200 h-2 rounded-full mt-1">
+            <div class="h-2 rounded-full"
+                 [ngClass]="['bg-indigo-500','bg-emerald-500','bg-pink-500'][i]"
+                 [style.width]="[100,60,20][i] + '%'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Schedule -->
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition-all duration-300">
+      <h2 class="text-lg font-bold mb-4 text-gray-700 flex items-center gap-2">
+        <i class="bi bi-calendar-event text-indigo-500"></i>
+        Upcoming Schedule
+      </h2>
+      <ul class="space-y-3 text-sm text-gray-600">
+        <li class="flex items-center justify-between">
+          <span><i class="bi bi-journal-bookmark text-indigo-500"></i> Aptitude Test</span>
+          <span class="text-gray-500">Sep 18, 10:00 AM</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span><i class="bi bi-terminal text-pink-500"></i> Technical Test</span>
+          <span class="text-gray-500">Sep 20, 02:00 PM</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

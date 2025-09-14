@@ -1,0 +1,268 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-gray-900 text-white border-b shadow py-2 sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <div class="flex items-center gap-2">
+        <button 
+          class="text-sm px-3 py-1 border border-white rounded hover:bg-white hover:text-gray-900 transition"
+          (click)="onBack.emit()">
+          ← Back to Dashboard
+        </button>
+        <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-600">{{ test.name }}</span>
+        <span *ngIf="getViolationSeverity() === 'medium'" class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500 text-white">
+          {{ violations.length }} Warnings
+        </span>
+        <span *ngIf="getViolationSeverity() === 'high'" class="px-2 py-1 text-xs font-medium rounded-full bg-red-600 text-white">
+          {{ violations.length }} Violations - Risk
+        </span>
+      </div>
+
+      <div class="flex items-center gap-4 text-sm">
+        <!-- Camera -->
+        <div class="flex items-center gap-2">
+          <i class="bi bi-camera-video" [ngClass]="{'text-green-500': cameraActive, 'text-red-500': !cameraActive}"></i>
+          <span>{{ cameraActive ? 'Monitoring' : 'Camera Off' }}</span>
+        </div>
+        <!-- Fullscreen -->
+        <div class="flex items-center gap-2">
+          <i class="bi bi-arrows-fullscreen" [ngClass]="{'text-green-500': isFullScreen, 'text-yellow-400': !isFullScreen}"></i>
+          <span>{{ isFullScreen ? 'Secured' : 'Exit FS' }}</span>
+        </div>
+        <!-- Tab Switch -->
+        <div *ngIf="tabSwitchCount > 0" class="flex items-center gap-2 text-yellow-500">
+          <i class="bi bi-exclamation-triangle"></i>
+          <span>Switches: {{ tabSwitchCount }}</span>
+        </div>
+        <!-- Timer -->
+        <div class="bg-gray-100 text-gray-900 px-3 py-1 rounded flex items-center gap-2">
+          <i class="bi bi-clock text-yellow-500"></i>
+          <strong>{{ formatTime(timeRemaining) }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto my-6 px-4 space-y-6">
+    <!-- Camera Feed + Security Status -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Camera -->
+      <div class="col-span-1 bg-white shadow rounded-lg overflow-hidden">
+        <div class="bg-blue-600 text-white px-4 py-2 flex justify-between items-center">
+          <h6 class="font-medium flex items-center gap-2"><i class="bi bi-camera-video"></i> Live Monitoring</h6>
+          <span *ngIf="cameraActive" class="px-2 py-1 text-xs rounded bg-white text-gray-900">● Active</span>
+        </div>
+        <div class="p-2 text-center">
+          <video #proctorVideo *ngIf="cameraActive" id="proctorVideo" width="100%" height="200" 
+            autoplay muted playsinline class="rounded shadow"></video>
+          <div *ngIf="!cameraActive" class="text-gray-500 p-6">
+            <i class="bi bi-camera-video-off text-4xl"></i>
+            <p class="mt-2">Camera Not Active</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Status -->
+      <div class="col-span-2 bg-white shadow rounded-lg">
+        <div class="bg-cyan-600 text-white px-4 py-2">
+          <h6 class="font-medium flex items-center gap-2"><i class="bi bi-shield-check"></i> Security Status</h6>
+        </div>
+        <div class="p-4 grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <div class="flex justify-between mb-2">
+              <span>Tab Switches:</span>
+              <span class="px-2 py-1 rounded text-white"
+                [ngClass]="tabSwitchCount > 2 ? 'bg-red-600' : tabSwitchCount > 0 ? 'bg-yellow-500' : 'bg-green-500'">
+                {{ tabSwitchCount }}
+              </span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Window Blurs:</span>
+              <span class="px-2 py-1 rounded text-white"
+                [ngClass]="windowBlurCount > 2 ? 'bg-red-600' : windowBlurCount > 0 ? 'bg-yellow-500' : 'bg-green-500'">
+                {{ windowBlurCount }}
+              </span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Total Violations:</span>
+              <span class="px-2 py-1 rounded text-white"
+                [ngClass]="violations.length > 5 ? 'bg-red-600' : violations.length > 2 ? 'bg-yellow-500' : 'bg-green-500'">
+                {{ violations.length }}
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-2">
+              <span>Fullscreen:</span>
+              <span class="px-2 py-1 rounded text-white" [ngClass]="isFullScreen ? 'bg-green-500' : 'bg-yellow-500'">
+                {{ isFullScreen ? 'Active' : 'Inactive' }}
+              </span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Face Detection:</span>
+              <span class="px-2 py-1 rounded bg-blue-500 text-white">
+                {{ (Date.now() - lastFaceDetectionTime) < 5000 ? 'Active' : 'Lost' }}
+              </span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Risk Level:</span>
+              <span class="px-2 py-1 rounded text-white"
+                [ngClass]="getViolationSeverity() === 'high' ? 'bg-red-600' : getViolationSeverity() === 'medium' ? 'bg-yellow-500' : 'bg-green-500'">
+                {{ getViolationSeverity().toUpperCase() }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Warnings -->
+    <div *ngIf="warnings.length > 0" class="flex p-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50">
+      <i class="bi bi-exclamation-triangle-fill mr-3 mt-1"></i>
+      <div>
+        <h6 class="font-semibold mb-1">Active Warnings</h6>
+        <ul class="list-disc ml-5">
+          <li *ngFor="let warning of warnings">{{ warning }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- High Risk Alert -->
+    <div *ngIf="getViolationSeverity() === 'high'" class="flex p-4 text-red-800 border border-red-300 rounded-lg bg-red-50">
+      <i class="bi bi-exclamation-octagon-fill mr-3 text-xl"></i>
+      <div>
+        <h6 class="font-semibold">High Risk Activity Detected</h6>
+        <p>Multiple violations detected. Continue carefully or test may be auto-submitted.</p>
+      </div>
+    </div>
+
+    <!-- Question Progress -->
+    <div>
+      <div class="flex justify-between mb-2 text-sm">
+        <span>Question {{ currentQuestion + 1 }} of {{ test.questions.length }}</span>
+        <span class="text-gray-500">{{ ((currentQuestion + 1) / test.questions.length * 100).toFixed(0) }}% Complete</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+          [style.width.%]="((currentQuestion + 1) / test.questions.length) * 100">
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="bg-white shadow border border-blue-500 rounded-lg">
+      <div class="bg-gray-50 border-b border-blue-500 px-4 py-2 text-blue-600 font-semibold">
+        <i class="bi bi-question-circle mr-2"></i>
+        {{ test.questions[currentQuestion].question }}
+      </div>
+      <div class="p-4 space-y-3">
+        <div *ngFor="let option of test.questions[currentQuestion].options; let i = index"
+          (click)="selectAnswer(option, test.questions[currentQuestion].id)"
+          class="flex items-center p-3 border rounded cursor-pointer transition hover:bg-gray-100"
+          [ngClass]="{'border-blue-500 bg-blue-50': answers[test.questions[currentQuestion].id] === option}">
+          <input type="radio"
+            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+            [id]="'option' + i"
+            [name]="'q' + test.questions[currentQuestion].id"
+            [value]="option"
+            [checked]="answers[test.questions[currentQuestion].id] === option">
+          <label [for]="'option' + i" class="ml-3 cursor-pointer">
+            <span class="font-medium mr-2">{{ String.fromCharCode(65 + i) }}.</span>
+            {{ option }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between items-center">
+      <button class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+        (click)="prevQuestion()" [disabled]="currentQuestion === 0">
+        ← Previous
+      </button>
+
+      <!-- Number Buttons -->
+      <div class="flex gap-1 flex-wrap justify-center">
+        <button *ngFor="let q of test.questions; let i = index"
+          class="px-3 py-1 text-sm rounded border font-semibold"
+          [ngClass]="{
+            'bg-blue-600 text-white': i === currentQuestion,
+            'bg-green-500 text-white': answers[q.id] && i !== currentQuestion,
+            'bg-gray-100 text-gray-600': !answers[q.id] && i !== currentQuestion
+          }"
+          (click)="currentQuestion = i">
+          {{ i + 1 }}
+        </button>
+      </div>
+
+      <div>
+        <button *ngIf="currentQuestion === test.questions.length - 1"
+          class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          (click)="handleSubmit()">
+          Submit Test →
+        </button>
+        <button *ngIf="currentQuestion < test.questions.length - 1"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          (click)="nextQuestion()">
+          Next →
+        </button>
+      </div>
+    </div>
+
+    <!-- Violations Log -->
+    <div *ngIf="violations.length > 0" class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="bg-yellow-400 text-gray-900 px-4 py-2 flex justify-between">
+        <h6 class="font-medium flex items-center gap-2"><i class="bi bi-list-ul"></i> Security Log (Recent)</h6>
+        <span class="px-2 py-1 text-xs rounded bg-gray-900 text-white">{{ violations.length }} Total</span>
+      </div>
+      <div class="overflow-y-auto max-h-52">
+        <table class="min-w-full text-sm text-gray-700">
+          <thead class="bg-gray-100 sticky top-0">
+            <tr>
+              <th class="px-3 py-2 text-left">Time</th>
+              <th class="px-3 py-2 text-left">Type</th>
+              <th class="px-3 py-2 text-left">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let violation of violations.slice(-10).reverse()"
+              [ngClass]="{
+                'bg-red-100': violation.type === 'suspicious_activity',
+                'bg-yellow-100': violation.type === 'tab_switch' || violation.type === 'window_blur',
+                'bg-blue-100': violation.type === 'multiple_faces' || violation.type === 'no_face'
+              }">
+              <td class="px-3 py-1">{{ violation.timestamp | date:'HH:mm:ss' }}</td>
+              <td class="px-3 py-1">
+                <span class="px-2 py-1 text-xs rounded bg-gray-300">{{ violation.type.replace('_', ' ') | titlecase }}</span>
+              </td>
+              <td class="px-3 py-1">{{ violation.details }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flowbite Modal -->
+  <div id="emergencyModal" tabindex="-1" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black/50">
+    <div class="relative w-full max-w-md">
+      <div class="relative bg-white rounded-lg shadow border border-red-600">
+        <div class="flex items-center justify-between p-4 border-b rounded-t bg-red-600 text-white">
+          <h5 class="text-lg font-semibold flex items-center gap-2"><i class="bi bi-exclamation-octagon"></i> Security Alert</h5>
+        </div>
+        <div class="p-6 text-center">
+          <i class="bi bi-shield-x text-red-600 text-6xl mb-4"></i>
+          <h5 class="text-xl font-semibold mb-2">Excessive Violations Detected</h5>
+          <p class="mb-4 text-gray-600">Multiple security violations have been recorded. Your test will be automatically submitted for review.</p>
+          <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded">
+            <small>This action cannot be undone. Your current progress will be saved.</small>
+          </div>
+        </div>
+        <div class="flex justify-center p-4 border-t">
+          <button type="button" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="handleSubmit()">
+            Submit Test Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

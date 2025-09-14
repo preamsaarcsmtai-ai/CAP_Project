@@ -39,35 +39,86 @@ export class TestInterface implements OnInit, OnDestroy {
   readonly Date = Date;
   readonly String = String;
 
-  testData: Record<string, Test> = {
-    psychometric: {
-      name: "Psychometric Assessment",
-      questions: [
-        { id: 1, question: "You prefer to work in teams rather than alone.", type: "likert",
-          options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
-        { id: 2, question: "When facing a problem, you usually:", type: "multiple",
-          options: ["Think it through carefully", "Ask for help immediately", "Try different solutions", "Look for similar examples"] }
-      ]
-    },
-    aptitude: {
-      name: "Aptitude Test",
-      questions: [
-        { id: 1, question: "If 5 machines can produce 5 widgets in 5 minutes, how many machines are needed to produce 100 widgets in 100 minutes?", type: "multiple",
-          options: ["5", "20", "25", "100"] },
-        { id: 2, question: "What comes next in the sequence: 2, 6, 18, 54, ?", type: "multiple",
-          options: ["108", "162", "216", "270"] }
-      ]
-    },
-    technical: {
-      name: "Technical MCQ",
-      questions: [
-        { id: 1, question: "Which of the following is NOT a fundamental concept in OOP?", type: "multiple",
-          options: ["Encapsulation", "Inheritance", "Polymorphism", "Compilation"] },
-        { id: 2, question: "What is the time complexity of binary search?", type: "multiple",
-          options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"] }
-      ]
-    }
-  };
+ testData: Record<string, Test> = {
+  psychometric: {
+    name: "Psychometric Assessment",
+    questions: [
+      { id: 1, question: "You prefer to work in teams rather than alone.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 2, question: "You remain calm under pressure.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 3, question: "You enjoy taking leadership roles in group projects.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 4, question: "You adapt quickly to new situations.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 5, question: "You are detail-oriented and thorough in your work.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 6, question: "You enjoy taking initiative without being asked.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 7, question: "You prefer structured tasks over open-ended ones.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 8, question: "You handle conflicts constructively and professionally.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 9, question: "You are motivated by achieving long-term goals.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+      { id: 10, question: "You are comfortable making decisions independently.", type: "likert",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] }
+    ]
+  },
+
+  aptitude: {
+    name: "Aptitude Test",
+    questions: [
+      { id: 1, question: "If 5 machines can produce 5 widgets in 5 minutes, how many machines are needed to produce 100 widgets in 100 minutes?", type: "multiple",
+        options: ["5", "20", "25", "100"] },
+      { id: 2, question: "What comes next in the sequence: 2, 6, 18, 54, ?", type: "multiple",
+        options: ["108", "162", "216", "270"] },
+      { id: 3, question: "A train 150m long passes a pole in 15 seconds. What is its speed?", type: "multiple",
+        options: ["10 km/h", "36 km/h", "54 km/h", "60 km/h"] },
+      { id: 4, question: "The average of first 10 natural numbers is:", type: "multiple",
+        options: ["4.5", "5.0", "5.5", "6.0"] },
+      { id: 5, question: "If a:b = 2:3 and b:c = 4:5, then a:c equals:", type: "multiple",
+        options: ["8:15", "2:5", "3:5", "4:15"] },
+      { id: 6, question: "The sum of angles in a pentagon is:", type: "multiple",
+        options: ["360°", "450°", "540°", "720°"] },
+      { id: 7, question: "If the cost price is 80 and selling price is 100, the profit % is:", type: "multiple",
+        options: ["15%", "20%", "25%", "30%"] },
+      { id: 8, question: "Find the odd one out: 16, 25, 36, 72, 49", type: "multiple",
+        options: ["16", "25", "36", "72", "49"] },
+      { id: 9, question: "Which number is divisible by 11?", type: "multiple",
+        options: ["1331", "1452", "2022", "3086"] },
+      { id: 10, question: "Simplify: (256)^0.5 × (16)^0.5", type: "multiple",
+        options: ["64", "32", "16", "128"] }
+    ]
+  },
+
+  technical: {
+    name: "Technical MCQ",
+    questions: [
+      { id: 1, question: "Which of the following is NOT a fundamental concept in OOP?", type: "multiple",
+        options: ["Encapsulation", "Inheritance", "Polymorphism", "Compilation"] },
+      { id: 2, question: "What is the time complexity of binary search?", type: "multiple",
+        options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"] },
+      { id: 3, question: "Which data structure uses FIFO principle?", type: "multiple",
+        options: ["Stack", "Queue", "Tree", "Graph"] },
+      { id: 4, question: "In SQL, which command is used to remove a table?", type: "multiple",
+        options: ["DELETE", "DROP", "REMOVE", "TRUNCATE"] },
+      { id: 5, question: "Which keyword in Java is used to inherit a class?", type: "multiple",
+        options: ["super", "extends", "this", "implements"] },
+      { id: 6, question: "Which HTTP method is idempotent?", type: "multiple",
+        options: ["GET", "POST", "PATCH", "CONNECT"] },
+      { id: 7, question: "Which of the following is a NoSQL database?", type: "multiple",
+        options: ["MySQL", "MongoDB", "PostgreSQL", "Oracle"] },
+      { id: 8, question: "Which sorting algorithm has O(n^2) complexity in worst case?", type: "multiple",
+        options: ["Merge Sort", "Quick Sort", "Heap Sort", "Bubble Sort"] },
+      { id: 9, question: "What is the default port of HTTP?", type: "multiple",
+        options: ["21", "22", "80", "443"] },
+      { id: 10, question: "Which language is primarily used for styling web pages?", type: "multiple",
+        options: ["HTML", "CSS", "JavaScript", "Python"] }
+    ]
+  }
+};
+
 
   currentQuestion = 0;
   answers: Record<number, string> = {};

@@ -34,11 +34,11 @@ export class Sidebar implements OnInit, OnDestroy {
   private userSub?: Subscription;
 
   mainNavItems: NavItem[] = [
-    { title: 'Dashboard', url: '/', icon: 'bi-house' },
-    { title: 'Assessments', url: '/assessments', icon: 'bi-journal-bookmark' },
-    { title: 'Results', url: '/results', icon: 'bi-trophy' },
-    { title: 'Analytics', url: '/analytics', icon: 'bi-bar-chart' },
-    { title: 'Schedule', url: '/schedule', icon: 'bi-calendar' },
+    { title: 'Dashboard', url: '/students', icon: 'bi-house' },
+    { title: 'Assessments', url: 'assessments', icon: 'bi-journal-bookmark' },
+    { title: 'Results', url: 'results', icon: 'bi-trophy' },
+    // { title: 'Analytics', url: '/analytics', icon: 'bi-bar-chart' },
+    // { title: 'Schedule', url: '/schedule', icon: 'bi-calendar' },
   ];
 
   constructor(

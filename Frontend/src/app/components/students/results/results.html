@@ -1,0 +1,73 @@
+<div class="max-w-7xl mx-auto px-4 py-10">
+  <!-- Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-extrabold flex items-center justify-center gap-2">
+      <i class="bi bi-trophy text-yellow-500"></i> Test Results
+    </h1>
+    <p class="text-gray-500 mt-2">
+      Your performance analysis for {{ getTestDetail()?.name }}
+    </p>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-6">
+    <!-- Score Card -->
+    <div class="lg:col-span-2 bg-white shadow-lg rounded-xl p-6 text-center">
+      <h4 class="text-lg font-semibold">{{ getTestDetail()?.name }}</h4>
+      <div class="text-5xl font-bold text-blue-600 my-3">
+        {{ score }}%
+      </div>
+      <div class="w-full bg-gray-200 h-4 rounded-full overflow-hidden my-3">
+        <div class="h-4 bg-green-500" [style.width.%]="score"></div>
+      </div>
+      <p class="text-sm">
+        <span [ngClass]="score >= getTestDetail()?.passingScore ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'">
+          {{ score >= getTestDetail()?.passingScore ? 'Passed' : 'Failed' }}
+        </span>
+        (Required: {{ getTestDetail()?.passingScore }}%)
+      </p>
+    </div>
+
+    <!-- Performance Analysis -->
+    <div class="space-y-6">
+      <div class="bg-white shadow rounded-xl">
+        <div class="px-4 py-2 bg-green-100 text-green-700 font-semibold rounded-t-xl flex items-center gap-2">
+          <i class="bi bi-check-circle"></i> Strengths
+        </div>
+        <div class="p-4">
+          <ul class="list-disc list-inside text-gray-600 space-y-1">
+            <li>Logical reasoning</li>
+            <li>Problem-solving</li>
+            <li>Time management</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-white shadow rounded-xl">
+        <div class="px-4 py-2 bg-yellow-100 text-yellow-700 font-semibold rounded-t-xl flex items-center gap-2">
+          <i class="bi bi-graph-up"></i> Areas to Improve
+        </div>
+        <div class="p-4">
+          <ul class="list-disc list-inside text-gray-600 space-y-1">
+            <li>Pattern recognition</li>
+            <li>Speed of calculation</li>
+            <li>Attention to detail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex flex-wrap justify-center mt-6 gap-3">
+    <button class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Return to Dashboard</button>
+    <button class="border border-green-500 text-green-500 px-5 py-2 rounded-lg hover:bg-green-50 flex items-center gap-2 transition">
+      <i class="bi bi-download"></i> Download Certificate
+    </button>
+    <button class="border border-blue-400 text-blue-400 px-5 py-2 rounded-lg hover:bg-blue-50 flex items-center gap-2 transition">
+      <i class="bi bi-share"></i> Share Results
+    </button>
+    <button class="border border-yellow-400 text-yellow-500 px-5 py-2 rounded-lg hover:bg-yellow-50 flex items-center gap-2 transition">
+      <i class="bi bi-arrow-repeat"></i> Retake Test
+    </button>
+  </div>
+</div>

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface TestPhase {
   id: string;
@@ -13,38 +14,18 @@ interface TestPhase {
   status: 'not_started' | 'in_progress' | 'completed';
   difficulty: string;
 }
-
-interface RecentResult {
-  test: string;
-  score: number;
-  date: string;
-  status: string;
-}
-
 @Component({
-  selector: 'app-student-dashboard',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './students.html',
-  styleUrls: ['./students.css']
+  selector: 'app-assesments',
+  imports: [FormsModule,CommonModule],
+  templateUrl: './assesments.html',
+  styleUrl: './assesments.css'
 })
-export class Students {
-  selectedPhase: string | null = null;
+export class Assesments {
+
+   selectedPhase: string | null = null;
 
   constructor(private router: Router) { }
-
-  stats = {
-    phases: 3,
-    questions: 120,
-    minutes: 135,
-    average: 85
-  };
-
-  getPageTitle(): string {
-    return 'Career Assistance Program';
-  }
-
-  testPhases: TestPhase[] = [
+testPhases: TestPhase[] = [
     {
       id: "psychometric",
       name: "Psychometric Assessment",
@@ -80,11 +61,7 @@ export class Students {
     }
   ];
 
-  recentResults: RecentResult[] = [
-    { test: "Practice Aptitude", score: 85, date: "2 days ago", status: "completed" },
-    { test: "Mock Technical", score: 92, date: "1 week ago", status: "completed" },
-    { test: "Psychometric Preview", score: 78, date: "2 weeks ago", status: "completed" }
-  ];
+  
 
   getStatusIcon(status: string) {
     switch (status) {
@@ -115,6 +92,6 @@ export class Students {
   }
 
   onStartTest(testId: string) {
-    this.router.navigate(['/students/test', testId]);
+    this.router.navigate(['/test', testId]);
   }
 }
