@@ -1,9 +1,9 @@
 <div
-  class="flex flex-col bg-white border-r shadow-md h-screen overflow-hidden transition-all duration-300"
+  class="flex flex-col bg-white  shadow-md h-screen overflow-hidden transition-all duration-300"
   [ngClass]="{ 'w-16': isCollapsed(), 'w-64': !isCollapsed() }"
 >
   <!-- Header -->
-  <div class="flex items-center justify-between px-3 py-2 border-b flex-shrink-0">
+  <div class="flex items-center justify-between px-3 py-2  flex-shrink-0">
     <!-- Logo only when expanded -->
     <div *ngIf="!isCollapsed()">
       <a [routerLink]="'/admin/dashboard'" routerLinkActive="active">
@@ -27,7 +27,7 @@
       [routerLink]="item.path"
       routerLinkActive="bg-indigo-600 text-white"
       (click)="changePage(item.id)"
-      class="flex items-center w-full px-3 py-2 rounded-md hover:bg-gray-100 transition-colors"
+      class="flex items-center w-full px-3 py-2 rounded-md hover:bg-gray-500 transition-colors"
       [ngClass]="{ 'justify-center': isCollapsed() }"
     >
       <i class="bi text-lg" [ngClass]="item.icon"></i>
@@ -36,7 +36,7 @@
   </nav>
 
   <!-- Footer -->
-  <div class="px-2 py-3 border-t flex-shrink-0">
+  <div class="px-2 py-3 flex-shrink-0">
     <button
       class="flex items-center w-full px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
       (click)="doLogout()"

@@ -34,73 +34,80 @@
   </div>
 
   <!-- Users table -->
-  <div class="mt-4 overflow-x-auto">
-    <table class="w-full border border-gray-200 text-sm text-left">
-      <thead class="bg-gray-100 text-gray-700">
-        <tr>
-          <th class="px-4 py-2 border">#</th>
-          <th class="px-4 py-2 border">Username</th>
-          <th class="px-4 py-2 border">Role</th>
-          <th class="px-4 py-2 border">Institution</th>
-          <th class="px-4 py-2 border">Status</th>
-          <th class="px-4 py-2 border">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let user of users; let i = index"
-          class="hover:bg-gray-50"
-        >
-          <td class="px-4 py-2 border">{{ i + 1 }}</td>
-          <td class="px-4 py-2 border">{{ user.name }}</td>
-          <td class="px-4 py-2 border">{{ user.role }}</td>
-          <td class="px-4 py-2 border">{{ user.institution }}</td>
-          <td class="px-4 py-2 border">
-            <span
-              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
-              [ngClass]="{
-                'bg-green-100 text-green-700': user.status === 'active',
-                'bg-yellow-100 text-yellow-700': user.status === 'pending',
-                'bg-red-100 text-red-700': user.status === 'suspended'
-              }"
-            >
-              <i
-                class="mr-1"
+<div class="mt-10 overflow-x-auto">
+  <div class="inline-block min-w-full align-middle">
+    <div class="overflow-hidden shadow-md ">
+      <table class="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700">
+        <!-- Table Head -->
+        <thead class="bg-gray-500 text-xs font-semibold uppercase text-gray-100">
+          <tr>
+            <th scope="col" class="px-6 py-3">#</th>
+            <th scope="col" class="px-6 py-3">Username</th>
+            <th scope="col" class="px-6 py-3">Role</th>
+            <th scope="col" class="px-6 py-3">Institution</th>
+            <th scope="col" class="px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3 text-center">Actions</th>
+          </tr>
+        </thead>
+
+        <!-- Table Body -->
+        <tbody class="divide-y divide-gray-200 bg-white">
+          <tr
+            *ngFor="let user of users; let i = index"
+            class="hover:bg-gray-200 transition-colors"
+          >
+            <td class="px-6 py-3 font-medium text-gray-900">{{ i + 1 }}</td>
+            <td class="px-6 py-3">{{ user.name }}</td>
+            <td class="px-6 py-3">{{ user.role }}</td>
+            <td class="px-6 py-3">{{ user.institution }}</td>
+            <td class="px-6 py-3">
+              <span
+                class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium"
                 [ngClass]="{
-                  'bi bi-check2-circle': user.status === 'active',
-                  'bi bi-stopwatch': user.status === 'pending',
-                  'bi bi-x-octagon': user.status === 'suspended'
+                  'bg-green-100 text-green-700': user.status === 'active',
+                  'bg-yellow-100 text-yellow-700': user.status === 'pending',
+                  'bg-red-100 text-red-700': user.status === 'suspended'
                 }"
-              ></i>
-              {{ user.status | titlecase }}
-            </span>
-          </td>
-          <td class="px-4 py-2 border space-x-2">
-            <button
-              class="px-2 py-1 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 text-xs"
-              (click)="onView(user)"
-            >
-              <i class="bi bi-eye"></i>
-            </button>
-            <button
-              class="px-2 py-1 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-50 text-xs"
-            >
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button
-              class="px-2 py-1 border border-red-500 text-red-500 rounded hover:bg-red-50 text-xs"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              >
+                <i
+                  [ngClass]="{
+                    'bi bi-check2-circle': user.status === 'active',
+                    'bi bi-stopwatch': user.status === 'pending',
+                    'bi bi-x-octagon': user.status === 'suspended'
+                  }"
+                ></i>
+                {{ user.status | titlecase }}
+              </span>
+            </td>
+            <td class="px-6 py-3 text-center space-x-2">
+              <button
+                class="p-2 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-50 transition"
+                (click)="onView(user)"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+              <button
+                class="p-2 border border-yellow-500 text-yellow-500 rounded-full hover:bg-yellow-50 transition"
+              >
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button
+                class="p-2 border border-red-500 text-red-500 rounded-full hover:bg-red-50 transition"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>
+
 
   <!-- Modal -->
   <div
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    class="fixed inset-0  flex items-center justify-center z-50"
     *ngIf="viewAdmin"
   >
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
