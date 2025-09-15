@@ -44,7 +44,7 @@ export const admins = pgTable("admins", {
 // Staff
 export const staff = pgTable("staff", {
   id: serial("id").primaryKey(),
-  collegeId: integer("college_id").notNull().references(() => colleges.id).notNull(),
+  collegeId: varchar("college_id").notNull().references(() => colleges.id),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(), 
