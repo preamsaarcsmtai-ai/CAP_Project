@@ -1,0 +1,60 @@
+<div
+  class="flex flex-col bg-white  shadow-lg h-screen overflow-hidden transition-all duration-300"
+  [ngClass]="{ 'w-16': isCollapsed(), 'w-64': !isCollapsed() }"
+>
+  <!-- Header -->
+  <div class="flex items-center justify-between px-4 py-3  flex-shrink-0">
+    <!-- Logo -->
+    <div *ngIf="!isCollapsed()" class="flex items-center">
+      <a [routerLink]="'/dashboard'" routerLinkActive="active">
+        <img src="assets/logo.png" alt="Logo" class="h-12 w-auto" />
+      </a>
+    </div>
+
+    <!-- Collapse Button -->
+    <button
+      class="p-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors flex-shrink-0"
+      (click)="toggleCollapse()"
+    >
+      <i class="bi text-2xl" [ngClass]="isCollapsed() ? 'bi-list' : 'bi-x-lg'"></i>
+    </button>
+  </div>
+
+  <!-- Menu -->
+  <nav class="flex-1 overflow-y-auto px-2 py-4 space-y-2">
+    <button
+      *ngFor="let item of filteredMenuItems()"
+      [routerLink]="item.path"
+      routerLinkActive="bg-indigo-600 text-white"
+      (click)="changePage(item.id)"
+      class="flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+      [ngClass]="{
+        'justify-center': isCollapsed(),
+        'bg-indigo-600 text-white shadow-md': currentPage === item.id,
+        'text-gray-700 hover:bg-gray-100': currentPage !== item.id
+      }"
+    >
+      <!-- Icon -->
+      <i
+        class="bi text-lg"
+        [ngClass]="item.icon"
+      ></i>
+      <!-- Text -->
+      <span *ngIf="!isCollapsed()" class="ml-3 truncate">
+        {{ item.title }}
+      </span>
+    </button>
+  </nav>
+
+  <!-- Footer -->
+  <div class="px-3 py-4 border-t flex-shrink-0">
+    <button
+      class="flex items-center w-full px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200"
+      (click)="doLogout()"
+      [ngClass]="{ 'justify-center': isCollapsed() }"
+    >
+      <i class="bi bi-box-arrow-right text-lg"></i>
+      <span *ngIf="!isCollapsed()" class="ml-3 truncate">Logout</span>
+    </button>
+  </div>
+</div>
