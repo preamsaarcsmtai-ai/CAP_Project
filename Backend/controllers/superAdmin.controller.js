@@ -13,7 +13,7 @@ export class SuperAdminController {
     console.log("Payload:", request.payload); 
 
     const { name, email, password } = request.payload;
-    const result = await SuperAdminService.superAdminReg({ name, email, password });
+    const result = await SuperAdminService.superAdminReg( name, email, password );
     return h.response({ success: true, data: result }).code(201);
   } catch (error) {
     console.error(error);

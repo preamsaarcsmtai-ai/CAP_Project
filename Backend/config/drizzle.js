@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const client = new pg.Client({
-  host: "localhost",
+  host: process.env.DB_HOST,
   port: 5432,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD || "TestPass123!",
+  password: process.env.DB_PASSWORD || "smtaidb",
   database: process.env.DB_NAME,
 });
 

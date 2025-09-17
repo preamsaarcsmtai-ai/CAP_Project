@@ -4,8 +4,12 @@ export class StaffService{
 
 static async addStaff({name, email, designation, collegeId, password}){
     
-    const [newStaff] = await db.insert(staff).values({ name, email, designation, collegeId, password }).returning();
+    try {
+        const [newStaff] = await db.insert(staff).values({ name, email, designation, collegeId, password }).returning();
     return newStaff;
+    } catch (error) {
+        console.log(error);
+    }
 
    };
 

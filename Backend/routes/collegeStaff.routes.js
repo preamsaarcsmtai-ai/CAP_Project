@@ -1,4 +1,5 @@
 import { StaffController } from "../controllers/collegeStaff.controller.js";
+import { authGuard } from "../middleware/authGuard.js";
 
 export const staffRoutes = [
 {

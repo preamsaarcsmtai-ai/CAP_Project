@@ -60,26 +60,26 @@ export class SuperAdminService {
         .returning();
         return newAdmin;
 
-        const [adminDetails] = await 
-        db.select({
-            id: admins.id,
-            name: admins.name,
-            email: admins.email,
-            role: admins.role,
-            createdAt: admins.createdAt,
-            college:{
-                id: colleges.id,
-                name: colleges.name,
-                code: colleges.code
-            },
-            institutions:{
-                id: institutions.id,
-                name: institutions.name
-            }, 
-        }).from(admins)
-        .leftJoin(colleges, eq(admins.code, colleges.id))
-        .leftJoin(institutions, eq(institutions.id, colleges.institutionId))
-        .where(eq())
+        // const [adminDetails] = await 
+        // db.select({
+        //     id: admins.id,
+        //     name: admins.name,
+        //     email: admins.email,
+        //     role: admins.role,
+        //     createdAt: admins.createdAt,
+        //     college:{
+        //         id: colleges.id,
+        //         name: colleges.name,
+        //         code: colleges.code
+        //     },
+        //     institutions:{
+        //         id: institutions.id,
+        //         name: institutions.name
+        //     }, 
+        // }).from(admins)
+        // .leftJoin(colleges, eq(admins.code, colleges.id))
+        // .leftJoin(institutions, eq(institutions.id, colleges.institutionId))
+        // .where(eq())
     } 
 
     // Get All Colleges + Admins by Institution

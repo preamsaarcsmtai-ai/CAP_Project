@@ -5,7 +5,7 @@ export class StaffController {
   static async addStaff(request, h) {
     try {
       const collegeId = request.user.collegeId;
-      const staff = await StaffService.addStaff({ ...request.payload, collegeId });
+      const staff = await StaffService.addStaff({...request.payload, collegeId });
       return h.response(staff).code(200);
     } catch (error) {
       console.log(error.message);
