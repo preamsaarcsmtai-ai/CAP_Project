@@ -1,67 +1,72 @@
 <div class="admin-dashboard min-h-screen container mx-auto p-6 bg-gray-50">
-  <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+  <!-- Dashboard Heading -->
+  <h1 class="text-4xl font-extrabold mb-8 text-gray-800 border-b-4 border-indigo-500 pb-2">
+    Admin Dashboard
+  </h1>
 
   <!-- Stats Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
     <!-- Question Bank -->
-    <div class="bg-white rounded-xl shadow p-4">
+    <div class="bg-indigo-500 text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
       <div class="flex justify-between items-center">
-        <h6 class="text-gray-600 font-medium">Question Bank</h6>
-        <i class="bi bi-question-circle text-xl"></i>
+        <h6 class="font-semibold text-lg">Question Bank</h6>
+        <i class="bi bi-question-circle text-2xl"></i>
       </div>
-      <h5 class="mt-2 text-2xl font-semibold">5</h5>
+      <h5 class="mt-4 text-3xl font-bold">5</h5>
     </div>
 
     <!-- Total Users -->
-    <div class="bg-white rounded-xl shadow p-4">
+    <div class="bg-green-500 text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
       <div class="flex justify-between items-center">
-        <h6 class="text-gray-600 font-medium">Total Users</h6>
-        <i class="bi bi-people text-xl"></i>
+        <h6 class="font-semibold text-lg">Total Users</h6>
+        <i class="bi bi-people text-2xl"></i>
       </div>
-      <h5 class="mt-2 text-2xl font-semibold">3</h5>
+      <h5 class="mt-4 text-3xl font-bold">3</h5>
     </div>
 
     <!-- Test -->
-    <div class="bg-white rounded-xl shadow p-4">
+    <div class="bg-yellow-500 text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
       <div class="flex justify-between items-center">
-        <h6 class="text-gray-600 font-medium">Test</h6>
-        <i class="bi bi-activity text-xl"></i>
+        <h6 class="font-semibold text-lg">Test</h6>
+        <i class="bi bi-activity text-2xl"></i>
       </div>
-      <h5 class="mt-2 text-2xl font-semibold">3</h5>
+      <h5 class="mt-4 text-3xl font-bold">3</h5>
     </div>
 
     <!-- Analytics -->
-    <div class="bg-white rounded-xl shadow p-4">
+    <div class="bg-red-500 text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
       <div class="flex justify-between items-center">
-        <h6 class="text-gray-600 font-medium">Analytics</h6>
-        <i class="bi bi-graph-up-arrow text-xl"></i>
+        <h6 class="font-semibold text-lg">Analytics</h6>
+        <i class="bi bi-graph-up-arrow text-2xl"></i>
       </div>
-      <h5 class="mt-2 text-2xl font-semibold">3</h5>
+      <h5 class="mt-4 text-3xl font-bold">3</h5>
     </div>
   </div>
 
   <!-- System Management -->
-  <div class="mt-10 lg:w-2/3">
-    <div class="bg-white rounded-xl shadow p-6">
-      <h3 class="text-lg font-semibold mb-1">Admin Management</h3>
-      <p class="text-gray-500 text-sm mb-6">Administrative controls</p>
-      <div class="grid gap-3 py-6">
+  <div class="mt-12 lg:w-2/3">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+      <h3 class="text-2xl font-bold mb-2 text-gray-800 border-b-2 border-gray-300 pb-2">
+        Admin Management
+      </h3>
+      <p class="text-gray-500 text-sm mb-6">Administrative controls for your system</p>
+      <div class="grid gap-4 py-6 sm:grid-cols-3">
         <a
           [routerLink]="'/questionbank'"
           routerLinkActive="active"
-          class="border border-gray-400 text-gray-700 rounded-lg py-2 px-4 text-center hover:bg-gray-100 transition"
+          class="bg-indigo-500 text-white py-3 px-5 rounded-lg text-center font-semibold hover:bg-indigo-600 transition"
         >
           Question Bank
         </a>
         <a
           [routerLink]="'admin/users'"
           routerLinkActive="active"
-          class="border border-gray-400 text-gray-700 rounded-lg py-2 px-4 text-center hover:bg-gray-100 transition"
+          class="bg-green-500 text-white py-3 px-5 rounded-lg text-center font-semibold hover:bg-green-600 transition"
         >
           Manage Users
         </a>
         <button
-          class="border border-gray-400 text-gray-700 rounded-lg py-2 px-4 text-center hover:bg-gray-100 transition"
+          class="bg-yellow-500 text-white py-3 px-5 rounded-lg text-center font-semibold hover:bg-yellow-600 transition"
         >
           System Settings
         </button>
