@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Sidebar } from '../sidebar/sidebar';
-import { Header } from '../header/header';
+import { Sidebar } from '../../../components/students/sidebar/sidebar';
+import { Header } from '../../../components/students/header/header';
 import { RouterModule } from '@angular/router';
 
 @Component({
