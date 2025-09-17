@@ -1,60 +1,59 @@
 <div
-  class="flex flex-col bg-white  shadow-lg h-screen overflow-hidden transition-all duration-300"
-  [ngClass]="{ 'w-16': isCollapsed(), 'w-64': !isCollapsed() }"
+  class="flex flex-col bg-white border-r border-gray-200 h-screen transition-all duration-300 overflow-hidden"
+  [ngClass]="{ 'w-16': isCollapsed(), 'w-[260px]': !isCollapsed() }"
 >
   <!-- Header -->
-  <div class="flex items-center justify-between px-4 py-3  flex-shrink-0">
+  <div class="flex items-center justify-between px-3 py-3 border-b border-gray-200">
     <!-- Logo -->
-    <div *ngIf="!isCollapsed()" class="flex items-center">
+    <div *ngIf="!isCollapsed()">
       <a [routerLink]="'/dashboard'" routerLinkActive="active">
-        <img src="assets/logo.png" alt="Logo" class="h-12 w-auto" />
+        <img
+          src="assets/logo.png"
+          alt="Logo"
+          class="w-[150px] h-[50px] object-cover transition-transform duration-200 hover:scale-110"
+        />
       </a>
     </div>
 
     <!-- Collapse Button -->
     <button
-      class="p-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors flex-shrink-0"
+      class="p-2 rounded-lg border border-gray-300 hover:bg-indigo-100 transition-colors flex-shrink-0"
       (click)="toggleCollapse()"
     >
-      <i class="bi text-2xl" [ngClass]="isCollapsed() ? 'bi-list' : 'bi-x-lg'"></i>
+      <i class="bi text-xl text-gray-700" [ngClass]="isCollapsed() ? 'bi-list' : 'bi-x-lg'"></i>
     </button>
   </div>
 
   <!-- Menu -->
-  <nav class="flex-1 overflow-y-auto px-2 py-4 space-y-2">
+  <nav class="flex-1 px-3 py-4 flex flex-col space-y-2">
     <button
       *ngFor="let item of filteredMenuItems()"
       [routerLink]="item.path"
-      routerLinkActive="bg-indigo-600 text-white"
+      routerLinkActive="active"
       (click)="changePage(item.id)"
-      class="flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-[15px] font-semibold transition-all duration-200 group"
       [ngClass]="{
         'justify-center': isCollapsed(),
-        'bg-indigo-600 text-white shadow-md': currentPage === item.id,
-        'text-gray-700 hover:bg-gray-100': currentPage !== item.id
+        'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': currentPage === item.id,
+        'text-gray-600 hover:bg-indigo-50 hover:text-indigo-600': currentPage !== item.id
       }"
     >
       <!-- Icon -->
-      <i
-        class="bi text-lg"
-        [ngClass]="item.icon"
-      ></i>
-      <!-- Text -->
-      <span *ngIf="!isCollapsed()" class="ml-3 truncate">
-        {{ item.title }}
-      </span>
+      <i class="bi text-lg transition-colors" [ngClass]="item.icon"></i>
+      <!-- Label -->
+      <span *ngIf="!isCollapsed()" class="truncate">{{ item.title }}</span>
     </button>
   </nav>
 
   <!-- Footer -->
-  <div class="px-3 py-4 border-t flex-shrink-0">
+  <div class="border-t border-gray-200 px-3 py-4">
     <button
-      class="flex items-center w-full px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg font-semibold text-red-600 transition-all duration-200 hover:bg-red-100"
       (click)="doLogout()"
       [ngClass]="{ 'justify-center': isCollapsed() }"
     >
       <i class="bi bi-box-arrow-right text-lg"></i>
-      <span *ngIf="!isCollapsed()" class="ml-3 truncate">Logout</span>
+      <span *ngIf="!isCollapsed()" class="truncate">Logout</span>
     </button>
   </div>
 </div>
