@@ -5,6 +5,7 @@ import { collegeAdminRoutes } from "./routes/collegeAdmin.routes.js";
 import { authRoutes } from "./routes/authRoutes.js";
 import Jwt from '@hapi/jwt';
 import { staffRoutes } from "./routes/collegeStaff.routes.js";
+import { studentRoutes } from "./routes/students.routes.js";
 dotenv.config();
 
 const init = async () => {
@@ -54,7 +55,8 @@ server.auth.default("jwt");
   server.route(superAdminRoutes);
   server.route(collegeAdminRoutes);
   server.route(authRoutes);
-  server.route(staffRoutes)
+  server.route(staffRoutes);
+  server.route(studentRoutes);
 
   await server.start();
   console.log("Server running on %s", server.info.uri);
