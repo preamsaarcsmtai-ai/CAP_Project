@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -20,6 +20,7 @@ interface Institution {
 })
 export class Superadmin {
   showAddInstitutionModal = false; // initially hidden
+  showAddBranch = false;
   addInstitutionForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -92,5 +93,11 @@ export class Superadmin {
       console.log('invalid form');
       this.addInstitutionForm.markAllAsTouched();
     }
+  }
+  Addbranch(){
+    this.showAddBranch = true;
+  }
+  Closebranch(){
+    this.showAddBranch = false;
   }
 }
