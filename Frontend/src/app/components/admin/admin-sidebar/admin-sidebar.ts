@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-admin-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './admin-sidebar.html',
   styleUrls: ['./admin-sidebar.css']
 })
@@ -27,9 +27,10 @@ export class AdminSidebar {
 
   doLogout() {
     console.log('Logging out...');
+    // TODO: replace with actual logout logic
   }
 
-  filteredMenuItems() {
+  get filteredMenuItems() {
     return [
       { id: 'dashboard', title: 'Dashboard', icon: 'bi bi-house-door', path: '/admin/dashboard' },
       { id: 'questionbank', title: 'Question Bank', icon: 'bi bi-question-circle', path: '/admin/questionbank' },

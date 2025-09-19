@@ -639,7 +639,7 @@ export class TestInterface implements OnInit, OnDestroy {
 
     this.cleanup();
     this.onComplete.emit(results);
-    this.router.navigate([`/students/results`, this.testId], { state: { results } });
+    this.router.navigate(['students/results']);
   }
 
   // ================== CLEANUP ==================
