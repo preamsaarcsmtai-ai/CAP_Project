@@ -1,10 +1,14 @@
 <div
+
+  class="flex flex-col bg-white shadow-md h-screen overflow-hidden transition-all duration-300 border-r border-gray-200"
+
   class="flex flex-col bg-white border-r border-gray-200 h-screen transition-all duration-300 overflow-hidden"
+
   [ngClass]="{ 'w-16': isCollapsed(), 'w-64': !isCollapsed() }"
 >
   <!-- Header -->
-  <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-    <!-- Logo -->
+  <div class="flex items-center justify-between px-3 py-2 flex-shrink-0 border-b border-gray-200">
+    <!-- Logo (only when expanded) -->
     <div *ngIf="!isCollapsed()" class="flex items-center">
       <a [routerLink]="'/admin/dashboard'" routerLinkActive="active">
         <img
@@ -27,11 +31,15 @@
   <!-- Menu -->
   <nav class="flex-1 px-3 py-4 flex flex-col space-y-2">
     <button
-      *ngFor="let item of filteredMenuItems()"
+      *ngFor="let item of filteredMenuItems"
       [routerLink]="item.path"
       routerLinkActive="active"
       (click)="changePage(item.id)"
+
+      class="flex items-center gap-3 px-3 py-2 w-full rounded-md cursor-pointer font-medium transition-colors"
+
       class="flex items-center gap-3 px-4 py-2 rounded-md cursor-pointer transition-colors font-medium"
+
       [ngClass]="{
         'justify-center': isCollapsed(),
         'bg-indigo-600 text-white': currentPage === item.id,
@@ -44,9 +52,13 @@
   </nav>
 
   <!-- Footer -->
+
+  <div class="border-t border-gray-200 px-3 py-4 flex-shrink-0">
+
   <div class="border-t border-gray-200 px-3 py-4">
+
     <button
-      class="flex items-center gap-3 px-4 py-2 rounded-md cursor-pointer font-medium text-red-600 transition-colors hover:bg-red-50"
+      class="flex items-center gap-3 px-4 py-2 w-full rounded-md cursor-pointer font-medium text-red-600 transition-colors hover:bg-red-50"
       (click)="doLogout()"
       [ngClass]="{ 'justify-center': isCollapsed() }"
     >
