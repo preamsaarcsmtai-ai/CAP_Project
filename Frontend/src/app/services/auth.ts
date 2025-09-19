@@ -95,9 +95,9 @@ export class AuthService {
 
   private getUserName(studentId: string): string {
     const mockUsers: { [key: string]: string } = {
-      '202312345': 'John Student',
-      '202312346': 'Jane Doe',
-      '202312347': 'Mike Johnson'
+      '205': 'Naresh',
+      '206': 'jeeva',
+      '207': 'Pream'
     };
     return mockUsers[studentId] || 'Student User';
   }

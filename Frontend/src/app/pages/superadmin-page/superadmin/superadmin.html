@@ -3,6 +3,21 @@
   <h1 class="text-3xl font-bold mb-8 text-gray-900">Super Admin Dashboard</h1>
 
   <!-- Stats -->
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <!-- Total Institutions -->
+    <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+          Total Institutions
+        </h6>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 14l9-5-9-5-9 5 9 5z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+
   <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 mb-10">
     <!-- Total Institutions -->
     <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 flex flex-col justify-between">
@@ -10,6 +25,7 @@
         <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Institutions</h6>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+
         </svg>
       </div>
       <h5 class="mt-3 text-3xl font-bold text-gray-900">5</h5>
@@ -18,19 +34,30 @@
     <!-- Total Users -->
     <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 flex flex-col justify-between">
       <div class="flex items-center justify-between">
+
+        <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+          Total Users
+        </h6>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
         <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Users</h6>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M17 20h5v-1a4 4 0 00-3-3.87M9 20H4v-1a4 4 0 013-3.87M16 3.13a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       </div>
       <h5 class="mt-3 text-3xl font-bold text-gray-900">3</h5>
+
+
     </div>
 
     <!-- Placeholder card -->
     <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 flex flex-col justify-between">
       <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Other Stats</h6>
       <h5 class="mt-3 text-3xl font-bold text-gray-900">2</h5>
+
     </div>
   </div>
 
@@ -53,13 +80,16 @@
 
       <!-- Search -->
       <div class="flex gap-2 mb-6">
-        <input
-          type="search"
+        <input type="search"
           class="flex-1 rounded-lg border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          placeholder="Search institution..."
-        />
+          placeholder="Search institution..." />
         <button class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
           </svg>
@@ -73,22 +103,34 @@
           (click)="inst.showBranches = !inst.showBranches"
         >
           <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 7h18M3 12h18M3 17h18" />
             </svg>
             <div>
               <h6 class="text-sm font-semibold text-gray-900">{{ inst.name }}</h6>
               <p class="text-xs text-gray-500">{{ inst.code }}</p>
             </div>
           </div>
+
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 transform transition-transform"
+            [ngClass]="{'rotate-90': inst.showBranches}"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 5l7 7-7 7" />
+
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform"
             [ngClass]="{'rotate-90': inst.showBranches}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+
           </svg>
         </div>
         <div *ngIf="inst.showBranches" class="mt-2">
           <ul class="divide-y rounded-lg bg-white shadow-sm">
-            <li class="px-4 py-2 text-sm text-gray-700" *ngFor="let branch of inst.branches">{{ branch }}</li>
+            <li class="px-4 py-2 text-sm text-gray-700"
+              *ngFor="let branch of inst.branches">{{ branch }}</li>
           </ul>
         </div>
       </div>
@@ -111,6 +153,55 @@
       </div>
     </div>
   </div>
+
+</div>
+
+<!-- Add Institution Modal -->
+<div *ngIf="showAddInstitutionModal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative">
+    <!-- Close Button -->
+    <button (click)="closeAddInstitutionModal()"
+      class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
+      ✕
+    </button>
+
+    <h2 class="text-xl font-bold text-gray-900 mb-4">Add Institution</h2>
+
+    <form [formGroup]="addInstitutionForm" (ngSubmit)="addInstitution()" class="space-y-4">
+      <input formControlName="name" type="text" placeholder="Institution Name"
+        class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
+
+      <input formControlName="code" type="text" placeholder="Code"
+        class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
+
+      <textarea formControlName="address" rows="2" placeholder="Address"
+        class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400"></textarea>
+
+      <div class="grid grid-cols-2 gap-4">
+        <input formControlName="firstname" type="text" placeholder="First Name"
+          class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
+        <input formControlName="lastname" type="text" placeholder="Last Name"
+          class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
+      </div>
+
+      <input formControlName="email" type="email" placeholder="Email"
+        class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
+
+      <div class="flex justify-end gap-3 pt-4">
+        <button type="button" (click)="closeAddInstitutionModal()"
+          class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
+          Cancel
+        </button>
+        <button type="submit"
+          class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
   <!-- Add Institution Modal -->
   <div *ngIf="showAddInstitutionModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -148,3 +239,4 @@
     </div>
   </div>
 </div>
+

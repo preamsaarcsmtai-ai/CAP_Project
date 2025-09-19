@@ -39,6 +39,18 @@
   <div class="mt-6 overflow-x-auto">
     <div class="inline-block min-w-full align-middle">
       <div class="overflow-hidden shadow-md rounded-xl">
+
+        <table class="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700">
+          <!-- Table Head -->
+          <thead class="bg-gray-100 text-xs font-semibold uppercase text-gray-600">
+            <tr>
+              <th class="px-6 py-3">#</th>
+              <th class="px-6 py-3">Username</th>
+              <th class="px-6 py-3">Role</th>
+              <th class="px-6 py-3">Institution</th>
+              <th class="px-6 py-3">Status</th>
+              <th class="px-6 py-3 text-center">Actions</th>
+
         <table
           class="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700"
         >
@@ -53,6 +65,7 @@
               <th scope="col" class="px-6 py-3">Institution</th>
               <th scope="col" class="px-6 py-3">Status</th>
               <th scope="col" class="px-6 py-3 text-center">Actions</th>
+
             </tr>
           </thead>
 
@@ -62,7 +75,13 @@
               *ngFor="let user of users; let i = index"
               class="hover:bg-gray-50 transition-colors"
             >
+
+              <td class="px-6 py-3 font-medium text-gray-900">
+                {{ i + 1 }}
+              </td>
+
               <td class="px-6 py-3 font-medium text-gray-900">{{ i + 1 }}</td>
+
               <td class="px-6 py-3">{{ user.name }}</td>
               <td class="px-6 py-3">{{ user.role }}</td>
               <td class="px-6 py-3">{{ user.institution }}</td>
@@ -112,12 +131,14 @@
 
   <!-- Modal -->
   <div
+
+    class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+
     *ngIf="viewAdmin"
   >
-    <div
-      class="bg-white rounded-xl shadow-xl w-full max-w-md transform transition-all"
-    >
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md transform transition-all">
       <!-- Header -->
       <div class="flex justify-between items-center px-4 py-3 border-b">
         <h5 class="text-lg font-semibold text-gray-900">View Admin Details</h5>

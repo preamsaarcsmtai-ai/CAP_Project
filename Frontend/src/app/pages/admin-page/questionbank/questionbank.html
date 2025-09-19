@@ -41,6 +41,12 @@
 
   <!-- Questions Table -->
   <div class="bg-white shadow-md rounded-2xl p-5">
+
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Questions</h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
+
     <div class="flex mb-4">
       <h2 class="text-lg font-semibold text-gray-900">Questions</h2>
     </div>
@@ -48,6 +54,7 @@
     <div class="overflow-x-auto">
       <table class="min-w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
         <!-- Table Head -->
+
         <thead class="bg-gray-100 text-xs font-semibold uppercase text-gray-600 sticky top-0">
           <tr>
             <th class="px-6 py-3">Question</th>
@@ -58,6 +65,38 @@
             <th class="px-6 py-3 text-center">Actions</th>
           </tr>
         </thead>
+
+
+        <tbody class="divide-y divide-gray-200 bg-white">
+          <tr *ngFor="let q of questions" class="hover:bg-indigo-50 transition-colors">
+            <!-- Question -->
+            <td class="px-6 py-3 font-medium text-gray-900">
+              {{ q.question }}
+            </td>
+
+            <!-- Subject -->
+            <td class="px-6 py-3 text-gray-700">
+              {{ q.subject | titlecase }}
+            </td>
+
+            <!-- Difficulty Badge -->
+            <td class="px-6 py-3">
+              <span
+                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full"
+                [ngClass]="{
+                  'bg-green-100 text-green-800': q.difficulty === 'easy',
+                  'bg-yellow-100 text-yellow-800': q.difficulty === 'medium',
+                  'bg-red-100 text-red-800': q.difficulty === 'hard'
+                }"
+              >
+                <i
+                  [ngClass]="{
+                    'bi bi-emoji-smile': q.difficulty === 'easy',
+                    'bi bi-emoji-neutral': q.difficulty === 'medium',
+                    'bi bi-emoji-frown': q.difficulty === 'hard'
+                  }"
+                ></i>
+                {{ q.difficulty | titlecase }}
 
         <!-- Table Body -->
         <tbody class="divide-y divide-gray-200">
@@ -79,10 +118,24 @@
                 }"
               >
                 {{ user.difficulty }}
+
               </span>
             </td>
 
             <!-- Created By -->
+
+            <td class="px-6 py-3 text-gray-600">
+              {{ q.createdby | titlecase }}
+            </td>
+
+            <!-- Status Badge -->
+            <td class="px-6 py-3">
+              <span
+                class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full"
+                [ngClass]="{
+                  'bg-green-100 text-green-800': q.status === 'active',
+                  'bg-gray-200 text-gray-700': q.status === 'draft'
+
             <td class="px-6 py-4">{{ user.createdby | titlecase }}</td>
 
             <!-- Status Badge -->
@@ -92,28 +145,47 @@
                 [ngClass]="{
                   'bg-green-100 text-green-800': user.status === 'active',
                   'bg-gray-200 text-gray-700': user.status === 'draft'
+
                 }"
               >
                 <i
                   class="me-1"
                   [ngClass]="{
+
+                    'bi bi-check-circle': q.status === 'active',
+                    'bi bi-pencil': q.status === 'draft'
+                  }"
+                ></i>
+                {{ q.status | titlecase }}
+
                     'bi bi-check-circle': user.status === 'active',
                     'bi bi-pencil': user.status === 'draft'
                   }"
                 ></i>
                 {{ user.status | titlecase }}
+
               </span>
             </td>
 
             <!-- Actions -->
+
+            <td class="px-6 py-3 text-center space-x-2">
+              <button
+                class="p-2 border border-yellow-500 text-yellow-600 rounded-full hover:bg-yellow-50 transition"
+
             <td class="px-6 py-4 text-center space-x-2">
               <button
                 class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition"
+
               >
                 <i class="bi bi-pencil-square"></i>
               </button>
               <button
+
+                class="p-2 border border-red-500 text-red-600 rounded-full hover:bg-red-50 transition"
+
                 class="px-3 py-1 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition"
+
               >
                 <i class="bi bi-trash"></i>
               </button>

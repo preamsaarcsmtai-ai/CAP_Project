@@ -57,7 +57,11 @@ export class FacultyDashboardComponent {
     { id: 4, name: 'AI-2024-Summer', students: 29, active: 27, completed: 25 }
   ];
 
+proctoredSessions: ProctoredSession[] = [
+
+
  proctoredSessions: ProctoredSession[] = [
+
   {
     id: 1,
     studentName: 'Arun Kumar',
@@ -74,6 +78,9 @@ export class FacultyDashboardComponent {
   },
   {
     id: 2,
+
+    studentName: 'Meena Lakshmi',
+
     studentName: 'Priya Ramesh',
     studentId: 'CS2024002',
     cohort: 'CS-2024-Fall',
@@ -88,7 +95,11 @@ export class FacultyDashboardComponent {
   },
   {
     id: 3,
+
+    studentName: 'Sundar Raj',
+
     studentName: 'Karthik Subramanian',
+
     studentId: 'DS2024001',
     cohort: 'DS-2024-Spring',
     exam: 'Statistics Quiz',
@@ -102,7 +113,11 @@ export class FacultyDashboardComponent {
   },
   {
     id: 4,
+
+    studentName: 'Priya Dharshini',
+
     studentName: 'Meena Lakshmi',
+
     studentId: 'AI2024001',
     cohort: 'AI-2024-Summer',
     exam: 'ML Fundamentals',
@@ -116,6 +131,8 @@ export class FacultyDashboardComponent {
   },
   {
     id: 5,
+    studentName: 'Karthik Subramani',
+
     studentName: 'Suresh Balan',
     studentId: 'CS2024003',
     cohort: 'CS-2024-Spring',
@@ -130,7 +147,10 @@ export class FacultyDashboardComponent {
   },
   {
     id: 6,
+    studentName: 'Anitha Ramesh',
+
     studentName: 'Divya Rajan',
+
     studentId: 'CS2024004',
     cohort: 'CS-2024-Spring',
     exam: 'Software Engineering',
@@ -144,7 +164,11 @@ export class FacultyDashboardComponent {
   },
   {
     id: 7,
+
+    studentName: 'Vignesh Varma',
+=======
     studentName: 'Vigneshwaran',
+
     studentId: 'DS2024002',
     cohort: 'DS-2024-Spring',
     exam: 'Data Mining',
@@ -158,7 +182,11 @@ export class FacultyDashboardComponent {
   },
   {
     id: 8,
+
+    studentName: 'Deepa Shanmugam',
+
     studentName: 'Anitha Selvaraj',
+
     studentId: 'AI2024002',
     cohort: 'AI-2024-Summer',
     exam: 'Neural Networks',
