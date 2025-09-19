@@ -13,7 +13,7 @@ export const authGuard = (roles = []) => {
 
       request.user = decoded;
 
-      if (roles.length && !roles.includes(decoded.role)) {
+      if (roles.length && !roles.includes(decoded.roles)) {
         return h
           .response({ message: "Forbidden: You don't have access." })
           .code(403)

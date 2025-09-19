@@ -9,7 +9,7 @@ export class StaffController {
       return h.response(staff).code(200);
     } catch (error) {
       console.log(error.message);
-      return h.response({ success: false, message: error.message }).code(401);
+      return h.response({ success: false, message:"Staff cannot be assigned" + error.message }).code(401);
     }
   }
 

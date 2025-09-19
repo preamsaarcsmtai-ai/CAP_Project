@@ -7,7 +7,7 @@ const client = new pg.Client({
   host: process.env.DB_HOST,
   port: 5432,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD || "smtaidb",
+  password: process.env.DB_PASSWORD || "TestPass123!",
   database: process.env.DB_NAME,
 });
 

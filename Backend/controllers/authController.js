@@ -8,16 +8,16 @@ export class AuthController {
   // LOGIN (Admin, Staff, Student)
   static async login(request, h) {
     try {
-      const { email, password, role } = request.payload;
+      const { email, password, role, collegeId } = request.payload;
 
-      console.log("Login attempt:", { email, role });
+      console.log("Login attempt:", { email, role , collegeId});
 
       let userTable;
       if (role === "college_admin") userTable = admins;
       else if (role === "staff") userTable = staff;
       else if (role === "student") userTable = students;
       else {
-        console.warn("Invalid role:", role);
+        console.error("Invalid role:", role);
         return h.response({ message: "Invalid role" }).code(400);
       }
 
@@ -30,7 +30,7 @@ export class AuthController {
         return h.response({ message: "Invalid credentials" }).code(401);
       }
 
-      console.log(" User found:", { id: user.id, email: user.email, role: user.role });
+      console.log(" User found:", { id: user.id, email: user.email, role: user.role, collegeId: user.collegeId });
       console.log(" Stored hash:", user.password);
 
       const isMatch = await bcrypt.compare(password, user.password);
@@ -41,7 +41,7 @@ export class AuthController {
         return h.response({ message: "Invalid credentials" }).code(401);
       }
 
-      const payload = { id: user.id, role: user.role, collegeId: user.collegeId };
+      const payload = { id: user.id, role: user.role, collegeId: user.collegeId ?? user.code };
       console.log("JWT payload:", payload);
 
       const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "15m" });

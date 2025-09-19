@@ -1,0 +1,3 @@
+ALTER TABLE "admins" ADD COLUMN "college_admin" varchar NOT NULL;--> statement-breakpoint
+ALTER TABLE "admins" ADD CONSTRAINT "admins_college_admin_colleges_id_fk" FOREIGN KEY ("college_admin") REFERENCES "public"."colleges"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "admins" ADD CONSTRAINT "admins_code_colleges_code_fk" FOREIGN KEY ("code") REFERENCES "public"."colleges"("code") ON DELETE no action ON UPDATE no action;
