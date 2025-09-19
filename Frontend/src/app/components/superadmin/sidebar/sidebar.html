@@ -29,13 +29,23 @@
     <button
       *ngFor="let item of filteredMenuItems"
       [routerLink]="item.path"
+
       routerLinkActive="active"
+
+      routerLinkActive="active bg-indigo-200 text-white"
+
       (click)="changePage(item.id)"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-[15px] font-semibold transition-all duration-200 group"
       [ngClass]="{
         'justify-center': isCollapsed(),
         'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': currentPage === item.id,
+
         'text-gray-600 hover:bg-indigo-50 hover:text-indigo-600': currentPage !== item.id
+
+        'text-gray-600 hover:bg-indigo-50 hover:text-indigo-600': currentPage !== item.id,
+        'bg-gray-500 text-white shadow-md': currentPage === item.id,
+        'text-gray-700 hover:bg-gray-100': currentPage !== item.id
+
       }"
     >
       <!-- Icon -->
@@ -46,6 +56,7 @@
   </nav>
 
   <!-- Footer -->
+
   <div class="border-t border-gray-200 px-3 py-4 flex-shrink-0">
     <button
       class="flex items-center gap-3 px-4 py-3 rounded-lg font-semibold text-red-600 transition-all duration-200 hover:bg-red-100"
@@ -55,5 +66,18 @@
       <i class="bi bi-box-arrow-right text-lg"></i>
       <span *ngIf="!isCollapsed()" class="truncate">Logout</span>
     </button>
+
+  <div class="border-t border-gray-200 px-3 py-4">
+    <div class="px-3 py-4 flex-shrink-0">
+      <button
+        class="flex items-center gap-3 px-4 py-3 rounded-lg font-semibold text-red-600 transition-all duration-200 hover:bg-red-100"
+        (click)="doLogout()"
+        [ngClass]="{ 'justify-center': isCollapsed() }"
+      >
+        <i class="bi bi-box-arrow-right text-lg"></i>
+        <span *ngIf="!isCollapsed()" class="truncate">Logout</span>
+      </button>
+    </div>
+
   </div>
 </div>

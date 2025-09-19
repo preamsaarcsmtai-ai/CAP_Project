@@ -725,4 +725,16 @@ export class TestInterface implements OnInit, OnDestroy {
       console.error('Camera test failed:', err);
     }
   }
+  showEmergencyModal = false;
+emergencyTriggered = false;
+
+private checkEmergencyTrigger(): void {
+  if (this.getViolationSeverity() === 'high' && !this.emergencyTriggered) {
+    this.emergencyTriggered = true;
+    this.showEmergencyModal = true;
+  }
+}
+
+
+  
 }

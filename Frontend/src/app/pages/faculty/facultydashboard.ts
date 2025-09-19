@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface Cohort {
   id: number;
@@ -35,6 +36,9 @@ export interface ProctoredSession {
 export class FacultyDashboardComponent {
   title = 'Faculty Dashboard';
 
+  // Inject platform to check for browser
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   // UI State
   activeTab = 'overview';
   searchTerm = '';
@@ -44,17 +48,20 @@ export class FacultyDashboardComponent {
   sortColumn = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  // Math reference for template
-  Math = Math;
+  Math = Math; // for template
 
-  // Data
   cohorts: Cohort[] = [
     { id: 1, name: 'CS-2024-Spring', students: 45, active: 42, completed: 38 },
     { id: 2, name: 'CS-2024-Fall', students: 52, active: 48, completed: 41 },
     { id: 3, name: 'DS-2024-Spring', students: 38, active: 35, completed: 32 },
     { id: 4, name: 'AI-2024-Summer', students: 29, active: 27, completed: 25 }
   ];
+
 proctoredSessions: ProctoredSession[] = [
+
+
+ proctoredSessions: ProctoredSession[] = [
+
   {
     id: 1,
     studentName: 'Arun Kumar',
@@ -71,7 +78,10 @@ proctoredSessions: ProctoredSession[] = [
   },
   {
     id: 2,
+
     studentName: 'Meena Lakshmi',
+
+    studentName: 'Priya Ramesh',
     studentId: 'CS2024002',
     cohort: 'CS-2024-Fall',
     exam: 'Algorithms Midterm',
@@ -85,7 +95,11 @@ proctoredSessions: ProctoredSession[] = [
   },
   {
     id: 3,
+
     studentName: 'Sundar Raj',
+
+    studentName: 'Karthik Subramanian',
+
     studentId: 'DS2024001',
     cohort: 'DS-2024-Spring',
     exam: 'Statistics Quiz',
@@ -99,7 +113,11 @@ proctoredSessions: ProctoredSession[] = [
   },
   {
     id: 4,
+
     studentName: 'Priya Dharshini',
+
+    studentName: 'Meena Lakshmi',
+
     studentId: 'AI2024001',
     cohort: 'AI-2024-Summer',
     exam: 'ML Fundamentals',
@@ -114,6 +132,8 @@ proctoredSessions: ProctoredSession[] = [
   {
     id: 5,
     studentName: 'Karthik Subramani',
+
+    studentName: 'Suresh Balan',
     studentId: 'CS2024003',
     cohort: 'CS-2024-Spring',
     exam: 'Database Systems',
@@ -128,6 +148,9 @@ proctoredSessions: ProctoredSession[] = [
   {
     id: 6,
     studentName: 'Anitha Ramesh',
+
+    studentName: 'Divya Rajan',
+
     studentId: 'CS2024004',
     cohort: 'CS-2024-Spring',
     exam: 'Software Engineering',
@@ -141,7 +164,11 @@ proctoredSessions: ProctoredSession[] = [
   },
   {
     id: 7,
+
     studentName: 'Vignesh Varma',
+=======
+    studentName: 'Vigneshwaran',
+
     studentId: 'DS2024002',
     cohort: 'DS-2024-Spring',
     exam: 'Data Mining',
@@ -155,7 +182,11 @@ proctoredSessions: ProctoredSession[] = [
   },
   {
     id: 8,
+
     studentName: 'Deepa Shanmugam',
+
+    studentName: 'Anitha Selvaraj',
+
     studentId: 'AI2024002',
     cohort: 'AI-2024-Summer',
     exam: 'Neural Networks',
@@ -168,6 +199,7 @@ proctoredSessions: ProctoredSession[] = [
     isOnline: true
   }
 ];
+
 
   // --- Getters ---
   get filteredSessions(): ProctoredSession[] {
@@ -189,11 +221,9 @@ proctoredSessions: ProctoredSession[] = [
       return matchesSearch && matchesCohort && matchesFlag;
     });
 
-    // Apply sorting if specified
     if (this.sortColumn) {
       filtered = this.sortSessions(filtered, this.sortColumn);
     }
-
     return filtered;
   }
 
@@ -209,7 +239,6 @@ proctoredSessions: ProctoredSession[] = [
   // --- Core Navigation Methods ---
   setActiveTab(tab: string) {
     this.activeTab = tab;
-    // Reset filters when switching tabs
     if (tab !== 'proctoring') {
       this.searchTerm = '';
       this.selectedCohort = 'all';
@@ -217,17 +246,13 @@ proctoredSessions: ProctoredSession[] = [
     }
   }
 
-  // --- Data Refresh Methods ---
+  // --- Data Refresh ---
   handleRefresh() {
     this.isRefreshing = true;
-    
-    // Simulate API call
     setTimeout(() => {
-      // Update timestamps for demo
       this.proctoredSessions.forEach(session => {
-        if (session.status === 'in_progress') {
-          // Update duration for active sessions
-          const start = new Date(session.timestamp || new Date());
+        if (session.status === 'in_progress' && session.timestamp) {
+          const start = new Date(session.timestamp);
           const now = new Date();
           const diffMs = now.getTime() - start.getTime();
           const hours = Math.floor(diffMs / (1000 * 60 * 60));
@@ -235,7 +260,6 @@ proctoredSessions: ProctoredSession[] = [
           session.duration = `${hours}h ${minutes}m`;
         }
       });
-      
       this.isRefreshing = false;
       console.log('Dashboard refreshed successfully');
     }, 1500);
@@ -243,8 +267,8 @@ proctoredSessions: ProctoredSession[] = [
 
   // --- Export Methods ---
   exportReport() {
-    console.log('Generating report...');
-    
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const reportData = {
       generatedAt: new Date().toISOString(),
       totalSessions: this.stats.total,
@@ -255,7 +279,6 @@ proctoredSessions: ProctoredSession[] = [
       cohorts: this.cohorts
     };
 
-    // Simulate export process
     const jsonData = JSON.stringify(reportData, null, 2);
     const blob = new Blob([jsonData], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
@@ -266,40 +289,49 @@ proctoredSessions: ProctoredSession[] = [
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
-
-    console.log('Report exported successfully');
   }
 
-  // --- Session Management Methods ---
+// ✅ Fix for: getTabClasses is missing
+  getTabClasses(tabId: string, color: string): string {
+    return this.activeTab === tabId
+      ? `px-4 py-2 rounded-lg font-semibold text-white bg-${color}-600`
+      : `px-4 py-2 rounded-lg font-semibold text-${color}-600 border border-${color}-600 hover:bg-${color}-50`;
+  }
+
+  // ✅ Fix for: trackBySessionId is missing
+  trackBySessionId(index: number, session: any): any {
+    return session?.id || index;
+  }
+
+  // ✅ Fix for: trackByCohortName is missing
+  trackByCohortName(index: number, cohort: any): any {
+    return cohort?.name || index;
+  }
+
+
+  // --- Session Management ---
   viewSessionDetails(sessionId: number) {
     const session = this.proctoredSessions.find(s => s.id === sessionId);
-    if (session) {
-      console.log(`Viewing details for session: ${sessionId}`, session);
-      // TODO: Open modal or navigate to details page
-      // For demo, just log the session details
+    if (session && isPlatformBrowser(this.platformId)) {
       alert(`Session Details:\n\nStudent: ${session.studentName}\nExam: ${session.exam}\nStatus: ${session.status}\nDuration: ${session.duration}\nFlags: ${session.flags.join(', ') || 'None'}`);
     }
   }
 
   reviewFlags(sessionId: number) {
     const session = this.proctoredSessions.find(s => s.id === sessionId);
-    if (session && session.flags.length > 0) {
-      console.log(`Reviewing flags for session: ${sessionId}`, session.flags);
-      // TODO: Open flag review modal
-      const flagList = session.flags.map((flag, index) => `${index + 1}. ${flag}`).join('\n');
-      const action = confirm(`Review Flags for ${session.studentName}:\n\n${flagList}\n\nClick OK to mark as reviewed, Cancel to keep flagged.`);
-      
+    if (session && session.flags.length > 0 && isPlatformBrowser(this.platformId)) {
+      const flagList = session.flags.map((flag, i) => `${i + 1}. ${flag}`).join('\n');
+      const action = confirm(`Review Flags for ${session.studentName}:\n\n${flagList}\n\nClick OK to mark reviewed.`);
+
       if (action) {
-        // Mark as reviewed (remove flags)
         session.flags = [];
         session.status = 'completed';
         session.severity = 'none';
-        console.log('Flags cleared for session:', sessionId);
       }
     }
   }
 
-  // --- Sorting Methods ---
+  // --- Sorting ---
   sortBy(column: string) {
     if (this.sortColumn === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -311,114 +343,57 @@ proctoredSessions: ProctoredSession[] = [
 
   private sortSessions(sessions: ProctoredSession[], column: string): ProctoredSession[] {
     return sessions.sort((a, b) => {
-      let valueA: any;
-      let valueB: any;
-
+      let valueA: any, valueB: any;
       switch (column) {
-        case 'student':
-          valueA = a.studentName.toLowerCase();
-          valueB = b.studentName.toLowerCase();
-          break;
-        case 'exam':
-          valueA = a.exam.toLowerCase();
-          valueB = b.exam.toLowerCase();
-          break;
-        case 'status':
-          valueA = a.status;
-          valueB = b.status;
-          break;
-        case 'duration':
-          valueA = this.parseDuration(a.duration);
-          valueB = this.parseDuration(b.duration);
-          break;
-        case 'flags':
-          valueA = a.flags.length;
-          valueB = b.flags.length;
-          break;
-        default:
-          return 0;
+        case 'student': valueA = a.studentName.toLowerCase(); valueB = b.studentName.toLowerCase(); break;
+        case 'exam': valueA = a.exam.toLowerCase(); valueB = b.exam.toLowerCase(); break;
+        case 'status': valueA = a.status; valueB = b.status; break;
+        case 'duration': valueA = this.parseDuration(a.duration); valueB = this.parseDuration(b.duration); break;
+        case 'flags': valueA = a.flags.length; valueB = b.flags.length; break;
+        default: return 0;
       }
-
-      if (valueA < valueB) {
-        return this.sortDirection === 'asc' ? -1 : 1;
-      }
-      if (valueA > valueB) {
-        return this.sortDirection === 'asc' ? 1 : -1;
-      }
+      if (valueA < valueB) return this.sortDirection === 'asc' ? -1 : 1;
+      if (valueA > valueB) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
     });
   }
 
   private parseDuration(duration: string): number {
-    // Convert duration string like "2h 15m" to minutes
     const parts = duration.match(/(\d+)h?\s*(\d+)?m?/);
     if (parts) {
-      const hours = parseInt(parts[1]) || 0;
-      const minutes = parseInt(parts[2]) || 0;
-      return hours * 60 + minutes;
+      const h = parseInt(parts[1]) || 0;
+      const m = parseInt(parts[2]) || 0;
+      return h * 60 + m;
     }
     return 0;
   }
 
-  // --- UI Helper Methods ---
+  // --- Colors ---
   getSeverityColor(severity: ProctoredSession['severity']): string {
-    const colorMap = {
-      high: 'text-red-700 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/20 dark:border-red-800',
-      medium: 'text-orange-700 bg-orange-50 border-orange-200 dark:text-orange-400 dark:bg-orange-900/20 dark:border-orange-800',
-      low: 'text-yellow-700 bg-yellow-50 border-yellow-200 dark:text-yellow-400 dark:bg-yellow-900/20 dark:border-yellow-800',
-      none: 'text-green-700 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-900/20 dark:border-green-800'
+    const map = {
+      high: 'text-red-700 bg-red-50 border-red-200',
+      medium: 'text-orange-700 bg-orange-50 border-orange-200',
+      low: 'text-yellow-700 bg-yellow-50 border-yellow-200',
+      none: 'text-green-700 bg-green-50 border-green-200'
     };
-    return colorMap[severity] || 'text-gray-700 bg-gray-50 border-gray-200 dark:text-gray-400 dark:bg-gray-900/20 dark:border-gray-800';
+    return map[severity] || 'text-gray-700 bg-gray-50 border-gray-200';
   }
 
   getStatusColor(status: ProctoredSession['status']): string {
-    const colorMap = {
-      flagged: 'text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900/30',
-      completed: 'text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900/30',
-      in_progress: 'text-blue-700 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/30'
+    const map = {
+      flagged: 'text-red-700 bg-red-100',
+      completed: 'text-green-700 bg-green-100',
+      in_progress: 'text-blue-700 bg-blue-100'
     };
-    return colorMap[status] || 'text-gray-700 bg-gray-100 dark:text-gray-300 dark:bg-gray-900/30';
+    return map[status] || 'text-gray-700 bg-gray-100';
   }
 
-  getTabClasses(tabId: string, color: string): string {
-    const baseClasses = 'group relative flex items-center gap-3 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-4 focus:ring-offset-2';
-    
-    if (this.activeTab === tabId) {
-      const activeColorMap: { [key: string]: string } = {
-        blue: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-105 focus:ring-blue-500/50',
-        purple: 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg transform scale-105 focus:ring-purple-500/50',
-        red: 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg transform scale-105 focus:ring-red-500/50',
-        green: 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-105 focus:ring-green-500/50'
-      };
-      return `${baseClasses} ${activeColorMap[color]}`;
-    } else {
-      return `${baseClasses} text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 focus:ring-gray-500/50`;
-    }
-  }
-
-  // --- Utility Methods ---
+  // --- Utils ---
   getCurrentTime(): string {
-    return new Date().toLocaleTimeString('en-US', {
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
   }
 
-  // --- TrackBy Functions for Performance ---
-  trackBySessionId(index: number, session: ProctoredSession): number {
-    return session.id;
-  }
-
-  trackByCohortName(index: number, cohort: Cohort): string {
-    return cohort.name;
-  }
-
-  trackByCohortId(index: number, cohort: Cohort): number {
-    return cohort.id;
-  }
-
-  // --- Advanced Filtering Methods ---
+  // --- Filters ---
   clearAllFilters() {
     this.searchTerm = '';
     this.selectedCohort = 'all';
@@ -428,29 +403,28 @@ proctoredSessions: ProctoredSession[] = [
   }
 
   getActiveFiltersCount(): number {
-    let count = 0;
-    if (this.searchTerm.trim()) count++;
-    if (this.selectedCohort !== 'all') count++;
-    if (this.flagFilter !== 'all') count++;
-    return count;
+    let c = 0;
+    if (this.searchTerm.trim()) c++;
+    if (this.selectedCohort !== 'all') c++;
+    if (this.flagFilter !== 'all') c++;
+    return c;
   }
 
-  // --- Bulk Actions ---
-  bulkReviewFlags(sessionIds: number[]) {
-    sessionIds.forEach(id => {
-      const session = this.proctoredSessions.find(s => s.id === id);
-      if (session && session.flags.length > 0) {
-        session.flags = [];
-        session.status = 'completed';
-        session.severity = 'none';
+  // --- Bulk ---
+  bulkReviewFlags(ids: number[]) {
+    ids.forEach(id => {
+      const s = this.proctoredSessions.find(x => x.id === id);
+      if (s && s.flags.length > 0) {
+        s.flags = [];
+        s.status = 'completed';
+        s.severity = 'none';
       }
     });
-    console.log(`Bulk reviewed ${sessionIds.length} sessions`);
   }
 
-  // --- Statistics Methods ---
-  getCohortStats(cohortName: string) {
-    const cohortSessions = this.proctoredSessions.filter(s => s.cohort === cohortName);
+  // --- Stats ---
+  getCohortStats(name: string) {
+    const cohortSessions = this.proctoredSessions.filter(s => s.cohort === name);
     return {
       total: cohortSessions.length,
       flagged: cohortSessions.filter(s => s.status === 'flagged').length,
@@ -461,79 +435,66 @@ proctoredSessions: ProctoredSession[] = [
   }
 
   getAverageDuration(): string {
-    const completedSessions = this.proctoredSessions.filter(s => s.status === 'completed');
-    if (completedSessions.length === 0) return '0m';
-    
-    const totalMinutes = completedSessions.reduce((sum, session) => {
-      return sum + this.parseDuration(session.duration);
-    }, 0);
-    
-    const avgMinutes = Math.round(totalMinutes / completedSessions.length);
-    const hours = Math.floor(avgMinutes / 60);
-    const minutes = avgMinutes % 60;
-    
-    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+    const completed = this.proctoredSessions.filter(s => s.status === 'completed');
+    if (completed.length === 0) return '0m';
+    const totalMin = completed.reduce((sum, s) => sum + this.parseDuration(s.duration), 0);
+    const avg = Math.round(totalMin / completed.length);
+    const h = Math.floor(avg / 60);
+    const m = avg % 60;
+    return h > 0 ? `${h}h ${m}m` : `${m}m`;
   }
 
   // --- Keyboard Shortcuts ---
+  private boundKeyHandler = this.handleKeyboardShortcut.bind(this);
+
   handleKeyboardShortcut(event: KeyboardEvent) {
     if (event.metaKey || event.ctrlKey) {
       switch (event.key) {
         case 'k':
           event.preventDefault();
-          // Focus search input
-          const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
-          if (searchInput) {
-            searchInput.focus();
-            searchInput.select();
+          if (isPlatformBrowser(this.platformId)) {
+            const input = document.querySelector('input[type="text"]') as HTMLInputElement | null;
+            if (input) { input.focus(); input.select(); }
           }
           break;
-        case 'r':
-          event.preventDefault();
-          this.handleRefresh();
-          break;
-        case 'e':
-          event.preventDefault();
-          this.exportReport();
-          break;
+        case 'r': event.preventDefault(); this.handleRefresh(); break;
+        case 'e': event.preventDefault(); this.exportReport(); break;
       }
     }
-    
-    // Tab navigation
     if (!event.metaKey && !event.ctrlKey) {
       const tabs = ['overview', 'cohorts', 'proctoring', 'reports'];
-      const currentIndex = tabs.indexOf(this.activeTab);
-      
-      switch (event.key) {
-        case 'ArrowLeft':
-          if (event.target === document.body) {
-            event.preventDefault();
-            const prevIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-            this.setActiveTab(tabs[prevIndex]);
-          }
-          break;
-        case 'ArrowRight':
-          if (event.target === document.body) {
-            event.preventDefault();
-            const nextIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-            this.setActiveTab(tabs[nextIndex]);
-          }
-          break;
+      const idx = tabs.indexOf(this.activeTab);
+      if (isPlatformBrowser(this.platformId)) {
+        switch (event.key) {
+          case 'ArrowLeft':
+            if (event.target === document.body) {
+              event.preventDefault();
+              this.setActiveTab(idx > 0 ? tabs[idx - 1] : tabs[tabs.length - 1]);
+            }
+            break;
+          case 'ArrowRight':
+            if (event.target === document.body) {
+              event.preventDefault();
+              this.setActiveTab(idx < tabs.length - 1 ? tabs[idx + 1] : tabs[0]);
+            }
+            break;
+        }
       }
     }
   }
 
-  // --- Component Lifecycle ---
+  // --- Lifecycle ---
   ngOnInit() {
-    // Add keyboard event listener
-    document.addEventListener('keydown', this.handleKeyboardShortcut.bind(this));
-    
-    // Initialize any required data
-    console.log('Faculty Dashboard initialized');
+    if (isPlatformBrowser(this.platformId)) {
+      document.addEventListener('keydown', this.boundKeyHandler);
+    }
   }
 
   ngOnDestroy() {
-    // Cleanup keyboard event listener
-    document.removeEventListener('keydown', this.handleKeyboardShortcut.bind(this));
+    if (isPlatformBrowser(this.platformId)) {
+      document.removeEventListener('keydown', this.boundKeyHandler);
+    }
   }
+
+
 }
