@@ -17,7 +17,7 @@
 
     <!-- Collapse Button -->
     <button
-      class="p-2 rounded-lg border border-gray-300 hover:bg-indigo-100 transition-colors flex-shrink-0"
+      class="p-2 rounded-lg border border-gray-300 hover:bg-indigo-100 transition-colors flex-shrink-0 hover:cursor-pointer"
       (click)="toggleCollapse()"
     >
       <i class="bi text-xl text-gray-700" [ngClass]="isCollapsed() ? 'bi-list' : 'bi-x-lg'"></i>
@@ -35,7 +35,7 @@
       routerLinkActive="active bg-indigo-200 text-white"
 
       (click)="changePage(item.id)"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-[15px] font-semibold transition-all duration-200 group"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-[15px] font-semibold transition-all duration-200 group hover:cursor-pointer"
       [ngClass]="{
         'justify-center': isCollapsed(),
         'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': currentPage === item.id,
@@ -51,11 +51,15 @@
       <!-- Icon -->
       <i class="bi text-lg transition-colors" [ngClass]="item.icon"></i>
       <!-- Label -->
-      <span *ngIf="!isCollapsed()" class="truncate">{{ item.title }}</span>
+      <span *ngIf="!isCollapsed()" class="truncate ">{{ item.title }}</span>
     </button>
   </nav>
 
   <!-- Footer -->
+
+  <div class="border-t border-gray-200 px-3 py-2">
+    <div class="flex-shrink-0">
+
 
   <div class="border-t border-gray-200 px-3 py-4 flex-shrink-0">
     <button
@@ -69,8 +73,9 @@
 
   <div class="border-t border-gray-200 px-3 py-4">
     <div class="px-3 py-4 flex-shrink-0">
+
       <button
-        class="flex items-center gap-3 px-4 py-3 rounded-lg font-semibold text-red-600 transition-all duration-200 hover:bg-red-100"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg font-semibold text-red-600 transition-all w-full duration-200 hover:bg-red-100 hover:cursor-pointer"
         (click)="doLogout()"
         [ngClass]="{ 'justify-center': isCollapsed() }"
       >

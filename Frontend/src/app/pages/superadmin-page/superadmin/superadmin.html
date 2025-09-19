@@ -23,7 +23,8 @@
     <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 flex flex-col justify-between">
       <div class="flex items-center justify-between">
         <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Institutions</h6>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
 
         </svg>
@@ -42,7 +43,12 @@
           fill="none" viewBox="0 0 24 24" stroke="currentColor">
 
         <h6 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Users</h6>
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
 
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M17 20h5v-1a4 4 0 00-3-3.87M9 20H4v-1a4 4 0 013-3.87M16 3.13a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -70,11 +76,13 @@
           <h5 class="text-xl font-bold text-gray-900">Institutions Management</h5>
           <p class="text-gray-500 text-sm">Manage educational institutions and their administrators</p>
         </div>
-        <button
-          class="px-4 py-2 text-sm font-medium rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition"
-          (click)="openAddInstitutionModal()"
-        >
-          + Add Institution
+        <button class="box-border relative z-30 inline-flex items-center justify-center w-auto px-8 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-indigo-600 rounded-md cursor-pointer group ring-offset-2 ring-1 ring-indigo-300 ring-offset-indigo-200 hover:ring-offset-indigo-500 ease focus:outline-none"
+          (click)="openAddInstitutionModal()">
+            <span class="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+    <span class="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+    <span class="relative z-20 flex items-center text-sm">
+        + Add Institution
+    </span>
         </button>
       </div>
 
@@ -85,10 +93,15 @@
           placeholder="Search institution..." />
         <button class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
 
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+
+
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
             fill="none" viewBox="0 0 24 24" stroke="currentColor">
 
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
 
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
@@ -100,18 +113,28 @@
       <div *ngFor="let inst of institutions" class="mb-4">
         <div
           class="p-4 flex items-center justify-between rounded-lg bg-gray-50 hover:bg-gray-100 transition cursor-pointer"
-          (click)="inst.showBranches = !inst.showBranches"
-        >
+          (click)="inst.showBranches = !inst.showBranches">
           <div class="flex items-center">
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
+
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3"
               fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M3 7h18M3 12h18M3 17h18" />
+
             </svg>
             <div>
               <h6 class="text-sm font-semibold text-gray-900">{{ inst.name }}</h6>
               <p class="text-xs text-gray-500">{{ inst.code }}</p>
             </div>
+
+          </div >
+    <div class="flex items-center space-x-3">
+          <button class=" hover:cursor-pointer" type="button" (click)="Addbranch()">  <i class="bi bi-plus-circle justify-end fle text-green-600"></i></button>
+
           </div>
 
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -121,11 +144,13 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 5l7 7-7 7" />
 
+
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform"
             [ngClass]="{'rotate-90': inst.showBranches}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
 
           </svg>
+    </div>
         </div>
         <div *ngIf="inst.showBranches" class="mt-2">
           <ul class="divide-y rounded-lg bg-white shadow-sm">
@@ -141,10 +166,12 @@
       <h3 class="text-xl font-bold mb-2 text-gray-900">System Management</h3>
       <p class="text-sm text-gray-500 mb-6">Administrative controls</p>
       <div class="flex flex-col gap-3">
-        <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700" [routerLink]="'/institution'">
+        <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700"
+          [routerLink]="'/institution'">
           Manage Institutions
         </button>
-        <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700" [routerLink]="'/users'">
+        <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700"
+          [routerLink]="'/users'">
           Manage Users
         </button>
         <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700">
@@ -204,39 +231,118 @@
 
 
   <!-- Add Institution Modal -->
-  <div *ngIf="showAddInstitutionModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative">
-      <button (click)="closeAddInstitutionModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
-        ✕
-      </button>
-      <h2 class="text-xl font-bold text-gray-900 mb-4">Add Institution</h2>
-      <form [formGroup]="addInstitutionForm" (ngSubmit)="addInstitution()" class="space-y-4">
-        <input formControlName="name" type="text" placeholder="Institution Name"
-          class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
-        <input formControlName="code" type="text" placeholder="Code"
-          class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
-        <textarea formControlName="address" rows="2" placeholder="Address"
-          class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400"></textarea>
-        <div class="grid grid-cols-2 gap-4">
-          <input formControlName="firstname" type="text" placeholder="First Name"
-            class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
-          <input formControlName="lastname" type="text" placeholder="Last Name"
-            class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
+<div *ngIf="showAddInstitutionModal" 
+     class="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8 relative">
+    <!-- Close Button -->
+    <button (click)="closeAddInstitutionModal()"
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 hover:scale-105 transition-transform hover:scale-105 hover:cursor-pointer">
+      ✕
+    </button>
+
+    <!-- Modal Header -->
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Add Institution</h2>
+
+    <!-- Modal Form -->
+    <form [formGroup]="addInstitutionForm" (ngSubmit)="addInstitution()" class="space-y-6">
+      <!-- Institution Name & Code -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Institution Name <span class="text-red-500">*</span></label>
+          <input formControlName="name"
+                 class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-3 text-sm shadow-sm  focus:ring focus:ring-indigo-200"
+                 placeholder="Enter institution name" />
+          <div *ngIf="addInstitutionForm.get('name')?.invalid && addInstitutionForm.get('name')?.touched"
+               class="text-red-500 text-xs mt-1">
+            <div *ngIf="addInstitutionForm.get('name')?.errors?.['required']">Institution name is required.</div>
+            <div *ngIf="addInstitutionForm.get('name')?.errors?.['minlength']">Must be at least 3 characters.</div>
+            <div *ngIf="addInstitutionForm.get('name')?.errors?.['pattern']">Must start with a capital letter and contain only letters.</div>
+          </div>
         </div>
-        <input formControlName="email" type="email" placeholder="Email"
-          class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-indigo-400" />
-        <div class="flex justify-end gap-3 pt-4">
-          <button type="button" (click)="closeAddInstitutionModal()"
-            class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
-            Cancel
-          </button>
-          <button type="submit"
-            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
-            Save
-          </button>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Institution Code <span class="text-red-500">*</span></label>
+          <input formControlName="code"
+                 class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-3 text-sm shadow-sm  focus:ring focus:ring-indigo-200"
+                 placeholder="Enter code" />
+          <div *ngIf="addInstitutionForm.get('code')?.invalid && addInstitutionForm.get('code')?.touched"
+               class="text-red-500 text-xs mt-1">Institution code is required</div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <!-- Address -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Address</label>
+        <textarea formControlName="address" rows="4"
+                  class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-3 text-sm shadow-sm  focus:ring focus:ring-indigo-200"
+                  placeholder="Enter address"></textarea>
+        <div *ngIf="addInstitutionForm.get('address')?.invalid && addInstitutionForm.get('address')?.touched"
+             class="text-red-500 text-xs mt-1">
+          <div *ngIf="addInstitutionForm.get('address')?.errors?.['required']">Address is required</div>
+          <div *ngIf="addInstitutionForm.get('address')?.errors?.['minlength']">Must be at least 10 characters.</div>
+        </div>
+      </div>
+
+      <!-- Admin Info -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Admin First Name <span class="text-red-500">*</span></label>
+          <input formControlName="firstname"
+                 class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-3 text-sm shadow-sm focus:ring focus:ring-indigo-200"
+                 placeholder="First name" />
+          <div *ngIf="addInstitutionForm.get('firstname')?.invalid && addInstitutionForm.get('firstname')?.touched"
+               class="text-red-500 text-xs mt-1">
+            <div *ngIf="addInstitutionForm.get('firstname')?.errors?.['required']">Required</div>
+            <div *ngIf="addInstitutionForm.get('firstname')?.errors?.['pattern']">Must start with a capital letter and contain only letters.</div>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Admin Last Name</label>
+          <input formControlName="lastname"
+                 class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-3 text-sm shadow-sm focus:ring focus:ring-indigo-200"
+                 placeholder="Last name" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Admin Email <span class="text-red-500">*</span></label>
+          <input type="email" formControlName="email"
+                 class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-3 text-sm shadow-sm  focus:ring focus:ring-indigo-200"
+                 placeholder="example@email.com" />
+          <div *ngIf="addInstitutionForm.get('email')?.invalid && addInstitutionForm.get('email')?.touched"
+               class="text-red-500 text-xs mt-1">
+            <div *ngIf="addInstitutionForm.get('email')?.errors?.['required']">Required</div>
+            <div *ngIf="addInstitutionForm.get('email')?.errors?.['pattern']">Enter a valid email.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-end gap-4 pt-6 border-t mt-6">
+        <button type="button" (click)="closeAddInstitutionModal()"
+                class="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition hover:cursor-pointer">Cancel</button>
+        <button type="submit"
+                class="relative inline-flex items-center justify-center p-4 px-5 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out rounded-full shadow-xl group hover:ring-1 hover:ring-purple-500 hover:cursor-pointer">
+                 <span class="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-pink-700"></span>
+    <span class="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-pink-500 rounded-full opacity-30 group-hover:rotate-90 ease"></span>
+    <span class="relative text-white">Create Institution & Admin</span></button>
+      
+      </div>
+    </form>
   </div>
+  
+</div>
+<div *ngIf="showAddBranch" class="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8 relative">
+        <!-- Close Button -->
+    <button (click)="Closebranch()"
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 hover:scale-105 transition-transform hover:scale-105 hover:cursor-pointer">
+      ✕
+    </button>
+    <h5>Add Branch</h5>
+    <form action="">
+      
+    </form>
+   </div>
+</div>
+
+
 </div>
 
